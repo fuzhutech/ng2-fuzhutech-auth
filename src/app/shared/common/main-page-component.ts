@@ -1,18 +1,18 @@
-import {Component, ComponentFactoryResolver,ViewChild, AfterViewInit,ViewContainerRef} from '@angular/core';
+import {Component, ComponentFactoryResolver, ViewChild, AfterViewInit, ViewContainerRef} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-import {isUndefined} from "util";
+import {isUndefined} from 'util';
 
-import {TabRouterOutletService, TabData,MainLinkData, SubLinkData} from '../index';
+import {TabRouterOutletService, TabData, MainLinkData, SubLinkData} from '../index';
 
 
-export class MainTabPageComponent{
+export class MainTabPageComponent {
 
-  isDarkTheme: boolean = false;
+  isDarkTheme  = false;
 
   tabRouterOutletService: TabRouterOutletService;
   private activatedRoute: ActivatedRoute;
 
-  constructor(service: TabRouterOutletService, activatedRoute: ActivatedRoute,configMenuData:MainLinkData[]) {
+  constructor(service: TabRouterOutletService, activatedRoute: ActivatedRoute, configMenuData: MainLinkData[]) {
     this.tabRouterOutletService = service;
     this.tabRouterOutletService.mainActivatedRoute = activatedRoute;
     this.tabRouterOutletService.menuDataCol = configMenuData;

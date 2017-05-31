@@ -3,18 +3,10 @@ import {Http} from '@angular/http';
 import {BaseService} from '../../../shared';
 
 @Injectable()
-export class OrganizationService extends BaseService{
+export class OrganizationService extends BaseService {
 
-    constructor(private http: Http) {
-        super();
-    }
-
-    getHttp(){
-        return this.http;
-    }
-
-    getPath(){
-        return 'organizations';
-    }
+  constructor(protected http: Http) {
+    super(http, 'organizations');
+  }
 
 }

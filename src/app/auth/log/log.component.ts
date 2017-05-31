@@ -11,18 +11,21 @@ import {LazyLoadEvent} from 'primeng/primeng';
 @Component({
   templateUrl: './log.component.html'
 })
-export class LogComponent extends SubPageComponent_UseTemplateDialog<Log,LogService> {
+export class LogComponent extends SubPageComponent_UseTemplateDialog<Log, LogService> {
 
   totalRecords: number;
+
+  //用户状态
+  statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
 
   doRefresh(id: number) {
     this.getService().getList().subscribe(
       data => {
         this.records = data.rows;
-        this.totalRecords  = data.total;
+        this.totalRecords = data.total;
 
-        for (let record of this.records) {
+        for (const record of this.records) {
           if (record.id == id) {
             this.selectedRecord = record;
             break;
@@ -36,7 +39,7 @@ export class LogComponent extends SubPageComponent_UseTemplateDialog<Log,LogServ
         }
       },
       err => {
-        console.log(err)
+        console.log(err);
       },
       () => {
         console.log('refresh Complete');
@@ -55,17 +58,16 @@ export class LogComponent extends SubPageComponent_UseTemplateDialog<Log,LogServ
     //imitate db connection over a network
 
 
-
     console.log('loadCarsLazy');
 
     console.log(event);
     console.log(event.first);
     console.log(event.rows);
 
-    this.getService().getListByPage(event.first,event.rows).subscribe(
+    this.getService().getListByPage(event.first, event.rows).subscribe(
       data => {
         this.records = data.rows;
-        this.totalRecords  = data.total;
+        this.totalRecords = data.total;
 
         console.log(data.total);
       },
@@ -78,19 +80,14 @@ export class LogComponent extends SubPageComponent_UseTemplateDialog<Log,LogServ
     );
 
     /*setTimeout(() => {
-      if(this.datasource) {
-        this.cars = this.datasource.slice(event.first, (event.first + event.rows));
-      }
-    }, 250);*/
+     if(this.datasource) {
+     this.cars = this.datasource.slice(event.first, (event.first + event.rows));
+     }
+     }, 250);*/
   }
 
-
-
-  //用户状态
-  statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
-
   constructor(private service: LogService, dialog: MdDialog) {
-    super('日志',dialog);
+    super('日志', dialog);
   }
 
   //abstract
@@ -104,11 +101,10 @@ export class LogComponent extends SubPageComponent_UseTemplateDialog<Log,LogServ
   };
 
   //override
-  getDeleteMessage():string[]{
+  getDeleteMessage(): string[] {
     let message = super.getDeleteMessage();
     return message;
   };
-
 
 
   getStatus(value) {

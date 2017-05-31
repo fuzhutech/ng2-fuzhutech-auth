@@ -1,4 +1,5 @@
 export * from './common/base-service';
+export * from './common/constant';
 export * from './common/sub-page-component';
 export * from './common/main-page-component';
 export * from './confirm-dialog/confirm-dialog.component';

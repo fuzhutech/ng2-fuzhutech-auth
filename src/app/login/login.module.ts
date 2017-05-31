@@ -5,6 +5,7 @@ import {MdButtonModule, MdCardModule, MdCheckboxModule, MdInputModule, MdToolbar
 
 import {LoginRoutingModule} from './login-routing.module';
 import { LoginComponent } from './login.component';
+import {LoginService} from './services/login.service';
 
 
 @NgModule({
@@ -13,6 +14,7 @@ import { LoginComponent } from './login.component';
     MdButtonModule, MdCardModule, MdCheckboxModule, MdInputModule, MdToolbarModule,
     LoginRoutingModule
   ],
-  declarations: [LoginComponent]
+  declarations: [LoginComponent],
+  providers: [LoginService],
 })
 export class LoginModule { }

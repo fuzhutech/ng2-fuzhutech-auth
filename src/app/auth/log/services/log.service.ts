@@ -6,20 +6,12 @@ import {BaseService} from '../../../shared';
 @Injectable()
 export class LogService extends BaseService {
 
-  constructor(private http: Http) {
-    super();
+  constructor(protected http: Http) {
+    super(http, 'logs');
   }
 
-  getHttp() {
-    return this.http;
-  }
-
-  getPath() {
-    return 'logs';
-  }
-
-  getListByPage(offset,rows) {
-    let headers = new Headers();
+  getListByPage(offset, rows) {
+    const headers = new Headers();
     headers.append('Content-Type', 'application/json;charset=UTF-8');
     //headers.append('Content-Type', 'application/x-www-form-urlencoded');
 
@@ -28,7 +20,7 @@ export class LogService extends BaseService {
     searchParams.set('offset', offset);
     searchParams.set('rows', rows);
 
-    return this.getHttp().get(this.url, {search: searchParams, headers: headers})
+    return this.http.get(this.url, {search: searchParams, headers: headers})
       .map(response => response.json());
   }
 
