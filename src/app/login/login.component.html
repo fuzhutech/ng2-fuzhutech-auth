@@ -1,0 +1,29 @@
+<md-card class="demo-card demo-basic" style="margin: 50px 100px;">
+  <md-toolbar>登录</md-toolbar>
+
+  <md-card-content>
+    <form>
+      <p>
+        <md-input-container style="width: 70%;">
+          <input mdInput placeholder="用户名" value="Google">
+        </md-input-container>
+      </p>
+      <p>
+        <md-input-container style="width: 70%;">
+          <input mdInput #postalCode maxLength="5" placeholder="密码" value="94043"
+                 pattern="[0-9]{5}">
+          <md-hint align="end">
+            <md-icon>mode_edit</md-icon>
+            <span aria-live="polite">{{postalCode.value.length}} / 5</span>
+          </md-hint>
+        </md-input-container>
+      </p>
+
+      <div style = "text-align:right;">
+        <button md-button color="secondary" (click)="confirm()">确认</button>
+        <button md-button color="secondary" (click)="cancel()">取消</button>
+      </div>
+
+    </form>
+  </md-card-content>
+</md-card>
