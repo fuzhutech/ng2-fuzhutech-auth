@@ -1,3 +1,52 @@
-<h1>
-  {{title}}
-</h1>
+<!--begin of 顶部工具栏-->
+<md-toolbar color="primary" style="position: fixed;z-index: 10;">
+  <button class="app-icon-button" (click)="sidenav.toggle()">
+    <i class="material-icons app-toolbar-menu">menu</i>
+  </button>
+
+  <a md-button routerLink="home">
+    主页
+  </a>
+  <a md-button routerLink="auth">
+    权限管理
+  </a>
+  <span class="app-toolbar-filler"></span>
+  <span>
+      <md-icon class="icon-20">pets</md-icon>
+      FuzhuTech
+  </span>
+  <button md-icon-button [md-menu-trigger-for]="menu">
+    <md-icon>more_vert</md-icon>
+  </button>
+</md-toolbar>
+<md-menu x-position="before" #menu="mdMenu">
+  <button md-menu-item>Settings</button>
+  <button md-menu-item (click)="isDarkTheme=!isDarkTheme">Toggle theme</button>
+  <button md-menu-item>Help</button>
+</md-menu>
+<!--end of 顶部工具栏-->
+
+<md-sidenav-container style="height: calc(100% - 64px);padding-top: 64px"><!--style="height: calc(100% - 66px);"-->
+  <md-sidenav #sidenav mode="side" class="app-sidenav" style="padding-top: 64px;">
+    <div>
+      主页面侧边栏
+    </div>
+  </md-sidenav>
+
+  <router-outlet name="primary"></router-outlet>
+
+</md-sidenav-container>
+
+<!--begin of 底部状态栏-->
+<md-toolbar style="position: fixed;z-index: 10;bottom: 0;height: 50px;text-align:center;clear: both;
+    display: block;
+    text-align: center; ">
+  <span class="app-toolbar-filler"></span>
+  <fz-footer></fz-footer>
+  <span class="app-toolbar-filler"></span>
+</md-toolbar>
+<!--end of 底部状态栏-->
+
+<span class="app-action" [class.m2app-dark]="isDarkTheme" style="z-index: 11;">
+  <button md-fab><md-icon>check circle</md-icon></button>
+</span>
