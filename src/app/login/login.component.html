@@ -7,30 +7,32 @@
 
     <div>
 
-      <form>
-        <p>
+      <form #loginForm="ngForm">
+        <div layout="row" style="margin-top: 10px;">
           <md-input-container style="width: 100%">
-            <input mdInput placeholder="用户名" value="Google">
+            <input mdInput name="loginName" placeholder="用户名" [(ngModel)]="user.loginName" required>
           </md-input-container>
-        </p>
-        <p>
+        </div>
+        <div layout="row">
           <md-input-container style="width: 100%">
-            <input mdInput #postalCode maxLength="5" placeholder="密码" value="94043"
-                   pattern="[0-9]{5}">
-            <md-hint align="end">
+            <input mdInput type="password" name="password" #password="ngModel" minlength="8" placeholder="密码" [(ngModel)]="user.password" required>
+            <md-error *ngIf="password.errors?.minlength">密码长度必须为11</md-error>
+            <md-error *ngIf="password.errors?.required">必须输入密码</md-error>
+
+            <!--md-hint align="end">
               <md-icon>mode_edit</md-icon>
-              <span aria-live="polite">{{postalCode.value.length}} / 5</span>
-            </md-hint>
+              <span aria-live="polite">{{password.value.length}} / 8</span>
+            </md-hint-->
           </md-input-container>
-        </p>
+        </div>
 
       </form>
 
       <div *ngIf="error" class="col-sm-offset-2 col-sm-10 alert alert-danger">{{error}}</div>
 
       <div style="text-align:right;">
-        <button md-button color="secondary" (click)="doLogin()">确认</button>
-        <button md-button color="secondary" (click)="doBack()">返回</button>
+        <button md-raised-button color="primary" (click)="!loginForm.invalid && doLogin()" [disabled]="loginForm.invalid">确认</button>
+        <button md-raised-button color="primary" (click)="doBack()">返回</button>
       </div>
 
     </div>

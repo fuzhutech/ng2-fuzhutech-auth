@@ -28,7 +28,10 @@ export class LoginService {
     }
   }
 
-  public login(user: LoginUser) {
+  public login(data: LoginUser) {
+
+    const user: LoginUser = Object.assign({}, data);
+    console.log(user);
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
@@ -40,7 +43,7 @@ export class LoginService {
       .map((response: Response) => {
         const obj = response.json();
         if (obj.status == 1) {
-          user = obj.data;
+          data = obj.data;
           localStorage.setItem('currentUser', JSON.stringify(user));
         }
 
