@@ -4,7 +4,7 @@ export class LoginUser {
   createdateEnd?;
   createdateStart?;
   id?;
-  loginname?;
+  loginName?;
   name?;
   organizationId?;
   organizationName?;
