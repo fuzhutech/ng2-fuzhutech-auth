@@ -1,0 +1,38 @@
+<span md-dialog-title>{{dialogHeader}}</span>
+
+<md-dialog-content *ngIf="record">
+  <p>
+    <md-input-container>
+      <input mdInput [(ngModel)]="record.id" placeholder="id">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput [(ngModel)]="record.parentId" placeholder="parent_id">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput [(ngModel)]="record.name" placeholder="name">
+    </md-input-container>
+    <md-select placeholder="性别" [(ngModel)]="record.filterType">
+      <md-option *ngFor="let state of statuses" [value]="state.value">{{ state.label }}</md-option>
+    </md-select>
+  </p>
+  <p>
+    <md-input-container>
+      <input mdInput [(ngModel)]="record.filter_chain" placeholder="filter_chain">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput [(ngModel)]="record.createTime" placeholder="createTime">
+    </md-input-container>
+    <md-input-container>
+      <input mdInput [(ngModel)]="record.lastModifiedDate" placeholder="createTime">
+    </md-input-container>
+  </p>
+
+</md-dialog-content>
+
+<md-dialog-actions *ngIf="progress" [attr.align]="actionsAlignment">
+  <md-progress-bar mode="indeterminate" color="primary" style="width: 100%"></md-progress-bar>
+</md-dialog-actions>
+<md-dialog-actions [attr.align]="actionsAlignment">
+  <button md-button color="secondary" (click)="confirm()">确认</button>
+  <button md-button color="secondary" (click)="cancel()">取消</button>
+</md-dialog-actions>

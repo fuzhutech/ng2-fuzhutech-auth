@@ -1,0 +1,26 @@
+<fz-toolbar #toolbar (onViewClick)="view()" (onAddClick)="add()"
+            (onEditClick)="edit()"
+            (onDeleteClick)="delete()" (onRefreshClick)="refresh()">
+</fz-toolbar>
+
+<p-dataTable [value]="records" selectionMode="single" [(selection)]="selectedRecord"
+             [paginator]="true" [rows]="15" [responsive]="true" resizableColumns="true">
+  <!--header>CRUD for Users</header-->
+  <p-column field="id" header="id"></p-column>
+  <p-column field="parent_id" header="parent_id"></p-column>
+  <p-column field="system_id" header="system_id"></p-column>
+  <p-column field="name" header="name"></p-column>
+  <p-column field="filter_type" header="filter_type" [style]="{'text-align':'center'}">
+    <ng-template let-col let-car="rowData" pTemplate="body">
+      <span>{{getFilterType(car[col.field])}}</span>
+    </ng-template>
+  </p-column>
+  <p-column field="filter_chain" header="filter_chain"></p-column>
+  <p-column field="status" header="status">
+    <ng-template let-col let-car="rowData" pTemplate="body">
+      <span>{{getStatus(car[col.field])}}</span>
+    </ng-template>
+  </p-column>
+  <p-column field="create_time" header="create_time"></p-column>
+
+</p-dataTable>

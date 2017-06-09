@@ -110,7 +110,8 @@
     "component-selector": [
       true,
       "element",
-      "app",
+      /*"app",*/
+      "fz",
       "kebab-case"
     ],
     "use-input-property-decorator": true,

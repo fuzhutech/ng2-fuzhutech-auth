@@ -18,7 +18,10 @@ import {MainLinkData} from '../shared/menuside/menuside';
           },
           {path: 'organization', loadChildren: './organization/organization.module#OrganizationModule'},
           {path: 'user', loadChildren: './user/user.module#UserModule'},
-          {path: 'log', loadChildren: './log/log.module#LogModule'}
+          {path: 'log', loadChildren: './log/log.module#LogModule'},
+          {path: 'permission', loadChildren: './permission/permission.module#PermissionModule'},
+          {path: 'resource', loadChildren: './resource/resource.module#ResourceModule'},
+          {path: 'chain-path', loadChildren: './chain-path/chain-path.module#ChainPathModule'}
         ]
       }
     ])
@@ -32,25 +35,51 @@ export class AuthRoutingModule {
 
 export const ConfigMenuData: MainLinkData[] = [
   {
-    id: 'menu_menu',
+    id: 'menu_basic_config',
     img: 'showcase/resources/images/mono/menu.svg',
-    text: '权限管理',
+    text: '基础配置',
+    subMenuLinkCol: [
+      {
+        path: 'permission',
+        title: '权限配置'
+      },
+      {
+        path: 'resource',
+        title: '资源配置'
+      },
+      {
+        path: 'chain-path',
+        title: '路径配置'
+      }
+    ]
+  },
+  {
+    id: 'menu_system management',
+    img: 'showcase/resources/images/mono/menu.svg',
+    text: '系统管理',
     subMenuLinkCol: [
       {
         path: 'user',
-        title: '用户'
+        title: '用户管理'
       },
       {
         path: 'organization',
-        title: '组织'
+        title: '组织机构'
       },
       {
         path: 'role',
-        title: '角色'
-      },
+        title: '角色管理'
+      }
+    ]
+  },
+  {
+    id: 'menu_query',
+    img: 'showcase/resources/images/mono/menu.svg',
+    text: '综合查询',
+    subMenuLinkCol: [
       {
         path: 'log',
-        title: '日志'
+        title: '日志查询'
       }
     ]
   }
