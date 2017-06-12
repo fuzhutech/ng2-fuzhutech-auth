@@ -10,6 +10,11 @@ import {UserDialog} from './dialog/user-dialog.component';
 import {User} from './services/user';
 import {UserService} from './services/user.service';
 import {Role} from '../role/services/role';
+import {DialogResult} from '../../shared/common/sub-page-component';
+import {UserRoleDialogComponent} from './user-role-dialog/user-role-dialog.component';
+
+/*表格展示*/
+/*用户-角色对应关系维护:pickList*/
 
 @Component({
   templateUrl: './user.component.html'
@@ -26,6 +31,38 @@ export class UserComponent extends SubPageComponent_UseComponentDialog<UserDialo
     this.statuses.push({label: '正常', value: '0'});
     this.statuses.push({label: '非正常', value: '1'});
 
+  }
+
+
+  grant() {
+
+    if (!this.canDoGrant()) {
+      return;
+    }
+
+    //this.action = ActionType.edit;
+    this.record = this.getCloneRecord();
+
+
+    //弹出对话框
+    const dialogRef: MdDialogRef<UserRoleDialogComponent> = this.dialog.open(UserRoleDialogComponent, this.dialogConfig);
+    dialogRef.componentInstance.record = this.record;
+    dialogRef.componentInstance.dialogHeader = '授权';
+    dialogRef.componentInstance.action = this.action;
+    dialogRef.componentInstance.service = this.getService();
+
+
+    //关闭对话框后进行,刷新
+    dialogRef.afterClosed().subscribe((result: DialogResult) => {
+      this.dialogRef = null;
+      if (result.success) {
+        this.doRefresh(result.refresh);
+      }
+    });
+  }
+
+  canDoGrant(): boolean {
+    return true;
   }
 
   getService(): UserService {

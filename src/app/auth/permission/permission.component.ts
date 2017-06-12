@@ -9,6 +9,8 @@ import {PermissionDialogComponent} from './dialog/permission-dialog.component';
 import {Permission} from './model/permission-model';
 import {PermissionService} from './service/permission.service';
 
+/*采用树形表格展示，不调整位置、不调整上下级关系;只有增删改动作*/
+
 @Component({
   selector: 'fz-permission',
   templateUrl: './permission.component.html',

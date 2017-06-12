@@ -1,7 +1,7 @@
 import {Component, Inject} from '@angular/core';
 import {DOCUMENT} from '@angular/platform-browser';
 
-import {SelectItem,Message} from 'primeng/primeng';
+import {SelectItem, Message} from 'primeng/primeng';
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
 
 import {SubPageComponent_UseComponentDialog} from '../../shared';
@@ -10,10 +10,13 @@ import {Organization} from './services/organization';
 import {OrganizationService} from './services/organization.service';
 import {OrganizationDialog} from './dialog/organization-dialog.component';
 
+/*树形表格展示,调整上下级关系*/
+/*部门-用户对应关系维护:pickList*/
+
 @Component({
   templateUrl: './organization.component.html'
 })
-export class OrganizationComponent extends SubPageComponent_UseComponentDialog<OrganizationDialog,Organization,OrganizationService> {
+export class OrganizationComponent extends SubPageComponent_UseComponentDialog<OrganizationDialog, Organization, OrganizationService> {
 
   msgs: Message[];
 
@@ -22,7 +25,7 @@ export class OrganizationComponent extends SubPageComponent_UseComponentDialog<O
 
   constructor(private service: OrganizationService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
 
-    super('组织',dialog,OrganizationDialog);
+    super('组织', dialog, OrganizationDialog);
 
     this.useTreeTable = true;
 
@@ -43,9 +46,9 @@ export class OrganizationComponent extends SubPageComponent_UseComponentDialog<O
   };
 
 
-  getDeleteMessage():string[]{
+  getDeleteMessage(): string[] {
     let message = super.getDeleteMessage();
-    message.push('名称:['+ this.treeTableService.selectedNode.data.name+']');
+    message.push('名称:[' + this.treeTableService.selectedNode.data.name + ']');
     return message;
   };
 
@@ -58,7 +61,6 @@ export class OrganizationComponent extends SubPageComponent_UseComponentDialog<O
     this.msgs = [];
     this.msgs.push({severity: 'info', summary: 'Node Unselected', detail: event.node.data.name});
   }
-
 
 
 }

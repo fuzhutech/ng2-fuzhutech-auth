@@ -1,13 +1,18 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/platform-browser';
 
-import {MdDialog} from '@angular/material';
+import {MdDialog, MdDialogRef} from '@angular/material';
 
 import {ActionType, SubPageComponent_UseComponentDialog} from '../../shared';
 
 import {ResourceDialogComponent} from './dialog/resource-dialog.component';
 import {Resource} from './model/resource-model';
 import {ResourceService} from './service/resource.service';
+import {ResourceGrantDialogComponent} from './grant-dialog/resource-grant-dialog.component';
+import {DialogResult} from '../../shared/common/sub-page-component';
+
+/*树形表格展示,调整位置?调整上下级关系？*/
+/*资源-权限对应关系维护:pickList*/
 
 @Component({
   selector: 'fz-permission',
@@ -55,6 +60,37 @@ export class ResourceComponent
     }
 
     return label;
+  }
+
+  grant() {
+
+    if (!this.canDoGrant()) {
+      return;
+    }
+
+    //this.action = ActionType.edit;
+    this.record = this.getCloneRecord();
+
+
+    //弹出对话框
+    const dialogRef: MdDialogRef<ResourceGrantDialogComponent> = this.dialog.open(ResourceGrantDialogComponent, this.dialogConfig);
+    dialogRef.componentInstance.record = this.record;
+    dialogRef.componentInstance.dialogHeader = '授权';
+    dialogRef.componentInstance.action = this.action;
+    dialogRef.componentInstance.service = this.getService();
+
+
+    //关闭对话框后进行,刷新
+    dialogRef.afterClosed().subscribe((result: DialogResult) => {
+      this.dialogRef = null;
+      if (result.success) {
+        this.doRefresh(result.refresh);
+      }
+    });
+  }
+
+  canDoGrant(): boolean {
+    return true;
   }
 
 }

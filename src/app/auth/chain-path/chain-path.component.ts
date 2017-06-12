@@ -9,6 +9,9 @@ import {ChainPathDialogComponent} from './dialog/chain-path-dialog.component';
 import {ChainPath} from './model/chain-path-model';
 import {ChainPathService} from './service/permission.service';
 
+/*树形表格展示,调整位置,调整上下级关系*/
+/*路径-权限对应关系维护:pickList*/
+
 @Component({
   selector: 'fz-permission',
   templateUrl: './chain-path.component.html',
