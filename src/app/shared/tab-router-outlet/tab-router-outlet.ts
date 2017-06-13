@@ -21,44 +21,54 @@ import {
   OnDestroy,
   ResolvedReflectiveProvider,
   ViewContainerRef,
-  ReflectiveInjector
+  ReflectiveInjector,
+  AfterViewInit
 } from '@angular/core';
 import {RouterOutletMap} from '@angular/router';
 import {ActivatedRoute} from '@angular/router';
 import {TabRouterOutletService} from './tab-router-outlet.service';
-import {isUndefined} from "util";
+import {isUndefined} from 'util';
 
 //import {MainLinkData, SubLinkData} from '../menuside/menuside';
 
 @Directive({
+  //selector: '[fz-router-outlet]'
   selector: 'fz-router-outlet'
 })
-export class TabGroupRouterOutLet extends RouterOutlet {
+export class TabGroupRouterOutLetDirective extends RouterOutlet {
 
   private service: TabRouterOutletService;
 
   constructor(service: TabRouterOutletService, parentOutletMap: RouterOutletMap, location: ViewContainerRef, resolver: ComponentFactoryResolver) {
+
+    console.log('TabGroupRouterOutLetDirective contructor');
+
     super(parentOutletMap, location, resolver, null);
 
     this.service = service;
+    this.service.tabs = [];
+
     service.mainRouterOutLet = this;
   }
 
-  activateWith(activatedRoute: ActivatedRoute, resolver: ComponentFactoryResolver | null, outletMap: RouterOutletMap){
+  activateWith(activatedRoute: ActivatedRoute, resolver: ComponentFactoryResolver | null, outletMap: RouterOutletMap) {
     console.log('fz-router-outlet activateWith');
 
-    let showPath = this.getShowPath(activatedRoute);
-    let header = this.getHeader(activatedRoute,showPath);
+    const showPath = this.getShowPath(activatedRoute);
+    const header = this.getHeader(activatedRoute, showPath);
 
     //查找对应的TabRouterOutlet、标签页
-    let tabRouterOutlet = this.service.tabOutlets[showPath];
+    const tabRouterOutlet = this.service.tabOutlets[showPath];
     if (isUndefined(tabRouterOutlet)) {
       //若不存在对应的TabRouterOutlet，则创建Tab
       this.service.addTab(header, null, showPath);
       //由于新创建的Tab，此时对应的TabRouterOutlet并未创建，故将activate信息保存
-      this.service.registerActivate(showPath, {activatedRoute:activatedRoute, resolver:resolver, outletMap:outletMap})
-    }
-    else {
+      this.service.registerActivate(showPath, {
+        activatedRoute: activatedRoute,
+        resolver: resolver,
+        outletMap: outletMap
+      });
+    } else {
       //存在TabRouterOutlet，且有组件，则销毁
       tabRouterOutlet.deactivate();
 
@@ -68,33 +78,35 @@ export class TabGroupRouterOutLet extends RouterOutlet {
 
   }
 
-  private getShowPath(activatedRoute: ActivatedRoute):string{
+  private getShowPath(activatedRoute: ActivatedRoute): string {
     //获取showPath
     let showPath = '';
-    let pathFromRoot = activatedRoute.pathFromRoot;
+    const pathFromRoot = activatedRoute.pathFromRoot;
     let s1 = '';
     for (let i = pathFromRoot.indexOf(this.service.mainActivatedRoute); i < pathFromRoot.length; i++) {
       s1 = activatedRoute.pathFromRoot[i].snapshot.url.join('/');
-      if (s1 != '')
+      if (s1 != '') {
         showPath = showPath + '/' + s1;
+      }
     }
 
     //获取activatedPath
     let activatedPath = '';
     let s2 = '';
-    for (let entry of activatedRoute.pathFromRoot) {
+    for (const entry of activatedRoute.pathFromRoot) {
       s2 = entry.snapshot.url.join('/');
-      if (s2 != '')
+      if (s2 != '') {
         activatedPath = activatedPath + '/' + s2;
+      }
     }
 
     return showPath;
 
   }
 
-  private getHeader(activatedRoute: ActivatedRoute,showPath:string):string{
+  private getHeader(activatedRoute: ActivatedRoute, showPath: string): string {
     //查找是否对应的MenuData
-    let subMenuLinkItemData = this.getSubMenuLinkItemData(showPath);
+    const subMenuLinkItemData = this.getSubMenuLinkItemData(showPath);
 
     //获取header
     let header: string = null;
@@ -103,10 +115,11 @@ export class TabGroupRouterOutLet extends RouterOutlet {
     }
 
     if (header == null) {
-      if ((!isUndefined(activatedRoute.routeConfig.data)) && (!isUndefined(activatedRoute.routeConfig.data['title'])))
+      if ((!isUndefined(activatedRoute.routeConfig.data)) && (!isUndefined(activatedRoute.routeConfig.data['title']))) {
         header = activatedRoute.routeConfig.data['title'];
-      else
+      } else {
         header = '无定义';
+      }
 
       console.log(header);
     }
@@ -114,22 +127,23 @@ export class TabGroupRouterOutLet extends RouterOutlet {
     return header;
   }
 
-  private getSubMenuLinkItemData(showPath:string){
+  private getSubMenuLinkItemData(showPath: string) {
     //let subMenuLinkItemData = null;
-    if (isUndefined(this.service.menuDataCol))
+    if (isUndefined(this.service.menuDataCol)) {
       return null;
+    }
 
-      for (let entry of this.service.menuDataCol) {
+    for (const entry of this.service.menuDataCol) {
 
-        for (let subMenuLinkItem of entry.subMenuLinkCol){
-          //console.log('subMenuLinkItem.path:'+'/'+subMenuLinkItem.path+';showpath:'+showPath);
-          if ('/'+ subMenuLinkItem.path == showPath) {
-            return subMenuLinkItem;
-          }
+      for (const subMenuLinkItem of entry.subMenuLinkCol) {
+        //console.log('subMenuLinkItem.path:'+'/'+subMenuLinkItem.path+';showpath:'+showPath);
+        if ('/' + subMenuLinkItem.path == showPath) {
+          return subMenuLinkItem;
         }
       }
+    }
 
-      return null;
+    return null;
   }
 
   deactivate() {
@@ -141,7 +155,7 @@ export class TabGroupRouterOutLet extends RouterOutlet {
 @Directive({
   selector: 'fz-tab-router-outlet'
 })
-export class TabRouterOutlet {
+export class TabRouterOutletDirective implements AfterViewInit, OnDestroy {
 
   private parentOutletMap;
   private location;
@@ -155,9 +169,10 @@ export class TabRouterOutlet {
 
   private service: TabRouterOutletService;
 
-  @Input() mainRouterOutlet: TabGroupRouterOutLet;
+  @Input() mainRouterOutlet: TabGroupRouterOutLetDirective;
 
-  constructor(service: TabRouterOutletService, parentOutletMap: RouterOutletMap, location: ViewContainerRef, resolver: ComponentFactoryResolver) {
+  constructor(service: TabRouterOutletService, parentOutletMap: RouterOutletMap, location: ViewContainerRef,
+              resolver: ComponentFactoryResolver) {
     this.parentOutletMap = parentOutletMap;
     this.location = location;
     this.resolver = resolver;
@@ -176,10 +191,10 @@ export class TabRouterOutlet {
     this.service.registerOutlet(this.name, this);
 
     //检查是否存在保存的activate信息
-    let info = this.service.activateInfos[this.name];
+    const info = this.service.activateInfos[this.name];
     if (!isUndefined(info)) {
       //根据activateInfo实例化组件
-      this.activateWith(info.activatedRoute,info.resolver,info.outletMap);
+      this.activateWith(info.activatedRoute, info.resolver, info.outletMap);
       this.service.removeActivate(this.name);
     }
   }
@@ -189,9 +204,11 @@ export class TabRouterOutlet {
     this.service.removeActivate(this.name);
   }
 
-  get isActivated(): boolean { return !!this.activated; }
+  get isActivated(): boolean {
+    return !!this.activated;
+  }
 
-  activateWith(activatedRoute: ActivatedRoute, resolver: ComponentFactoryResolver | null, outletMap: RouterOutletMap){
+  activateWith(activatedRoute: ActivatedRoute, resolver: ComponentFactoryResolver | null, outletMap: RouterOutletMap) {
     if (this.isActivated) {
       throw new Error('Cannot activate an already activated outlet');
     }
@@ -219,7 +236,7 @@ export class TabRouterOutlet {
   deactivate() {
     //console.log('deactivate router outlet!');
     if (this.activated) {
-      var c = this.activated.instance;
+      const c = this.activated.instance;
       this.activated.destroy();
       this.activated = null;
       this._activatedRoute = null;
@@ -229,8 +246,8 @@ export class TabRouterOutlet {
 }
 
 class OutletInjector implements Injector {
-  constructor(
-    private route: ActivatedRoute, private map: RouterOutletMap, private parent: Injector) {}
+  constructor(private route: ActivatedRoute, private map: RouterOutletMap, private parent: Injector) {
+  }
 
   get(token: any, notFoundValue?: any): any {
     if (token === ActivatedRoute) {
@@ -250,7 +267,7 @@ export interface ActivateInfo {
   resolver: ComponentFactoryResolver;
   //injector?: Injector | null;
   //providers?: ResolvedReflectiveProvider[] | null;
-  outletMap: RouterOutletMap
+  outletMap: RouterOutletMap;
 }
 
 

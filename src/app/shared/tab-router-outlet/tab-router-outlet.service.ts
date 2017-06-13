@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Http, Response} from '@angular/http';
 import {ActivatedRoute} from '@angular/router';
-import {TabGroupRouterOutLet, TabRouterOutlet,ActivateInfo} from './tab-router-outlet';
+import {TabGroupRouterOutLetDirective, TabRouterOutletDirective,ActivateInfo} from './tab-router-outlet';
 import {MainLinkData} from '../menuside/menuside';
 
 export class Data {
@@ -14,7 +14,7 @@ export class TabRouterOutletService {
   tabOutlets: Data = {};
   activateInfos: Data = {};
 
-  mainRouterOutLet: TabGroupRouterOutLet;
+  mainRouterOutLet: TabGroupRouterOutLetDirective;
   mainActivatedRoute:ActivatedRoute;
   menuDataCol:MainLinkData[];
 
@@ -31,7 +31,7 @@ export class TabRouterOutletService {
   }
 
 
-  registerOutlet(name: string, outlet: TabRouterOutlet): void {
+  registerOutlet(name: string, outlet: TabRouterOutletDirective): void {
     this.tabOutlets[name] = outlet;
   };
 
