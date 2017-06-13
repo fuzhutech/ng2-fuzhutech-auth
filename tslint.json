@@ -104,7 +104,8 @@
     "directive-selector": [
       true,
       "attribute",
-      "app",
+      /*"app",*/
+      "fz",
       "camelCase"
     ],
     "component-selector": [

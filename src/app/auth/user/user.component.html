@@ -1,10 +1,10 @@
 <fz-toolbar #toolbar (onViewClick)="view()" (onAddClick)="add()"
             (onEditClick)="edit()"
             (onDeleteClick)="delete()" (onRefreshClick)="refresh()">
+
+  <button md-button (click)="grant()"><md-icon>view_module</md-icon>分配角色</button>
+
 </fz-toolbar>
-<md-toolbar>
-  <button md-button (click)="grant()"><md-icon>view_agenda</md-icon>授权</button>
-</md-toolbar>
 
 <p-dataTable [value]="records" selectionMode="single" [(selection)]="selectedRecord"
              [paginator]="true" [rows]="15" [responsive]="true" resizableColumns="true">

@@ -4,19 +4,18 @@ import {DOCUMENT} from '@angular/platform-browser';
 import {SelectItem, Message} from 'primeng/primeng';
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
 
-import {SubPageComponent_UseComponentDialog} from '../../shared';
+import {SubPageComponentWithComponentDialog} from '../../shared';
 
 import {Organization} from './services/organization';
 import {OrganizationService} from './services/organization.service';
 import {OrganizationDialog} from './dialog/organization-dialog.component';
-
-/*树形表格展示,调整上下级关系*/
-/*部门-用户对应关系维护:pickList*/
+import {OrganizationGrantDialogComponent} from "./grant-dialog/grant-dialog.component";
+import {DialogResult} from "../../shared/common/sub-page-component";
 
 @Component({
   templateUrl: './organization.component.html'
 })
-export class OrganizationComponent extends SubPageComponent_UseComponentDialog<OrganizationDialog, Organization, OrganizationService> {
+export class OrganizationComponent extends SubPageComponentWithComponentDialog<OrganizationDialog, Organization, OrganizationService> {
 
   msgs: Message[];
 
@@ -60,6 +59,33 @@ export class OrganizationComponent extends SubPageComponent_UseComponentDialog<O
   nodeUnselect(event) {
     this.msgs = [];
     this.msgs.push({severity: 'info', summary: 'Node Unselected', detail: event.node.data.name});
+  }
+
+  grant() {
+
+    if (!this.canDoGrant()) {
+      return;
+    }
+    
+    //弹出对话框
+    const dialogRef: MdDialogRef<OrganizationGrantDialogComponent> = this.dialog.open(OrganizationGrantDialogComponent, this.dialogConfig);
+    dialogRef.componentInstance.record = this.record;
+    dialogRef.componentInstance.dialogHeader = '授权';
+    dialogRef.componentInstance.action = this.action;
+    dialogRef.componentInstance.service = this.getService();
+
+
+    //关闭对话框后进行,刷新
+    dialogRef.afterClosed().subscribe((result: DialogResult) => {
+      this.dialogRef = null;
+      if (result.success) {
+        this.doRefresh(result.refresh);
+      }
+    });
+  }
+
+  canDoGrant(): boolean {
+    return true;
   }
 
 

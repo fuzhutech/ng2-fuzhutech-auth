@@ -1,22 +1,22 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
-import {DataTableModule} from 'primeng/primeng';
+import {DataTableModule, TreeTableModule} from 'primeng/primeng';
 import {MdButtonModule, MdDialogModule, MdInputModule, MdSelectModule} from '@angular/material';
 
 import {ToolbarModule} from '../../shared';
 
 import {PermissionRoutingModule} from './permission-routing.module';
 import {PermissionService} from './service/permission.service';
-import { PermissionComponent } from './permission.component';
-import { PermissionDialogComponent } from './dialog/permission-dialog.component';
+import {PermissionComponent} from './permission.component';
+import {PermissionDialogComponent} from './dialog/permission-dialog.component';
 
 @NgModule({
   imports: [
     CommonModule, FormsModule, HttpModule,
-    DataTableModule,
+    DataTableModule, TreeTableModule,
     MdButtonModule, MdDialogModule, MdInputModule, MdSelectModule,
     ToolbarModule,
     PermissionRoutingModule
@@ -25,4 +25,5 @@ import { PermissionDialogComponent } from './dialog/permission-dialog.component'
   providers: [PermissionService],
   entryComponents: [PermissionDialogComponent],
 })
-export class PermissionModule { }
+export class PermissionModule {
+}

@@ -1,7 +1,9 @@
 <fz-toolbar (onViewClick)="view()" (onAddClick)="add()"
             (onEditClick)="edit()"
             (onDeleteClick)="delete()" (onRefreshClick)="refresh()">
-    <!--button pButton type="text" (click)="count()" label="Click"></button-->
+
+  <button md-button (click)="grant()"><md-icon>view_module</md-icon>分配用户</button>
+
 </fz-toolbar>
 <!--md-progress-bar mode="indeterminate" color="primary" style="width: 100%"></md-progress-bar-->
 <p-growl [value]="msgs"></p-growl>

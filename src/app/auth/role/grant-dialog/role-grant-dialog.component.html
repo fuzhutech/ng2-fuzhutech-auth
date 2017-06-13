@@ -1,7 +1,26 @@
-<span md-dialog-title>{{dialogHeader}}</span>
+<span md-dialog-title>{{dialogHeader}}(原---新)</span>
 
 <md-dialog-content>
-  <p-tree [value]="filesTree4" selectionMode="checkbox" [(selection)]="selectedFiles2"></p-tree>
+
+  <div style="float: left;max-height: 600px;">
+    <div style="float: left" disabled="true" (click)="null">
+      <p-tree [value]="filesTree4" selectionMode="checkbox" [(selection)]="selectedFile2"
+              (onNodeSelect)="nodeSelect($event)" [propagateSelectionUp]="false"
+              [propagateSelectionDown]="false"></p-tree>
+    </div>
+    <div style="float: left">
+      <md-icon>swap_horiz</md-icon>
+    </div>
+
+    <div style="float: left">
+      <p-tree [value]="filesTree5" selectionMode="checkbox" [(selection)]="selectedFile3"
+              (onNodeExpand)="toggle($event)" (onNodeCollapse)="toggle($event)"></p-tree>
+    </div>
+  </div>
+
+  <!--p-tree [value]="filesTree4" selectionMode="checkbox" [(selection)]="selectedFiles2"></p-tree>
+
+  <div>Selected Nodes: <span *ngFor="let file of selectedFiles2">{{file.data&#125;&#125; </span></div-->
 </md-dialog-content>
 
 <md-dialog-actions *ngIf="progress" [attr.align]="actionsAlignment">

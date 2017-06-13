@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 
-import {SubPageComponent_UseTemplateDialog} from '../../shared';
+import {SubPageComponentWithTemplateDialog} from '../../shared';
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
 
 import {Log} from './services/log';
@@ -11,7 +11,7 @@ import {LazyLoadEvent} from 'primeng/primeng';
 @Component({
   templateUrl: './log.component.html'
 })
-export class LogComponent extends SubPageComponent_UseTemplateDialog<Log, LogService> {
+export class LogComponent extends SubPageComponentWithTemplateDialog<Log, LogService> {
 
   totalRecords: number;
 

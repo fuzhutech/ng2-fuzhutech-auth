@@ -6,6 +6,7 @@
       "data": "Documents Folder",
       "expandedIcon": "fa-folder-open",
       "collapsedIcon": "fa-folder",
+      "expanded":"true",
       "children": [{
         "label": "Work",
         "data": "Work Folder",

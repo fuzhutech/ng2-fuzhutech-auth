@@ -1,16 +1,15 @@
 import {Component, Inject, OnInit} from '@angular/core';
 import {DOCUMENT} from '@angular/platform-browser';
 
-import {MdDialog} from '@angular/material';
+import {MdDialog, MdDialogRef} from '@angular/material';
 
-import {ActionType, SubPageComponent_UseComponentDialog} from '../../shared';
+import {ActionType, SubPageComponentWithComponentDialog} from '../../shared';
 
 import {ChainPathDialogComponent} from './dialog/chain-path-dialog.component';
 import {ChainPath} from './model/chain-path-model';
-import {ChainPathService} from './service/permission.service';
-
-/*树形表格展示,调整位置,调整上下级关系*/
-/*路径-权限对应关系维护:pickList*/
+import {ChainPathService} from './service/chain-path.service';
+import {ChainPathGrantDialogComponent} from './grant-dialog/chain-path-grant-dialog.component';
+import {DialogResult} from '../../shared/common/sub-page-component';
 
 @Component({
   selector: 'fz-permission',
@@ -18,7 +17,7 @@ import {ChainPathService} from './service/permission.service';
   styleUrls: ['./chain-path.component.css']
 })
 export class ChainPathComponent
-  extends SubPageComponent_UseComponentDialog<ChainPathDialogComponent, ChainPath, ChainPathService>
+  extends SubPageComponentWithComponentDialog<ChainPathDialogComponent, ChainPath, ChainPathService>
   implements OnInit {
 
   //状态
@@ -26,6 +25,8 @@ export class ChainPathComponent
 
   constructor(private service: ChainPathService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
     super('用户', _dialog, ChainPathDialogComponent);
+
+    this.useTreeTable = true;
   }
 
   getService(): ChainPathService {
@@ -58,6 +59,33 @@ export class ChainPathComponent
     }
 
     return label;
+  }
+
+  grant() {
+
+    if (!this.canDoGrant()) {
+      return;
+    }
+
+    //弹出对话框
+    const dialogRef: MdDialogRef<ChainPathGrantDialogComponent> = this.dialog.open(ChainPathGrantDialogComponent, this.dialogConfig);
+    dialogRef.componentInstance.record = this.record;
+    dialogRef.componentInstance.dialogHeader = '分配权限';
+    dialogRef.componentInstance.action = this.action;
+    dialogRef.componentInstance.service = this.getService();
+
+
+    //关闭对话框后进行,刷新
+    dialogRef.afterClosed().subscribe((result: DialogResult) => {
+      this.dialogRef = null;
+      if (result.success) {
+        this.doRefresh(result.refresh);
+      }
+    });
+  }
+
+  canDoGrant(): boolean {
+    return true;
   }
 
 }

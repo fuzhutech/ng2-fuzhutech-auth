@@ -22,4 +22,6 @@
     <button md-button  (click)="editClick($event)" [disabled]="disabledEdit"><md-icon>mode_edit</md-icon>編輯</button>
     <button md-button  (click)="deleteClick($event)" [disabled]="disabledDelete"><md-icon>delete</md-icon>刪除</button>
     <button md-button (click)="refreshClick($event)" [disabled]="disabledRefresh"><md-icon>loop</md-icon>刷新</button>
+
+    <ng-content></ng-content>
 </md-toolbar>

@@ -13,4 +13,10 @@ export class NodeService {
                     .toPromise()
                     .then(res => <TreeNode[]> res.json().data);
     }
+
+
+  getFiles1() {
+    return this.http.get('assets/data/files.json')
+      .toPromise();
+  }
 }

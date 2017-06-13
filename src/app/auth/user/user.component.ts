@@ -4,7 +4,7 @@ import {SelectItem} from 'primeng/primeng';
 
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
 
-import {ActionType, SubPageComponent_UseComponentDialog} from '../../shared';
+import {ActionType, SubPageComponentWithComponentDialog} from '../../shared';
 
 import {UserDialog} from './dialog/user-dialog.component';
 import {User} from './services/user';
@@ -19,7 +19,7 @@ import {UserRoleDialogComponent} from './user-role-dialog/user-role-dialog.compo
 @Component({
   templateUrl: './user.component.html'
 })
-export class UserComponent extends SubPageComponent_UseComponentDialog<UserDialog, User, UserService> {
+export class UserComponent extends SubPageComponentWithComponentDialog<UserDialog, User, UserService> {
 
   //用户状态
   statuses: SelectItem[];

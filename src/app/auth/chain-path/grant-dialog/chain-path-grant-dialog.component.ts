@@ -1,27 +1,22 @@
 import {Component, OnInit} from '@angular/core';
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
 import {ComponentDialog} from '../../../shared';
-import {RoleService} from '../services/role.service';
+
+import {NodeService} from '../service/nodeservice';
 
 import {Message, MenuItem, TreeNode, Tree, TreeDragDropService} from 'primeng/primeng';
-
-import {NodeService} from '../services/nodeservice';
 import {DialogResult} from '../../../shared/common/sub-page-component';
-
-/*表格展示,暂时不启用上下级关系*/
-/*角色-用户对应关系维护:pickList*/
-/*角色-资源对应关系维护:pickList*/
-
-/*角色-资源对应关系维护:tree Multiple Selection with Checkbox*/
 
 @Component({
   selector: 'fz-user-dialog',
-  templateUrl: './role-grant-dialog.component.html',
-  styleUrls: ['./role-grant-dialog.component.css']
+  templateUrl: './chain-path-grant-dialog.component.html',
+  styleUrls: ['./chain-path-grant-dialog.component.css'],
+  providers: [TreeDragDropService]
 })
-export class RoleGrantDialogComponent extends ComponentDialog<RoleGrantDialogComponent> implements OnInit {
+export class ChainPathGrantDialogComponent extends ComponentDialog<ChainPathGrantDialogComponent> implements OnInit {
 
   color = 'primary';
+
 
   filesTree4: TreeNode[];
   filesTree5: TreeNode[];
@@ -31,26 +26,28 @@ export class RoleGrantDialogComponent extends ComponentDialog<RoleGrantDialogCom
   selectedFile3: TreeNode;
 
 
-  constructor(dialogRef: MdDialogRef<RoleGrantDialogComponent>, private userService: RoleService, private nodeService: NodeService) {
+  constructor(dialogRef: MdDialogRef<ChainPathGrantDialogComponent>, private nodeService: NodeService) {
     super(dialogRef);
   }
 
   ngOnInit() {
+
     this.nodeService.getFiles1().then(res => {
       this.filesTree4 = <TreeNode[]> res.json().data;
       this.filesTree5 = <TreeNode[]> res.json().data;
     });
+
   }
 
   doGrant() {
-    return this.userService.editAuthorizedRoleList(this.filesTree4);
+    return this.service.edit(this.selectedFile2);
   }
+
 
   //按钮-确认
   confirm() {
 
     this.progress = true;
-
 
     this.doGrant().subscribe(
       data => {
@@ -141,5 +138,6 @@ export class RoleGrantDialogComponent extends ComponentDialog<RoleGrantDialogCom
 
     return result;
   }
+
 
 }

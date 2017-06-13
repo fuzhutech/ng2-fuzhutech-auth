@@ -18,9 +18,12 @@ export class ResourceGrantDialogComponent extends ComponentDialog<ResourceGrantD
   color = 'primary';
 
 
-  filesTree7: TreeNode[];
+  filesTree4: TreeNode[];
+  filesTree5: TreeNode[];
 
-  selectedFile2: TreeNode;
+  //selectedFile2: TreeNode;
+  selectedFile2: any;
+  selectedFile3: TreeNode;
 
 
   constructor(dialogRef: MdDialogRef<ResourceGrantDialogComponent>, private nodeService: NodeService) {
@@ -29,7 +32,10 @@ export class ResourceGrantDialogComponent extends ComponentDialog<ResourceGrantD
 
   ngOnInit() {
 
-    this.nodeService.getFiles().then(files => this.filesTree7 = files);
+    this.nodeService.getFiles1().then(res => {
+      this.filesTree4 = <TreeNode[]> res.json().data;
+      this.filesTree5 = <TreeNode[]> res.json().data;
+    });
 
   }
 
@@ -64,5 +70,74 @@ export class ResourceGrantDialogComponent extends ComponentDialog<ResourceGrantD
     const dialogResult: DialogResult = {'success': false, 'cancel': false};
     this.dialogRef.close(dialogResult);
   }
+
+  //原始树,恢复原有状态
+  nodeSelect(event) {
+    console.log(event);
+
+    const index = this.findIndexInSelection(this.selectedFile2, event.node);
+    if (index >= 0) {
+      this.selectedFile2 = this.selectedFile2.filter((val, i) => i != index);
+    } else {
+      this.selectedFile2 = [...this.selectedFile2 || [], event.node];
+    }
+  }
+
+  toggle(event) {
+    console.log(event.node);
+    console.log(event.node.expanded);
+    console.log(event.node.data);
+
+    if (event.node) {
+      for (const treeNode of this.filesTree4) {
+        //console.log(child);
+        if (this.otherNodeToggle(treeNode, event.node.expanded, event.node.data)) {
+          break;
+        }
+      }
+    }
+  }
+
+  findIndexInSelection(selection: any, node: TreeNode) {
+    let index: number = -1;
+
+
+    for (let i = 0; i < selection.length; i++) {
+      if (selection[i] == node) {
+        index = i;
+        break;
+      }
+    }
+
+
+    return index;
+  }
+
+  otherNodeToggle(node: TreeNode, expanded: boolean, data: any): boolean {
+    console.log(node.data);
+    console.log(node.expanded);
+    console.log(data);
+    if (node.data == data) {
+
+      console.log('node.data == data');
+      console.log(expanded);
+
+      node.expanded = !node.expanded
+      return true;
+    }
+
+    let result = false;
+    if (node.children && node.children.length) {
+      for (const child of node.children) {
+        if (this.otherNodeToggle(child, expanded, data)) {
+          result = true;
+          break;
+        }
+      }
+    }
+
+    return result;
+  }
+
 
 }

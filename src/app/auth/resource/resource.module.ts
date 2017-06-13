@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
-import {DataTableModule} from 'primeng/primeng';
+import {DataTableModule, TreeTableModule} from 'primeng/primeng';
 
 import {
   TreeModule,
@@ -28,7 +28,7 @@ import {ResourceGrantDialogComponent} from './grant-dialog/resource-grant-dialog
 @NgModule({
   imports: [
     CommonModule, FormsModule, HttpModule,
-    DataTableModule,
+    DataTableModule, TreeTableModule,
 
     TreeModule,
     GrowlModule,

@@ -3,9 +3,13 @@ export class Resource {
   parentId;
   systemId;
   name;
-  filterType;
-  filterChain;
+  path;
+  description;
+  icon;
+  openMode;
+  seq;
   status;
+  resourceType;
   createTime;
   lastModifyTime;
 }

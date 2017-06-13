@@ -3,7 +3,7 @@ import {DOCUMENT} from '@angular/platform-browser';
 
 import {MdDialog} from '@angular/material';
 
-import {ActionType, SubPageComponent_UseComponentDialog} from '../../shared';
+import {ActionType, SubPageComponentWithComponentDialog} from '../../shared';
 
 import {PermissionDialogComponent} from './dialog/permission-dialog.component';
 import {Permission} from './model/permission-model';
@@ -17,7 +17,7 @@ import {PermissionService} from './service/permission.service';
   styleUrls: ['./permission.component.css']
 })
 export class PermissionComponent
-  extends SubPageComponent_UseComponentDialog<PermissionDialogComponent, Permission, PermissionService>
+  extends SubPageComponentWithComponentDialog<PermissionDialogComponent, Permission, PermissionService>
   implements OnInit {
 
   //状态
@@ -25,6 +25,8 @@ export class PermissionComponent
 
   constructor(private service: PermissionService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
     super('用户', _dialog, PermissionDialogComponent);
+
+    this.useTreeTable = true;
   }
 
   getService(): PermissionService {

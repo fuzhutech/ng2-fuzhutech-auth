@@ -3,7 +3,7 @@ import {DOCUMENT} from '@angular/platform-browser';
 
 import {MdDialog, MdDialogRef} from '@angular/material';
 
-import {ActionType, SubPageComponent_UseComponentDialog} from '../../shared';
+import {ActionType, SubPageComponentWithComponentDialog} from '../../shared';
 
 import {ResourceDialogComponent} from './dialog/resource-dialog.component';
 import {Resource} from './model/resource-model';
@@ -20,7 +20,7 @@ import {DialogResult} from '../../shared/common/sub-page-component';
   styleUrls: ['./resource.component.css']
 })
 export class ResourceComponent
-  extends SubPageComponent_UseComponentDialog<ResourceDialogComponent, Resource, ResourceService>
+  extends SubPageComponentWithComponentDialog<ResourceDialogComponent, Resource, ResourceService>
   implements OnInit {
 
   //状态
@@ -28,6 +28,8 @@ export class ResourceComponent
 
   constructor(private service: ResourceService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
     super('用户', _dialog, ResourceDialogComponent);
+
+    this.useTreeTable = true;
   }
 
   getService(): ResourceService {
@@ -68,14 +70,10 @@ export class ResourceComponent
       return;
     }
 
-    //this.action = ActionType.edit;
-    this.record = this.getCloneRecord();
-
-
     //弹出对话框
     const dialogRef: MdDialogRef<ResourceGrantDialogComponent> = this.dialog.open(ResourceGrantDialogComponent, this.dialogConfig);
     dialogRef.componentInstance.record = this.record;
-    dialogRef.componentInstance.dialogHeader = '授权';
+    dialogRef.componentInstance.dialogHeader = '分配权限';
     dialogRef.componentInstance.action = this.action;
     dialogRef.componentInstance.service = this.getService();
 

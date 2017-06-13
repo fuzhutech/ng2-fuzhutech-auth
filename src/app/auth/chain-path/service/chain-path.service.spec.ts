@@ -1,6 +1,6 @@
 import { TestBed, inject } from '@angular/core/testing';
 
-import { ChainPathService } from './permission.service';
+import { ChainPathService } from './chain-path.service';
 
 describe('ChainPathDialogService', () => {
   beforeEach(() => {

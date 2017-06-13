@@ -1,0 +1,23 @@
+<span md-dialog-title>{{dialogHeader}}</span>
+
+<md-dialog-content>
+
+  <p-pickList [source]="unauthorizedRoleList" [target]="authorizedRoleList" [showSourceControls]="false" [showTargetControls] ="false">
+    <ng-template let-role pTemplate="item">
+      <div class="ui-helper-clearfix">
+        <img src="showcase/resources/demo/images/car/{{car.brand}}.gif"
+             style="display:inline-block;margin:2px 0 2px 2px"/>
+        <div style="font-size:14px;float:right;margin:15px 5px 0 0">{{car.brand}} - {{car.year}} - {{car.color}}</div>
+      </div>
+    </ng-template>
+  </p-pickList>
+
+</md-dialog-content>
+
+<md-dialog-actions *ngIf="progress" [attr.align]="actionsAlignment">
+  <md-progress-bar mode="indeterminate" color="primary" style="width: 100%"></md-progress-bar>
+</md-dialog-actions>
+<md-dialog-actions [attr.align]="actionsAlignment">
+  <button md-button color="secondary" (click)="confirm()">确认</button>
+  <button md-button color="secondary" (click)="cancel()">取消</button>
+</md-dialog-actions>

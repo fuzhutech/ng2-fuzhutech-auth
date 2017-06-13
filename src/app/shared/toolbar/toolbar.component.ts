@@ -5,13 +5,7 @@ import {MenuItem} from 'primeng/primeng';
   selector: 'fz-toolbar',
   templateUrl: './toolbar.component.html'
 })
-export class ToolbarComponent implements OnInit {
-
-  @Input() style: any;
-
-  @Input() styleClass: string;
-
-  test: string;
+export class ToolbarComponent {
 
   @Input() disabledView = false;    //查看按钮是否可用
   @Input() disabledAdd = false;     //新增按钮是否可用
@@ -26,8 +20,9 @@ export class ToolbarComponent implements OnInit {
   @Output() onViewClick: EventEmitter<any> = new EventEmitter();
 
   viewClick(event: Event) {
-    if (this.disabledView)
+    if (this.disabledView) {
       return;
+    }
     this.onViewClick.next({originalEvent: event});
   }
 
@@ -93,35 +88,6 @@ export class ToolbarComponent implements OnInit {
   closeClick(event: Event) {
     this.onEditClick.next({originalEvent: event});
   }
-
-  //end 添加20161207
-
-  //--------------------------------------------------------------------------------------------
-
-  items: MenuItem[];
-
-  ngOnInit() {
-    this.items = [
-      {label: 'Angular.io', icon: 'fa-link', url: 'http://angular.io'},
-      {label: 'Theming', icon: 'fa-paint-brush', routerLink: ['/theming']}
-    ];
-
-  }
-
-  clicks: number = 0;
-
-  onclick() {
-    this.clicks++;
-  }
-
-  @Input()
-  title: string = '默认标题';
-
-  @Input('title') set changeTitle(val: any) {
-    this.title = val;
-  }
-
-  //----------------------------------------------------------------------------------------------
 
 
 }

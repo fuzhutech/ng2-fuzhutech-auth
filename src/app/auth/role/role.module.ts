@@ -3,7 +3,7 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
-import {DataTableModule, InputTextModule} from 'primeng/primeng';
+import {DataTableModule, InputTextModule, PickListModule} from 'primeng/primeng';
 
 import {
   TreeModule,
@@ -31,11 +31,12 @@ import {RoleRoutingModule} from './role-routing.module';
 import {RoleService} from './services/role.service';
 import {NodeService} from './services/nodeservice';
 import {RoleGrantDialogComponent} from './grant-dialog/role-grant-dialog.component';
+import {RoleGrantUserDialogComponent} from './role-grant-user-dialog/role-grant-user-dialog.component';
 
 @NgModule({
   imports: [
     CommonModule, FormsModule, HttpModule,
-    DataTableModule, InputTextModule,
+    DataTableModule, InputTextModule, PickListModule,
 
     TreeModule,
     GrowlModule,
@@ -49,10 +50,10 @@ import {RoleGrantDialogComponent} from './grant-dialog/role-grant-dialog.compone
     RoleRoutingModule,
   ],
   declarations: [
-    RoleComponent, RoleGrantDialogComponent
+    RoleComponent, RoleGrantDialogComponent, RoleGrantUserDialogComponent
   ],
   providers: [RoleService, NodeService],
-  entryComponents: [RoleGrantDialogComponent]
+  entryComponents: [RoleGrantDialogComponent, RoleGrantUserDialogComponent]
 })
 export class RoleModule {
 }

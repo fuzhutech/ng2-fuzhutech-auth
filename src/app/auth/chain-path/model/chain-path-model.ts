@@ -1,4 +1,6 @@
-export class ChainPath {
+import {BaseTreeObject} from '../../../shared/common/sub-page-component';
+
+export class ChainPath implements BaseTreeObject {
   id;
   parentId;
   systemId;
