@@ -3,6 +3,8 @@ import {MdDialogRef} from '@angular/material';
 import {ComponentDialog} from '../../../shared';
 import {UserService} from '../../user/services/user.service';
 import {DialogResult} from '../../../shared/common/sub-page-component';
+import {Organization} from '../services/organization';
+import {User} from '../../user/model/user';
 
 @Component({
   selector: 'fz-user-grant-dialog',
@@ -14,42 +16,25 @@ export class OrganizationGrantDialogComponent extends ComponentDialog<Organizati
 
   color = 'primary';
 
-  unauthorizedRoleList: any[];
+  sourceList: User[];
+  targetList: User[];
 
-  authorizedRoleList: any[];
-
-
-  constructor(dialogRef: MdDialogRef<OrganizationGrantDialogComponent>, private userService: UserService) {
+  constructor(dialogRef: MdDialogRef<OrganizationGrantDialogComponent>) {
     super(dialogRef);
   }
 
   ngOnInit() {
-    this.getUnauthorizedRoleList();
-    this.getAuthorizedRoleList();
+    this.getPickList(this.record.id);
   }
 
-  private getUnauthorizedRoleList() {
-    this.userService.getAuthorizedRoleList().subscribe(
-      data => {
-        //this.records = data.rows;
-        this.unauthorizedRoleList = data;
-      },
-      err => {
-        console.log(err);
-      },
-      () => {
-        console.log('refresh Complete');
-      }
-    );
-
-  }
-
-
-  getAuthorizedRoleList() {
-    this.userService.getAuthorizedRoleList().subscribe(
-      data => {
-        //this.records = data.rows;
-        this.authorizedRoleList = data;
+  private getPickList(id: number) {
+    this.service.getUserWithOrganization(id).subscribe(
+      result => {
+        console.log(result);
+        this.targetList = result.data.targetList;
+        console.log(this.targetList);
+        this.sourceList = result.data.sourceList;
+        console.log(this.sourceList);
       },
       err => {
         console.log(err);
@@ -62,7 +47,18 @@ export class OrganizationGrantDialogComponent extends ComponentDialog<Organizati
   }
 
   doGrant() {
-    return this.userService.editAuthorizedRoleList(this.authorizedRoleList);
+
+    let userIds = '';
+    for (const user of this.targetList) {
+      userIds = userIds + user.id + ',';
+    }
+    if (userIds.length > 0) {
+      userIds = userIds.substr(0, userIds.length - 1);
+    }
+
+    console.log(userIds);
+
+    return this.service.editUserWithOrganization(this.record.id, userIds);
   }
 
   //按钮-确认

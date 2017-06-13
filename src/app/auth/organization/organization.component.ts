@@ -9,8 +9,9 @@ import {SubPageComponentWithComponentDialog} from '../../shared';
 import {Organization} from './services/organization';
 import {OrganizationService} from './services/organization.service';
 import {OrganizationDialog} from './dialog/organization-dialog.component';
-import {OrganizationGrantDialogComponent} from "./grant-dialog/grant-dialog.component";
-import {DialogResult} from "../../shared/common/sub-page-component";
+import {OrganizationGrantDialogComponent} from './grant-dialog/grant-dialog.component';
+import {DialogResult} from '../../shared/common/sub-page-component';
+import {isUndefined} from "util";
 
 @Component({
   templateUrl: './organization.component.html'
@@ -46,7 +47,7 @@ export class OrganizationComponent extends SubPageComponentWithComponentDialog<O
 
 
   getDeleteMessage(): string[] {
-    let message = super.getDeleteMessage();
+    const message = super.getDeleteMessage();
     message.push('名称:[' + this.treeTableService.selectedNode.data.name + ']');
     return message;
   };
@@ -62,16 +63,14 @@ export class OrganizationComponent extends SubPageComponentWithComponentDialog<O
   }
 
   grant() {
-
     if (!this.canDoGrant()) {
       return;
     }
-    
+
     //弹出对话框
     const dialogRef: MdDialogRef<OrganizationGrantDialogComponent> = this.dialog.open(OrganizationGrantDialogComponent, this.dialogConfig);
-    dialogRef.componentInstance.record = this.record;
-    dialogRef.componentInstance.dialogHeader = '授权';
-    dialogRef.componentInstance.action = this.action;
+    dialogRef.componentInstance.record = this.getCloneRecord();
+    dialogRef.componentInstance.dialogHeader = '分配用户';
     dialogRef.componentInstance.service = this.getService();
 
 
@@ -85,7 +84,7 @@ export class OrganizationComponent extends SubPageComponentWithComponentDialog<O
   }
 
   canDoGrant(): boolean {
-    return true;
+    return (this.treeTableService.selectedNode && this.treeTableService.selectedNode.data);
   }
 
 

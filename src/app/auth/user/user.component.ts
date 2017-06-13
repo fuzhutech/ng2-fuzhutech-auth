@@ -7,7 +7,7 @@ import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/ma
 import {ActionType, SubPageComponentWithComponentDialog} from '../../shared';
 
 import {UserDialog} from './dialog/user-dialog.component';
-import {User} from './services/user';
+import {User} from './model/user';
 import {UserService} from './services/user.service';
 import {Role} from '../role/services/role';
 import {DialogResult} from '../../shared/common/sub-page-component';
