@@ -5,7 +5,7 @@ import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/ma
 
 import {Role} from './services/role';
 import {RoleService} from './services/role.service';
-import {RoleGrantDialogComponent} from "./grant-dialog/role-grant-dialog.component";
+import {RoleGrantResourceDialogComponent} from "./role-grant-resource-dialog/role-grant-resource-dialog.component";
 import {DialogResult} from "../../shared/common/sub-page-component";
 import {RoleGrantUserDialogComponent} from "./role-grant-user-dialog/role-grant-user-dialog.component";
 
@@ -58,13 +58,9 @@ export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, Role
       return;
     }
 
-    //this.action = ActionType.edit;
-    this.record = this.getCloneRecord();
-
-
     //弹出对话框
-    const dialogRef: MdDialogRef<RoleGrantDialogComponent> = this.dialog.open(RoleGrantDialogComponent, this.dialogConfig);
-    dialogRef.componentInstance.record = this.record;
+    const dialogRef: MdDialogRef<RoleGrantResourceDialogComponent> = this.dialog.open(RoleGrantResourceDialogComponent, this.dialogConfig);
+    dialogRef.componentInstance.record = this.getCloneRecord();
     dialogRef.componentInstance.dialogHeader = '分配资源';
     dialogRef.componentInstance.action = this.action;
     dialogRef.componentInstance.service = this.getService();
@@ -79,8 +75,8 @@ export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, Role
     });
   }
 
-  canDoGrant(): boolean {
-    return true;
+  private canDoGrant(): boolean {
+    return (this.selectedRecord && this.selectedRecord.id);
   }
 
   grantUser() {
@@ -89,13 +85,9 @@ export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, Role
       return;
     }
 
-    //this.action = ActionType.edit;
-    this.record = this.getCloneRecord();
-
-
     //弹出对话框
     const dialogRef: MdDialogRef<RoleGrantUserDialogComponent> = this.dialog.open(RoleGrantUserDialogComponent, this.dialogConfig);
-    dialogRef.componentInstance.record = this.record;
+    dialogRef.componentInstance.record = this.getCloneRecord();
     dialogRef.componentInstance.dialogHeader = '分配资源';
     dialogRef.componentInstance.action = this.action;
     dialogRef.componentInstance.service = this.getService();
@@ -110,7 +102,8 @@ export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, Role
     });
   }
 
-  canDoGrantUser(): boolean {
-    return true;
+  private canDoGrantUser(): boolean {
+    return (this.selectedRecord && this.selectedRecord.id);
   }
+
 }

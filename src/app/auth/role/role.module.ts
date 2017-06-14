@@ -29,8 +29,7 @@ import {ToolbarModule} from '../../shared';
 import {RoleComponent} from './role.component';
 import {RoleRoutingModule} from './role-routing.module';
 import {RoleService} from './services/role.service';
-import {NodeService} from './services/nodeservice';
-import {RoleGrantDialogComponent} from './grant-dialog/role-grant-dialog.component';
+import {RoleGrantResourceDialogComponent} from './role-grant-resource-dialog/role-grant-resource-dialog.component';
 import {RoleGrantUserDialogComponent} from './role-grant-user-dialog/role-grant-user-dialog.component';
 
 @NgModule({
@@ -50,10 +49,10 @@ import {RoleGrantUserDialogComponent} from './role-grant-user-dialog/role-grant-
     RoleRoutingModule,
   ],
   declarations: [
-    RoleComponent, RoleGrantDialogComponent, RoleGrantUserDialogComponent
+    RoleComponent, RoleGrantResourceDialogComponent, RoleGrantUserDialogComponent
   ],
-  providers: [RoleService, NodeService],
-  entryComponents: [RoleGrantDialogComponent, RoleGrantUserDialogComponent]
+  providers: [RoleService],
+  entryComponents: [RoleGrantResourceDialogComponent, RoleGrantUserDialogComponent]
 })
 export class RoleModule {
 }

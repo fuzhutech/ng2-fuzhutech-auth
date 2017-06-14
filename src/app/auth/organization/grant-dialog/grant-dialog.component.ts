@@ -3,7 +3,6 @@ import {MdDialogRef} from '@angular/material';
 import {ComponentDialog} from '../../../shared';
 import {UserService} from '../../user/services/user.service';
 import {DialogResult} from '../../../shared/common/sub-page-component';
-import {Organization} from '../services/organization';
 import {User} from '../../user/model/user';
 
 @Component({

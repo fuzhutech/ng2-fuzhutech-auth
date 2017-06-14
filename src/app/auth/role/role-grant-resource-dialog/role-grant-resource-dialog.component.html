@@ -3,18 +3,19 @@
 <md-dialog-content>
 
   <div style="float: left;max-height: 600px;">
-    <div style="float: left" disabled="true" (click)="null">
-      <p-tree [value]="filesTree4" selectionMode="checkbox" [(selection)]="selectedFile2"
-              (onNodeSelect)="nodeSelect($event)" [propagateSelectionUp]="false"
-              [propagateSelectionDown]="false"></p-tree>
+    <div style="float: left">
+      <p-tree [value]="sourceTree" selectionMode="checkbox" [(selection)]="sourceSelection"
+              (onNodeSelect)="nodeSelect($event)"  (onNodeUnselect)="nodeUnselect($event)"
+              (onNodeExpand)="sourceToggle($event)" (onNodeCollapse)="sourceToggle($event)"
+              [propagateSelectionUp]="false" [propagateSelectionDown]="false"></p-tree>
     </div>
     <div style="float: left">
       <md-icon>swap_horiz</md-icon>
     </div>
 
     <div style="float: left">
-      <p-tree [value]="filesTree5" selectionMode="checkbox" [(selection)]="selectedFile3"
-              (onNodeExpand)="toggle($event)" (onNodeCollapse)="toggle($event)"></p-tree>
+      <p-tree [value]="targetTree" selectionMode="checkbox" [(selection)]="targetSelection"
+              (onNodeExpand)="targetToggle($event)" (onNodeCollapse)="targetToggle($event)"></p-tree>
     </div>
   </div>
 

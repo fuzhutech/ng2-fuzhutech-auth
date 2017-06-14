@@ -1,55 +1,41 @@
 import {Component, OnInit} from '@angular/core';
 import {MdDialogRef} from '@angular/material';
 import {ComponentDialog} from '../../../shared';
-import {UserService} from '../../user/services/user.service';
 import {DialogResult} from '../../../shared/common/sub-page-component';
+import {User} from '../../user/model/user';
+import {isUndefined} from 'util';
 
 @Component({
   selector: 'fz-user-grant-dialog',
   templateUrl: './role-grant-user-dialog.component.html',
-  styleUrls: ['./role-grant-user-dialog.component.css'],
-  providers: [UserService]
+  styleUrls: ['./role-grant-user-dialog.component.css']
 })
 export class RoleGrantUserDialogComponent extends ComponentDialog<RoleGrantUserDialogComponent> implements OnInit {
 
   color = 'primary';
 
-  unauthorizedRoleList: any[];
+  sourceList: User[];
+  targetList: User[];
 
-  authorizedRoleList: any[];
 
-
-  constructor(dialogRef: MdDialogRef<RoleGrantUserDialogComponent>, private userService: UserService) {
+  constructor(dialogRef: MdDialogRef<RoleGrantUserDialogComponent>) {
     super(dialogRef);
   }
 
   ngOnInit() {
-    this.getUnauthorizedRoleList();
-    this.getAuthorizedRoleList();
+    if (!isUndefined(this.record)) {
+      this.getPickList(this.record.id);
+    }
   }
 
-  private getUnauthorizedRoleList() {
-    this.userService.getAuthorizedRoleList().subscribe(
-      data => {
-        //this.records = data.rows;
-        this.unauthorizedRoleList = data;
-      },
-      err => {
-        console.log(err);
-      },
-      () => {
-        console.log('refresh Complete');
-      }
-    );
-
-  }
-
-
-  getAuthorizedRoleList() {
-    this.userService.getAuthorizedRoleList().subscribe(
-      data => {
-        //this.records = data.rows;
-        this.authorizedRoleList = data;
+  private getPickList(id: number) {
+    this.service.getUserWithRole(id).subscribe(
+      result => {
+        console.log(result);
+        this.targetList = result.data.targetList;
+        console.log(this.targetList);
+        this.sourceList = result.data.sourceList;
+        console.log(this.sourceList);
       },
       err => {
         console.log(err);
@@ -62,7 +48,18 @@ export class RoleGrantUserDialogComponent extends ComponentDialog<RoleGrantUserD
   }
 
   doGrant() {
-    return this.userService.editAuthorizedRoleList(this.authorizedRoleList);
+
+    let userIds = '';
+    for (const user of this.targetList) {
+      userIds = userIds + user.id + ',';
+    }
+    if (userIds.length > 0) {
+      userIds = userIds.substr(0, userIds.length - 1);
+    }
+
+    console.log(userIds);
+
+    return this.service.editUserWithRole(this.record.id, userIds);
   }
 
   //按钮-确认

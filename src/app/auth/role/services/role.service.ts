@@ -11,44 +11,43 @@ export class RoleService extends BaseService {
     super(http, 'roles');
   }
 
-  getAuthorizedRoleList() {
+  getUserWithRole(roleId: number) {
+
     const headers = new Headers();
     headers.append('Content-Type', 'application/json;charset=UTF-8');
 
     const searchParams = new URLSearchParams();
-    //searchParams.set('offset', '1');
-    //searchParams.set('rows', '20');
-    //searchParams.set('sort', 'id');
-    //searchParams.set('order', 'asc');
 
-    return this.http.get(this.url, {search: searchParams, headers: headers})
+    return this.http.get(this.url + '/' + roleId + '/users', {search: searchParams, headers: headers})
       .map(response => response.json());
   }
 
-  getUnauthorizedRoleList() {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-
-    const searchParams = new URLSearchParams();
-    //searchParams.set('offset', '1');
-    //searchParams.set('rows', '20');
-    //searchParams.set('sort', 'id');
-    //searchParams.set('order', 'asc');
-
-    return this.http.get(this.url, {search: searchParams, headers: headers})
-      .map(response => response.json());
-  }
-
-  editAuthorizedRoleList(data) {
+  editUserWithRole(roleId: number, data) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
+    console.log(data);
 
-    return this.http.put(this.url, JSON.stringify(data), {headers: headers})
+    return this.http.put(this.url + '/' + roleId + '/users', JSON.stringify(data), {headers: headers})
       .map(res => res.json());
   }
 
-  getFiles() {
-    return this.http.get('assets/data/files.json')
+  getResourceWithRole(roleId: number) {
+
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json;charset=UTF-8');
+
+    const searchParams = new URLSearchParams();
+
+    return this.http.get(this.url + '/' + roleId + '/resources', {search: searchParams, headers: headers})
+      .map(response => response.json());
+  }
+
+  editResourceWithRole(roleId: number, data) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    console.log(data);
+
+    return this.http.put(this.url + '/' + roleId + '/resources', JSON.stringify(data), {headers: headers})
       .map(res => res.json());
   }
 
