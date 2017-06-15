@@ -45,7 +45,7 @@ export class RoleService extends BaseService {
   editResourceWithRole(roleId: number, data) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
-    console.log(data);
+    //console.log(data);
 
     return this.http.put(this.url + '/' + roleId + '/resources', JSON.stringify(data), {headers: headers})
       .map(res => res.json());

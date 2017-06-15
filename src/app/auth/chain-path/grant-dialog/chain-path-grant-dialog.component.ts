@@ -51,7 +51,7 @@ export class ChainPathGrantDialogComponent extends ComponentDialog<ChainPathGran
 
     this.doGrant().subscribe(
       data => {
-        const dialogResult: DialogResult = {'success': true, 'refresh': data.obj};
+        const dialogResult: DialogResult = {'success': true, 'recordId': data.id};
         this.dialogRef.close(dialogResult);
         this.progress = false;
       },
@@ -122,7 +122,7 @@ export class ChainPathGrantDialogComponent extends ComponentDialog<ChainPathGran
       console.log('node.data == data');
       console.log(expanded);
 
-      node.expanded = !node.expanded
+      node.expanded = !node.expanded;
       return true;
     }
 

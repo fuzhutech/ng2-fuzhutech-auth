@@ -1,9 +1,9 @@
 import {Component, Inject, ViewChild, TemplateRef} from '@angular/core';
 import {DOCUMENT} from '@angular/platform-browser';
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
-import {Observable, Subscription} from "rxjs/Rx";
+import {Observable, Subscription} from 'rxjs/Rx';
 import {Http, Headers, URLSearchParams, Request, Response} from '@angular/http';
-import {DialogResult} from '../../shared'
+import {DialogResult} from '../../shared';
 
 @Component({
   moduleId: module.id,
@@ -13,13 +13,13 @@ import {DialogResult} from '../../shared'
 })
 export class ConfirmDialog {
 
-  messages:string[]=['角色管理记录','ID:[2]','名称:[测试1]'];
-  actionsAlignment:string ='end';
-  progress:boolean = false;
+  messages: string[] = ['角色管理记录', 'ID:[2]', '名称:[测试1]'];
+  actionsAlignment = 'end';
+  progress = false;
 
-  listener:(event:Event)=>void;
+  listener: (event: Event) => void;
 
-  confirmProcess:ConfirmProcess;
+  confirmProcess: ConfirmProcess;
 
   constructor(public dialogRef: MdDialogRef<ConfirmDialog>, @Inject(MD_DIALOG_DATA) public data: any) {
     //
@@ -28,11 +28,11 @@ export class ConfirmDialog {
   //按钮-确认
   confirm() {
     this.progress = true;
-    let observable: Observable<any> = this.confirmProcess.doProgress();
+    const observable: Observable<any> = this.confirmProcess.doProgress();
 
     observable.subscribe(
       data => {
-        let dialogResult: DialogResult = {'success': true, 'refresh': data.obj};
+        const dialogResult: DialogResult = {'success': true, 'recordId': data.data};
         this.dialogRef.close(dialogResult);
         this.progress = false;
       },
@@ -46,12 +46,12 @@ export class ConfirmDialog {
     //this.record = null;
   }
 
-  cancel(){
+  cancel() {
     this.dialogRef.close(false);
   }
 
 }
 
-export interface ConfirmProcess{
-  doProgress():Observable<Response>;
+export interface ConfirmProcess {
+  doProgress(): Observable<Response>;
 }

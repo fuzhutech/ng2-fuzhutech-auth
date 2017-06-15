@@ -65,9 +65,10 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
     }
 
     const obj = this.newInstance();
-
-    for (const prop in data) {
-      obj[prop] = data[prop];
+    if (data) {
+      for (const prop in data) {
+        obj[prop] = data[prop];
+      }
     }
 
     return obj;
@@ -86,6 +87,7 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
   }
 
   doRefresh(id: number) {
+    console.log('doRefresh:' + id);
     this.getService().getList().subscribe(
       data => {
         //this.records = data.rows;
@@ -94,6 +96,7 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
         for (const record of this.records) {
           if (record.id == id) {
             this.selectedRecord = record;
+            console.log(this.selectedRecord);
             break;
           }
         }
@@ -302,7 +305,7 @@ export abstract class SubPageComponentWithDialog<T extends BaseObject, S extends
       this.dialogRef = null;
 
       if (result.success) {
-        this.doRefresh(result.refresh);
+        this.doRefresh(result.recordId);
       }
     });
   }
@@ -321,7 +324,7 @@ export abstract class SubPageComponentWithDialog<T extends BaseObject, S extends
     this.dialogRef.afterClosed().subscribe((result: DialogResult) => {
       this.dialogRef = null;
       if (result.success) {
-        this.doRefresh(result.refresh);
+        this.doRefresh(result.recordId);
       }
     });
   }
@@ -358,7 +361,7 @@ export abstract class SubPageComponentWithDialog<T extends BaseObject, S extends
     dialogRef.afterClosed().subscribe((result: DialogResult) => {
       dialogRef = null;
       if (result.success) {
-        this.doRefresh(result.refresh);
+        this.doRefresh(result.recordId);
       }
     });
   }
@@ -401,7 +404,7 @@ export abstract class SubPageComponentWithTemplateDialog<T extends BaseObject, S
 
     observable.subscribe(
       data => {
-        const dialogResult: DialogResult = {'success': true, 'refresh': data.obj};
+        const dialogResult: DialogResult = {'success': true, 'recordId': data.id};
         this.dialogRef.close(dialogResult);
         this.progress = false;
       },
@@ -459,7 +462,7 @@ export interface BaseDialog {
 export interface DialogResult {
   success: boolean;
   cancel?: boolean;
-  refresh?: number;
+  recordId?: number;
 }
 
 export class ComponentDialog<T> implements BaseDialog {
@@ -508,7 +511,7 @@ export class ComponentDialog<T> implements BaseDialog {
     if (observable != null) {
       observable.subscribe(
         data => {
-          const dialogResult: DialogResult = {'success': true, 'refresh': data.obj};
+          const dialogResult: DialogResult = {'success': true, 'recordId': data.id};
           this.dialogRef.close(dialogResult);
           this.progress = false;
         },

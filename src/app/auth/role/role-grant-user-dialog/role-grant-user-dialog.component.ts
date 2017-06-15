@@ -71,7 +71,7 @@ export class RoleGrantUserDialogComponent extends ComponentDialog<RoleGrantUserD
 
     this.doGrant().subscribe(
       data => {
-        const dialogResult: DialogResult = {'success': true, 'refresh': data.obj};
+        const dialogResult: DialogResult = {'success': true, 'recordId': data.id};
         this.dialogRef.close(dialogResult);
         this.progress = false;
       },

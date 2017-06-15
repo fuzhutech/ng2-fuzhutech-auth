@@ -70,7 +70,7 @@ export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, Role
     dialogRef.afterClosed().subscribe((result: DialogResult) => {
       this.dialogRef = null;
       if (result.success) {
-        this.doRefresh(result.refresh);
+        this.doRefresh(result.recordId);
       }
     });
   }
@@ -97,7 +97,7 @@ export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, Role
     dialogRef.afterClosed().subscribe((result: DialogResult) => {
       this.dialogRef = null;
       if (result.success) {
-        this.doRefresh(result.refresh);
+        this.doRefresh(result.recordId);
       }
     });
   }

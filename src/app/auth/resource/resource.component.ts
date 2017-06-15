@@ -82,7 +82,7 @@ export class ResourceComponent
     dialogRef.afterClosed().subscribe((result: DialogResult) => {
       this.dialogRef = null;
       if (result.success) {
-        this.doRefresh(result.refresh);
+        this.doRefresh(result.recordId);
       }
     });
   }
