@@ -9,12 +9,6 @@ import {BaseTreeObject, DialogResult} from '../../../shared/common/sub-page-comp
 import {isUndefined} from 'util';
 import {Resource} from '../../resource/model/resource-model';
 
-/*表格展示,暂时不启用上下级关系*/
-/*角色-用户对应关系维护:pickList*/
-/*角色-资源对应关系维护:pickList*/
-
-/*角色-资源对应关系维护:tree Multiple Selection with Checkbox*/
-
 @Component({
   selector: 'fz-user-dialog',
   templateUrl: './role-grant-resource-dialog.component.html',
@@ -45,7 +39,6 @@ export class RoleGrantResourceDialogComponent extends ComponentDialog<RoleGrantR
   private getTreeData(id: number) {
     this.roleService.getResourceWithRole(id).subscribe(
       result => {
-        //console.log(result);
         let resourceRecords: Resource[] = result.data.sourceList;
         this.sourceTree = this.refreshTreeNode(resourceRecords);
         this.targetTree = this.refreshTreeNode(resourceRecords);
@@ -54,6 +47,9 @@ export class RoleGrantResourceDialogComponent extends ComponentDialog<RoleGrantR
         resourceRecords = result.data.targetList;
         this.sourceSelection = this.getSelection(this.sourceTree, resourceRecords, this.sourceSelection);
         this.targetSelection = this.getSelection(this.targetTree, resourceRecords, this.targetSelection);
+
+        this.setPropagateUp(this.sourceSelection);
+        this.setPropagateUp(this.targetSelection);
       },
       err => {
         console.log(err);
@@ -65,19 +61,60 @@ export class RoleGrantResourceDialogComponent extends ComponentDialog<RoleGrantR
 
   }
 
+  private getSelectedIds(node: BaseTreeNode, ids: string): string {
+    if (node && node.id) {
+      ids = ids + node.id + ',';
+    }
+
+
+    if (node && node.parent) {
+      ids = this.getSelectedIds(<BaseTreeNode> node.parent, ids);
+    }
+
+    return ids;
+  }
+
   doGrant() {
-
-    let userIds = '';
-    for (const user of this.targetSelection) {
-      userIds = userIds + user.id + ',';
-    }
-    if (userIds.length > 0) {
-      userIds = userIds.substr(0, userIds.length - 1);
+    let roleId = -1;
+    if (this.record && this.record.id) {
+      roleId = this.record.id;
+    } else {
+      return;
     }
 
-    console.log(userIds);
+    let ids = '';
 
-    return this.roleService.editResourceWithRole(this.record.id, userIds);
+    if (this.targetSelection) {
+      const realSelection: TreeNode[] = this.targetSelection || [];
+
+      for (const node of this.targetSelection) {
+        let node1 = node.parent;
+        while (node1) {
+          if (this.findIndexInSelection(realSelection, node1) == -1) {
+            realSelection.push(node1);
+          }
+          node1 = node1.parent;
+        }
+      }
+
+      for (const node of <BaseTreeNode[]> realSelection) {
+        ids = ids + node.id + ',';
+
+
+        let node1 = <BaseTreeNode> node.parent;
+        while (node1) {
+          ids = ids + node1.id + ',';
+          node1 = <BaseTreeNode> node1.parent;
+        }
+
+      }
+      if (ids.length > 0) {
+        ids = ids.substr(0, ids.length - 1);
+      }
+
+    }
+
+    return this.roleService.editResourceWithRole(roleId, ids);
 
   }
 
@@ -89,7 +126,7 @@ export class RoleGrantResourceDialogComponent extends ComponentDialog<RoleGrantR
 
     this.doGrant().subscribe(
       data => {
-        const dialogResult: DialogResult = {'success': true, 'refresh': data.obj};
+        const dialogResult: DialogResult = {'success': true, 'recordId': data.id};
         this.dialogRef.close(dialogResult);
         this.progress = false;
       },
@@ -111,8 +148,6 @@ export class RoleGrantResourceDialogComponent extends ComponentDialog<RoleGrantR
 
   //原始树,恢复原有状态
   nodeSelect(event) {
-    console.log(event);
-
     const index = this.findIndexInSelection(this.sourceSelection, event.node);
     if (index >= 0) {
       this.sourceSelection = this.sourceSelection.filter((val, i) => i != index);
@@ -121,28 +156,26 @@ export class RoleGrantResourceDialogComponent extends ComponentDialog<RoleGrantR
 
   //原始树,恢复原有状态
   nodeUnselect(event) {
-    console.log(event);
     this.sourceSelection = [...this.sourceSelection || [], event.node];
   }
 
-  private findIndexInSelection(selection: any, node: TreeNode) {
+
+  private findIndexInSelection(selection: TreeNode[], node: TreeNode) {
     let index: number = -1;
 
-
-    for (let i = 0; i < selection.length; i++) {
-      if (selection[i] == node) {
-        index = i;
-        break;
+    if (selection) {
+      for (let i = 0; i < selection.length; i++) {
+        if (selection[i] == node) {
+          index = i;
+          break;
+        }
       }
     }
-
 
     return index;
   }
 
   targetToggle(event) {
-    console.log(event);
-
     if (event.node) {
       for (const treeNode of this.sourceTree) {
         if (this.otherNodeToggle(treeNode, event.node.expanded, event.node.data)) {
@@ -153,8 +186,6 @@ export class RoleGrantResourceDialogComponent extends ComponentDialog<RoleGrantR
   }
 
   sourceToggle(event) {
-    console.log(event);
-
     if (event.node) {
       for (const treeNode of this.targetTree) {
         if (this.otherNodeToggle(treeNode, event.node.expanded, event.node.data)) {
@@ -165,13 +196,7 @@ export class RoleGrantResourceDialogComponent extends ComponentDialog<RoleGrantR
   }
 
   otherNodeToggle(node: TreeNode, expanded: boolean, data: any): boolean {
-    //console.log(node.data);
-    //console.log(data);
     if (node.data == data) {
-
-      console.log('node.data == data');
-      console.log(expanded);
-
       node.expanded = !node.expanded;
       return true;
     }
@@ -251,6 +276,7 @@ export class RoleGrantResourceDialogComponent extends ComponentDialog<RoleGrantR
           treeNode.data = record;
           treeNode.id = record.id;
           treeNode1.children.push(treeNode);
+          treeNode.parent = treeNode1;
           TreeNodes3.push(treeNode);
 
           //处理过则去除
@@ -263,19 +289,6 @@ export class RoleGrantResourceDialogComponent extends ComponentDialog<RoleGrantR
       this.doSet(TreeNodes3, resourceRecords);
     }
   }
-
-
-  /*private getIndex(resourceRecords: Resource[], id: number): number {
-
-   for (let index = resourceRecords.length - 1; index >= 0; index--) {
-   if (resourceRecords[index].id == id) {
-   return index;
-   }
-   }
-
-   return -1;
-   }*/
-
 
   private getSelection(treeNodes: BaseTreeNode[], resourceRecords: Resource[], selection: BaseTreeNode[]): BaseTreeNode[] {
 
@@ -295,6 +308,108 @@ export class RoleGrantResourceDialogComponent extends ComponentDialog<RoleGrantR
     }
 
     return selection;
+  }
+
+  setPropagateUp(selection: TreeNode[]) {
+    if (selection) {
+      for (const node of selection) {
+        this.propagateUp(node, selection);
+      }
+    }
+  }
+
+  /**
+   * 根据selection改变Tree的状态
+   * @param node
+   * @param selection 可能发生缩减变化
+   */
+  propagateUp(node: TreeNode, selection: TreeNode[]) {
+    if (node.children && node.children.length) {
+      let selectedCount = 0;
+      let childPartialSelected = false;
+
+      for (const child of node.children) {
+        if (this.findIndexInSelection(selection, child) > -1) {
+          selectedCount++;
+        } else if (child.partialSelected) {
+          childPartialSelected = true;
+        }
+      }
+
+      if (selectedCount == node.children.length) {
+        node.partialSelected = false;
+      } else {
+        if (childPartialSelected || selectedCount > 0 && selectedCount != node.children.length) {
+          node.partialSelected = true;
+        } else {
+          node.partialSelected = false;
+        }
+      }
+
+      if (node.partialSelected) {
+        const index = this.findIndexInSelection(selection, node);
+        if (index >= 0) {
+          selection.splice(index, 1);
+        }
+      }
+    }
+
+    const parent = node.parent;
+    if (parent) {
+      this.propagateUp(parent, selection);
+    }
+  }
+
+  expandAll() {
+    this.sourceTree.forEach(node => {
+      this.expandRecursive(node, true);
+    });
+
+    this.targetTree.forEach(node => {
+      this.expandRecursive(node, true);
+    });
+  }
+
+  collapseAll() {
+    this.sourceTree.forEach(node => {
+      this.expandRecursive(node, false);
+    });
+
+    this.targetTree.forEach(node => {
+      this.expandRecursive(node, false);
+    });
+  }
+
+  private expandRecursive(node: TreeNode, isExpand: boolean) {
+    node.expanded = isExpand;
+    if (node.children) {
+      node.children.forEach(childNode => {
+        this.expandRecursive(childNode, isExpand);
+      });
+    }
+  }
+
+  reset() {
+    if (!isUndefined(this.record)) {
+      this.getTreeData(this.record.id);
+    }
+  }
+
+  clear() {
+    this.targetSelection = [];
+
+    this.targetTree.forEach(node => {
+      this.clearRecursive(node);
+    });
+  }
+
+  private clearRecursive(node: TreeNode) {
+    node.partialSelected = false;
+    if (node.children) {
+      node.children.forEach(childNode => {
+        this.clearRecursive(childNode);
+      });
+    }
   }
 
 }

@@ -28,6 +28,10 @@
   <md-progress-bar mode="indeterminate" color="primary" style="width: 100%"></md-progress-bar>
 </md-dialog-actions>
 <md-dialog-actions [attr.align]="actionsAlignment">
+  <button md-button color="secondary" (click)="reset()">重置</button>
+  <button md-button color="secondary" (click)="clear()">清空</button>
+  <button md-button color="secondary" (click)="expandAll()">展开全部</button>
+  <button md-button color="secondary" (click)="collapseAll()">收缩全部</button>
   <button md-button color="secondary" (click)="confirm()">确认</button>
   <button md-button color="secondary" (click)="cancel()">取消</button>
 </md-dialog-actions>
