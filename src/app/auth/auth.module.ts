@@ -4,6 +4,8 @@ import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MdDialogModule, MdSidenavModule, MdTabsModule} from '@angular/material';
 
+import {ContextMenuModule} from 'primeng/primeng';
+
 import {MenuSideModule, FooterModule, TabRouterOutletModule} from '../shared';
 
 import {AuthRoutingModule} from './auth-routing.module';
@@ -13,6 +15,7 @@ import {AuthComponent} from './auth.component';
   imports: [
     CommonModule, FormsModule, /*BrowserAnimationsModule,*/
     MdDialogModule, MdSidenavModule, MdTabsModule,
+    ContextMenuModule,
     MenuSideModule, FooterModule, TabRouterOutletModule,
     AuthRoutingModule
   ],

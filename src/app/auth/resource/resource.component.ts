@@ -72,7 +72,7 @@ export class ResourceComponent
 
     //弹出对话框
     const dialogRef: MdDialogRef<ResourceGrantDialogComponent> = this.dialog.open(ResourceGrantDialogComponent, this.dialogConfig);
-    dialogRef.componentInstance.record = this.record;
+    dialogRef.componentInstance.record = this.getCloneRecord();
     dialogRef.componentInstance.dialogHeader = '分配权限';
     dialogRef.componentInstance.action = this.action;
     dialogRef.componentInstance.service = this.getService();

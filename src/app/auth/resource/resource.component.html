@@ -11,9 +11,7 @@
   <input #gb type="text" pInputText size="50" style="float:left" placeholder="Global Filter">
 </div>
 
-<p-treeTable [value]="treeTableService.nodes" selectionMode="single" [(selection)]="treeTableService.selectedNode"
-             (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"
-             resizableColumns="true" #dt>
+<p-treeTable [value]="treeTableService.nodes" selectionMode="single" [(selection)]="treeTableService.selectedNode" #dt>
   <header>资源配置</header>
   <p-column field="id" header="id"></p-column>
   <p-column field="parent_id" header="parent_id"></p-column>

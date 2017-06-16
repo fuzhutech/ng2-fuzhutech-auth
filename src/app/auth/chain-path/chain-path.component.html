@@ -12,7 +12,6 @@
 </div>
 
 <p-treeTable [value]="treeTableService.nodes" selectionMode="single" [(selection)]="treeTableService.selectedNode"
-             (onNodeSelect)="nodeSelect($event)" (onNodeUnselect)="nodeUnselect($event)"
              resizableColumns="true" #dt>
   <header>路径配置</header>
   <p-column field="id" header="id"></p-column>

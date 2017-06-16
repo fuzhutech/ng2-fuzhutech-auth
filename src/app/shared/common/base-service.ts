@@ -1,6 +1,7 @@
 import {Headers, Http, URLSearchParams} from '@angular/http';
 import {HOST_API_PATH, HOST_PATH} from './constant';
 import {ResponseResult} from '../model';
+import 'rxjs/add/operator/toPromise';
 
 export abstract class BaseService {
 
@@ -12,6 +13,14 @@ export abstract class BaseService {
   constructor(http: Http, path: string) {
     this.http = http;
     this.url = this.host_api + '/' + path;
+
+    this.getConfigInfo().then(data => console.log(data));
+  }
+
+  getConfigInfo() {
+    return this.http.get('assets/data/files.json')
+      .toPromise()
+      .then(res => res.json().data);
   }
 
   getList() {

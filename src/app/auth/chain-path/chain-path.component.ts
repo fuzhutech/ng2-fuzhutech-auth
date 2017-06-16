@@ -69,7 +69,7 @@ export class ChainPathComponent
 
     //弹出对话框
     const dialogRef: MdDialogRef<ChainPathGrantDialogComponent> = this.dialog.open(ChainPathGrantDialogComponent, this.dialogConfig);
-    dialogRef.componentInstance.record = this.record;
+    dialogRef.componentInstance.record = this.getCloneRecord();
     dialogRef.componentInstance.dialogHeader = '分配权限';
     dialogRef.componentInstance.action = this.action;
     dialogRef.componentInstance.service = this.getService();

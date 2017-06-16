@@ -12,7 +12,7 @@
     <md-tab *ngFor="let tab of tabRouterOutletService.tabs" [disabled]="tab.disabled">
       <ng-template md-tab-label>
 
-        <div (dblclick)="closeTab($event,tab)">{{tab.label}}</div>
+        <div (dblclick)="closeTab($event,tab)" (contextmenu)="onNodeRightClick($event,tab,cm)">{{tab.label}}</div>
 
       </ng-template>
       <div class="tab-content">
@@ -20,5 +20,7 @@
       </div>
     </md-tab>
   </md-tab-group>
+
+  <p-contextMenu #cm [model]="items"></p-contextMenu>
 
 </md-sidenav-container>

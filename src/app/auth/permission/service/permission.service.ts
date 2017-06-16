@@ -7,7 +7,7 @@ import {BaseService} from '../../../shared';
 export class PermissionService extends BaseService {
 
   constructor(protected http: Http) {
-    super(http, 'users');
+    super(http, 'permissions');
   }
 
 }

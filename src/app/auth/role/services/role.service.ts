@@ -2,8 +2,7 @@ import {Injectable} from '@angular/core';
 import {Http, Headers, URLSearchParams} from '@angular/http';
 import {Observable, Subscription} from 'rxjs/Rx';
 import {BaseService} from '../../../shared';
-import {TreeNode} from "primeng/primeng";
-import {ResponseResult} from "../../../shared/model/response-result-model";
+import {ResponseResult} from '../../../shared/model/response-result-model';
 
 @Injectable()
 export class RoleService extends BaseService {
