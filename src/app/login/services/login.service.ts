@@ -66,7 +66,7 @@ export class LoginService {
           console.log(err);
         },
         () => {
-          console.log('refresh Complete');
+          console.log('refreshAction Complete');
         });
 
 

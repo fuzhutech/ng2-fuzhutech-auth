@@ -10,31 +10,23 @@ export class UserService extends BaseService {
     super(http, 'users');
   }
 
-  getAuthorizedRoleList() {
+  getRoleWithUser(userId: number) {
+
     const headers = new Headers();
     headers.append('Content-Type', 'application/json;charset=UTF-8');
 
     const searchParams = new URLSearchParams();
 
-    return this.http.get(this.url, {search: searchParams, headers: headers})
+    return this.http.get(this.url + '/' + userId + '/roles', {search: searchParams, headers: headers})
       .map(response => response.json());
   }
 
-  getUnauthorizedRoleList() {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
-
-    const searchParams = new URLSearchParams();
-
-    return this.http.get(this.url, {search: searchParams, headers: headers})
-      .map(response => response.json());
-  }
-
-  editAuthorizedRoleList(data) {
+  editRoleWithUser(userId: number, data) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
+    console.log(data);
 
-    return this.http.put(this.url, JSON.stringify(data), {headers: headers})
+    return this.http.put(this.url + '/' + userId + '/roles', JSON.stringify(data), {headers: headers})
       .map(res => res.json());
   }
 

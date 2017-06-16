@@ -7,7 +7,7 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {MdToolbarModule, MdButtonModule, MdIconModule, MdMenuModule, MdSidenavModule} from '@angular/material';
 
-import {ConfirmDialog, ConfirmDialogModule, FooterModule} from './shared';
+import {ConfirmDialogComponent, ConfirmDialogModule, FooterModule} from './shared';
 
 import {AppComponent} from './app.component';
 import {HomePageComponent} from './homepage.component';
@@ -27,7 +27,7 @@ import {AppRoutingModule} from './app-routing.module';
     AppRoutingModule, FooterModule, ConfirmDialogModule
   ],
   providers: [],
-  entryComponents: [ConfirmDialog],
+  entryComponents: [ConfirmDialogComponent],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -60,7 +60,13 @@ export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, Role
 
     //弹出对话框
     const dialogRef: MdDialogRef<RoleGrantResourceDialogComponent> = this.dialog.open(RoleGrantResourceDialogComponent, this.dialogConfig);
+
     dialogRef.componentInstance.record = this.getCloneRecord();
+
+    dialogRef.componentInstance.record.status = 11;
+    console.log(dialogRef.componentInstance.record);
+    console.log(this.selectedRecord);
+
     dialogRef.componentInstance.dialogHeader = '分配资源';
     dialogRef.componentInstance.action = this.action;
     dialogRef.componentInstance.service = this.getService();
@@ -88,7 +94,7 @@ export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, Role
     //弹出对话框
     const dialogRef: MdDialogRef<RoleGrantUserDialogComponent> = this.dialog.open(RoleGrantUserDialogComponent, this.dialogConfig);
     dialogRef.componentInstance.record = this.getCloneRecord();
-    dialogRef.componentInstance.dialogHeader = '分配资源';
+    dialogRef.componentInstance.dialogHeader = '分配用户';
     dialogRef.componentInstance.action = this.action;
     dialogRef.componentInstance.service = this.getService();
 

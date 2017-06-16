@@ -1,7 +1,6 @@
-import {Http, Headers, URLSearchParams} from '@angular/http';
-import {Observable, Subscription} from 'rxjs/Rx';
-import {isUndefined} from 'util';
+import {Headers, Http, URLSearchParams} from '@angular/http';
 import {HOST_API_PATH, HOST_PATH} from './constant';
+import {ResponseResult} from '../model';
 
 export abstract class BaseService {
 
@@ -47,7 +46,7 @@ export abstract class BaseService {
     headers.append('Content-Type', 'application/json');
 
     return this.http.post(this.url, JSON.stringify(data), {headers: headers})
-      .map(res => res.json());
+      .map(res => <ResponseResult> res.json());
   }
 
   edit(data) {
@@ -55,7 +54,7 @@ export abstract class BaseService {
     headers.append('Content-Type', 'application/json');
 
     return this.http.put(this.url, JSON.stringify(data), {headers: headers})
-      .map(res => res.json());
+      .map(res => <ResponseResult> res.json());
   }
 
   delete(data) {
@@ -68,7 +67,7 @@ export abstract class BaseService {
     //const url = 'http://localhost/api/computers';
 
     return this.http.delete(this.url + '/' + data.id, {headers: headers})
-      .map(res => res.json());
+      .map(res => <ResponseResult> res.json());
   }
 
 }

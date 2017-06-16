@@ -72,7 +72,7 @@ export class LogComponent extends SubPageComponentWithTemplateDialog<Log, LogSer
         console.log(data.total);
       },
       err => {
-        console.log(err)
+        console.log(err);
       },
       () => {
         console.log('refresh Complete');
@@ -102,14 +102,13 @@ export class LogComponent extends SubPageComponentWithTemplateDialog<Log, LogSer
 
   //override
   getDeleteMessage(): string[] {
-    let message = super.getDeleteMessage();
-    return message;
+    return super.getDeleteMessage();
   };
 
 
   getStatus(value) {
     let label = null;
-    for (let status of this.statuses) {
+    for (const status of this.statuses) {
       if (status.value == value) {
         label = status.label;
         break;

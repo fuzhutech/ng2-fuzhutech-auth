@@ -6,6 +6,8 @@ import {NodeService} from '../service/nodeservice';
 
 import {Message, MenuItem, TreeNode, Tree, TreeDragDropService} from 'primeng/primeng';
 import {DialogResult} from '../../../shared/common/sub-page-component';
+import {ResourceService} from '../service/resource.service';
+import {Resource} from '../model/resource-model';
 
 @Component({
   selector: 'fz-user-dialog',
@@ -13,7 +15,8 @@ import {DialogResult} from '../../../shared/common/sub-page-component';
   styleUrls: ['./resource-grant-dialog.component.css'],
   providers: [TreeDragDropService]
 })
-export class ResourceGrantDialogComponent extends ComponentDialog<ResourceGrantDialogComponent> implements OnInit {
+export class ResourceGrantDialogComponent extends ComponentDialog<ResourceGrantDialogComponent, Resource, ResourceService>
+  implements OnInit {
 
   color = 'primary';
 
@@ -50,8 +53,8 @@ export class ResourceGrantDialogComponent extends ComponentDialog<ResourceGrantD
     this.progress = true;
 
     this.doGrant().subscribe(
-      data => {
-        const dialogResult: DialogResult = {'success': true, 'recordId': data.id};
+      responseResult => {
+        const dialogResult: DialogResult = {'success': true, 'recordId': responseResult.data.id};
         this.dialogRef.close(dialogResult);
         this.progress = false;
       },
@@ -122,7 +125,7 @@ export class ResourceGrantDialogComponent extends ComponentDialog<ResourceGrantD
       console.log('node.data == data');
       console.log(expanded);
 
-      node.expanded = !node.expanded
+      node.expanded = !node.expanded;
       return true;
     }
 

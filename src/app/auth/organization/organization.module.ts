@@ -16,7 +16,7 @@ import {OrganizationComponent} from './organization.component';
 import {OrganizationRoutingModule} from './organization-routing.module';
 import {OrganizationService} from './services/organization.service';
 
-import {OrganizationDialog} from './dialog/organization-dialog.component';
+import {OrganizationDialogComponent} from './dialog/organization-dialog.component';
 import {OrganizationGrantDialogComponent} from './grant-dialog/grant-dialog.component';
 
 
@@ -30,10 +30,10 @@ import {OrganizationGrantDialogComponent} from './grant-dialog/grant-dialog.comp
     MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule
   ],
   declarations: [
-    OrganizationComponent, OrganizationDialog, OrganizationGrantDialogComponent
+    OrganizationComponent, OrganizationDialogComponent, OrganizationGrantDialogComponent
   ],
   providers: [OrganizationService],
-  entryComponents: [OrganizationDialog, OrganizationGrantDialogComponent],
+  entryComponents: [OrganizationDialogComponent, OrganizationGrantDialogComponent],
 })
 export class OrganizationModule {
 }

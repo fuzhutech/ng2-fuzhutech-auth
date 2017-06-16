@@ -4,13 +4,16 @@ import {ComponentDialog} from '../../../shared';
 import {DialogResult} from '../../../shared/common/sub-page-component';
 import {User} from '../../user/model/user';
 import {isUndefined} from 'util';
+import {RoleService} from '../services/role.service';
+import {Role} from '../services/role';
 
 @Component({
-  selector: 'fz-user-grant-dialog',
+  selector: 'fz-role-grant-dialog',
   templateUrl: './role-grant-user-dialog.component.html',
   styleUrls: ['./role-grant-user-dialog.component.css']
 })
-export class RoleGrantUserDialogComponent extends ComponentDialog<RoleGrantUserDialogComponent> implements OnInit {
+export class RoleGrantUserDialogComponent extends ComponentDialog<RoleGrantUserDialogComponent, Role, RoleService>
+  implements OnInit {
 
   color = 'primary';
 
@@ -41,7 +44,7 @@ export class RoleGrantUserDialogComponent extends ComponentDialog<RoleGrantUserD
         console.log(err);
       },
       () => {
-        console.log('refresh Complete');
+        console.log('refreshAction Complete');
       }
     );
 

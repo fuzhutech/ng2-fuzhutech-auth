@@ -4,14 +4,17 @@ import {ComponentDialog} from '../../../shared';
 import {UserService} from '../../user/services/user.service';
 import {DialogResult} from '../../../shared/common/sub-page-component';
 import {User} from '../../user/model/user';
+import {Organization} from '../services/organization';
+import {OrganizationService} from '../services/organization.service';
 
 @Component({
-  selector: 'fz-user-grant-dialog',
+  selector: 'fz-organization-grant-dialog',
   templateUrl: './grant-dialog.component.html',
   styleUrls: ['./grant-dialog.component.css'],
   providers: [UserService]
 })
-export class OrganizationGrantDialogComponent extends ComponentDialog<OrganizationGrantDialogComponent> implements OnInit {
+export class OrganizationGrantDialogComponent extends ComponentDialog<OrganizationGrantDialogComponent, Organization, OrganizationService>
+  implements OnInit {
 
   color = 'primary';
 
@@ -39,7 +42,7 @@ export class OrganizationGrantDialogComponent extends ComponentDialog<Organizati
         console.log(err);
       },
       () => {
-        console.log('refresh Complete');
+        console.log('refreshAction Complete');
       }
     );
 

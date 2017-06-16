@@ -1,27 +1,24 @@
-import {Component, Inject, ViewChild, TemplateRef} from '@angular/core';
-import {DOCUMENT} from '@angular/platform-browser';
-import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
-import {Observable, Subscription} from 'rxjs/Rx';
-import {Http, Headers, URLSearchParams, Request, Response} from '@angular/http';
+import {Component, Inject} from '@angular/core';
+import {MdDialogRef, MD_DIALOG_DATA} from '@angular/material';
+import {Observable} from 'rxjs/Rx';
+import {Response} from '@angular/http';
 import {DialogResult} from '../../shared';
 
 @Component({
   moduleId: module.id,
-  selector: 'confirm-dialog',
+  selector: 'fz-confirm-dialog',
   templateUrl: 'confirm-dialog.component.html',
   styleUrls: ['confirm-dialog.component.css']
 })
-export class ConfirmDialog {
+export class ConfirmDialogComponent {
 
   messages: string[] = ['角色管理记录', 'ID:[2]', '名称:[测试1]'];
   actionsAlignment = 'end';
   progress = false;
 
-  listener: (event: Event) => void;
-
   confirmProcess: ConfirmProcess;
 
-  constructor(public dialogRef: MdDialogRef<ConfirmDialog>, @Inject(MD_DIALOG_DATA) public data: any) {
+  constructor(public dialogRef: MdDialogRef<ConfirmDialogComponent>, @Inject(MD_DIALOG_DATA) public data: any) {
     //
   }
 

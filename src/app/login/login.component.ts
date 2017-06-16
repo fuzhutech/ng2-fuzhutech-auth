@@ -20,7 +20,7 @@ export class LoginComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log('refresh Complete1');
+    console.log('refreshAction Complete1');
   }
 
   public doLogin(): void {

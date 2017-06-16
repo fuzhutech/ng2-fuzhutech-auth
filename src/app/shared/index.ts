@@ -8,3 +8,4 @@ export * from './footer/footer.module';
 export * from './menuside/menuside.module';
 export * from './tab-router-outlet/tab-router-outlet.module';
 export * from './toolbar/toolbar.module';
+export * from './model';

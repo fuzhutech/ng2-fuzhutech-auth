@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
-import {Http, Response} from '@angular/http';
 import {ActivatedRoute} from '@angular/router';
-import {TabGroupRouterOutLetDirective, TabRouterOutletDirective,ActivateInfo} from './tab-router-outlet';
-import {MainLinkData} from '../menuside/menuside';
+import {TabGroupRouterOutLetDirective, TabRouterOutletDirective, ActivateInfo} from './tab-router-outlet';
+import {MainLinkData} from '../menuside/menuside.component';
 
 export class Data {
   [name: string]: any;
@@ -15,15 +14,15 @@ export class TabRouterOutletService {
   activateInfos: Data = {};
 
   mainRouterOutLet: TabGroupRouterOutLetDirective;
-  mainActivatedRoute:ActivatedRoute;
-  menuDataCol:MainLinkData[];
+  mainActivatedRoute: ActivatedRoute;
+  menuDataCol: MainLinkData[];
 
   tabs: TabData[] = [];
   activeTabIndex = 0;
   addTabPosition = 0;
 
   //是否以TabView样式展示菜单内容，标签页模式
-  showTabView: boolean = true;
+  showTabView = true;
 
 
   constructor() {
@@ -47,17 +46,17 @@ export class TabRouterOutletService {
     this.activateInfos[name] = undefined;
   };
 
-  addTab(label,content,path): void {
+  addTab(label, content, path): void {
 
     this.tabs.splice(this.addTabPosition, 0, {
-      label: label?label:'New Tab ' + (this.tabs.length + 1),
+      label: label ? label : 'New Tab ' + (this.tabs.length + 1),
       content: 'New tab contents ' + (this.tabs.length + 1),
-      path: path?path:'New Tab ' + (this.tabs.length + 1),
-      tabIndex:this.addTabPosition,
-      closable:true
+      path: path ? path : 'New Tab ' + (this.tabs.length + 1),
+      tabIndex: this.addTabPosition,
+      closable: true
     });
 
-    for(let i=this.addTabPosition + 1;i < this.tabs.length;i++){
+    for (let i = this.addTabPosition + 1; i < this.tabs.length; i++) {
       this.tabs[i].tabIndex = this.tabs[i].tabIndex + 1;
     }
 
@@ -65,16 +64,16 @@ export class TabRouterOutletService {
   }
 
   deleteTab(tab: any) {
-    let index = this.tabs.indexOf(tab);
+    const index = this.tabs.indexOf(tab);
     this.tabs.splice(index, 1);
-    for(let i=index;i < this.tabs.length;i++){
+    for (let i = index; i < this.tabs.length; i++) {
       this.tabs[i].tabIndex = this.tabs[i].tabIndex - 1;
     }
 
   }
 
-  activeTab(path:string){
-    for(let entry of this.tabs){
+  activeTab(path: string) {
+    for (const entry of this.tabs) {
       if (entry.path == path) {
         this.activeTabIndex = entry.tabIndex;
         break;
@@ -90,6 +89,6 @@ export interface TabData {
   path?: any;
   extraContent?: any;
   disabled?: any;
-  tabIndex?:any;
-  closable?:boolean;
+  tabIndex?: any;
+  closable?: boolean;
 }

@@ -8,7 +8,7 @@ import {SubPageComponentWithComponentDialog} from '../../shared';
 
 import {Organization} from './services/organization';
 import {OrganizationService} from './services/organization.service';
-import {OrganizationDialog} from './dialog/organization-dialog.component';
+import {OrganizationDialogComponent} from './dialog/organization-dialog.component';
 import {OrganizationGrantDialogComponent} from './grant-dialog/grant-dialog.component';
 import {DialogResult} from '../../shared/common/sub-page-component';
 import {isUndefined} from "util";
@@ -16,7 +16,7 @@ import {isUndefined} from "util";
 @Component({
   templateUrl: './organization.component.html'
 })
-export class OrganizationComponent extends SubPageComponentWithComponentDialog<OrganizationDialog, Organization, OrganizationService> {
+export class OrganizationComponent extends SubPageComponentWithComponentDialog<OrganizationDialogComponent, Organization, OrganizationService> {
 
   msgs: Message[];
 
@@ -25,7 +25,7 @@ export class OrganizationComponent extends SubPageComponentWithComponentDialog<O
 
   constructor(private service: OrganizationService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
 
-    super('组织', dialog, OrganizationDialog);
+    super('组织', dialog, OrganizationDialogComponent);
 
     this.useTreeTable = true;
 

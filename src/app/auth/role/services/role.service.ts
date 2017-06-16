@@ -3,6 +3,7 @@ import {Http, Headers, URLSearchParams} from '@angular/http';
 import {Observable, Subscription} from 'rxjs/Rx';
 import {BaseService} from '../../../shared';
 import {TreeNode} from "primeng/primeng";
+import {ResponseResult} from "../../../shared/model/response-result-model";
 
 @Injectable()
 export class RoleService extends BaseService {
@@ -42,7 +43,7 @@ export class RoleService extends BaseService {
       .map(response => response.json());
   }
 
-  editResourceWithRole(roleId: number, data) {
+  editResourceWithRole(roleId: number, data): Observable<ResponseResult> {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     //console.log(data);

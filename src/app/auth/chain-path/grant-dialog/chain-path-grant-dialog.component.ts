@@ -4,16 +4,19 @@ import {ComponentDialog} from '../../../shared';
 
 import {NodeService} from '../service/nodeservice';
 
-import {Message, MenuItem, TreeNode, Tree, TreeDragDropService} from 'primeng/primeng';
+import {TreeNode, TreeDragDropService} from 'primeng/primeng';
 import {DialogResult} from '../../../shared/common/sub-page-component';
+import {ChainPath} from '../model/chain-path-model';
+import {ChainPathService} from '../service/chain-path.service';
 
 @Component({
-  selector: 'fz-user-dialog',
+  selector: 'fz-chain-path-grant-dialog',
   templateUrl: './chain-path-grant-dialog.component.html',
   styleUrls: ['./chain-path-grant-dialog.component.css'],
   providers: [TreeDragDropService]
 })
-export class ChainPathGrantDialogComponent extends ComponentDialog<ChainPathGrantDialogComponent> implements OnInit {
+export class ChainPathGrantDialogComponent extends ComponentDialog<ChainPathGrantDialogComponent, ChainPath, ChainPathService>
+  implements OnInit {
 
   color = 'primary';
 
@@ -50,8 +53,8 @@ export class ChainPathGrantDialogComponent extends ComponentDialog<ChainPathGran
     this.progress = true;
 
     this.doGrant().subscribe(
-      data => {
-        const dialogResult: DialogResult = {'success': true, 'recordId': data.id};
+      responseResult => {
+        const dialogResult: DialogResult = {'success': true, 'recordId': responseResult.data.id};
         this.dialogRef.close(dialogResult);
         this.progress = false;
       },

@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule} from '@angular/router';
 import {AuthComponent} from './auth.component';
-import {MainLinkData} from '../shared/menuside/menuside';
+import {MainLinkData} from '../shared/menuside/menuside.component';
 
 @NgModule({
   imports: [

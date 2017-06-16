@@ -5,20 +5,19 @@ import {Http, Headers, URLSearchParams, Request, Response} from '@angular/http';
 import {Observable, Subscription} from 'rxjs/Rx';
 
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA, ComponentType} from '@angular/material';
-import {ConfirmDialogModule} from '../../shared';
-import {ConfirmDialog} from '../../shared';
+import {ConfirmDialogComponent} from '../../shared';
 import {isUndefined} from 'util';
-import {main} from '@angular/compiler-cli/src/main';
 
 import {BaseService, DialogResult, ConfirmProcess} from '../index';
+import {ResponseResult} from '../model';
 
 export const enum ActionType {
-  view = 0,
-  new = 1,
-  edit = 2,
-  delete = 3,
-  refresh = 4,
-  lookup = 5
+  viewAction = 0,
+  newAction = 1,
+  editAction = 2,
+  deleteAction = 3,
+  refreshAction = 4,
+  lookupAction = 5
 }
 
 export interface  BaseObject {
@@ -64,30 +63,30 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
       data = this.selectedRecord;
     }
 
-    const obj = this.newInstance();
-    if (data) {
-      for (const prop in data) {
-        obj[prop] = data[prop];
-      }
-    }
+    /*const obj = this.newInstance();
+     if (data) {
+     for (const prop in data) {
+     obj[prop] = data[prop];
+     }
+     }*/
+    //Object.assign(obj,data);
 
-    return obj;
+    return Object.assign({}, data);
   }
 
 //刷新
   refresh() {
-    this.action = ActionType.refresh;
+    this.action = ActionType.refreshAction;
     if (this.canDoRefresh()) {
       this.doRefresh(null);
     }
   }
 
-  canDoRefresh(): boolean {
+  protected canDoRefresh(): boolean {
     return true;
   }
 
   doRefresh(id: number) {
-    console.log('doRefresh:' + id);
     this.getService().getList().subscribe(
       data => {
         //this.records = data.rows;
@@ -96,7 +95,6 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
         for (const record of this.records) {
           if (record.id == id) {
             this.selectedRecord = record;
-            console.log(this.selectedRecord);
             break;
           }
         }
@@ -114,13 +112,13 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
         console.log(err);
       },
       () => {
-        console.log('refresh Complete');
+        console.log('refreshAction Complete');
       }
     );
   }
 
 //新增
-  canDoAdd(): boolean {
+  protected canDoAdd(): boolean {
     return true;
   }
 
@@ -129,7 +127,7 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
   }
 
 //编辑
-  canDoEdit(): boolean {
+  protected canDoEdit(): boolean {
     if (this.useTreeTable) {
       return !isUndefined(this.treeTableService) && !isUndefined(this.treeTableService.selectedNode);
     } else {
@@ -142,7 +140,7 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
   }
 
 //删除
-  canDoDelete(): boolean {
+  protected canDoDelete(): boolean {
     if (this.useTreeTable) {
       return !isUndefined(this.treeTableService) && !isUndefined(this.treeTableService.selectedNode);
     } else {
@@ -230,8 +228,7 @@ export class TreeTableService {
 
         if (record.parentId == treeNode1.id) {
           if (treeNode1.children == null) {
-            const treeNodes2: TreeNode[] = [];
-            treeNode1.children = treeNodes2;
+            treeNode1.children = [];
           }
 
           const treeNode: BaseTreeNode = new BaseTreeNode();
@@ -284,7 +281,7 @@ export abstract class SubPageComponentWithDialog<T extends BaseObject, S extends
       return;
     }
 
-    this.action = ActionType.view;
+    this.action = ActionType.viewAction;
     this.record = this.getCloneRecord();
 
     this.oPenDialog('--查看');
@@ -295,7 +292,7 @@ export abstract class SubPageComponentWithDialog<T extends BaseObject, S extends
       return;
     }
 
-    this.action = ActionType.new;
+    this.action = ActionType.newAction;
     this.record = this.newInstance();
 
     this.oPenDialog('--新增');
@@ -315,7 +312,7 @@ export abstract class SubPageComponentWithDialog<T extends BaseObject, S extends
       return;
     }
 
-    this.action = ActionType.edit;
+    this.action = ActionType.editAction;
     this.record = this.getCloneRecord();
 
     this.oPenDialog('--编辑');
@@ -350,10 +347,10 @@ export abstract class SubPageComponentWithDialog<T extends BaseObject, S extends
       return;
     }
 
-    this.action = ActionType.delete;
+    this.action = ActionType.deleteAction;
 
     //弹出对话框，确认是否删除
-    let dialogRef: MdDialogRef<ConfirmDialog> = this.dialog.open(ConfirmDialog, this.dialogConfig);
+    let dialogRef: MdDialogRef<ConfirmDialogComponent> = this.dialog.open(ConfirmDialogComponent, this.dialogConfig);
     dialogRef.componentInstance.messages = this.getDeleteMessage();
     dialogRef.componentInstance.confirmProcess = this;
 
@@ -369,7 +366,7 @@ export abstract class SubPageComponentWithDialog<T extends BaseObject, S extends
 
 }
 
-//SubPageComponent_UseTemplateDialog
+/** @deprecated */
 export abstract class SubPageComponentWithTemplateDialog<T extends BaseObject, S extends BaseService>
   extends SubPageComponentWithDialog<T, S> {
 
@@ -396,15 +393,15 @@ export abstract class SubPageComponentWithTemplateDialog<T extends BaseObject, S
     let observable: Observable<any> = null;
 
 
-    if (this.action == ActionType.new) {//新增
+    if (this.action == ActionType.newAction) {//新增
       observable = this.doAdd();
-    } else if (this.action = ActionType.edit) {//编辑
+    } else if (this.action = ActionType.editAction) {//编辑
       observable = this.doEdit();
     }
 
     observable.subscribe(
-      data => {
-        const dialogResult: DialogResult = {'success': true, 'recordId': data.id};
+      responseResult => {
+        const dialogResult: DialogResult = {'success': true, 'recordId': responseResult.data.id};
         this.dialogRef.close(dialogResult);
         this.progress = false;
       },
@@ -465,24 +462,24 @@ export interface DialogResult {
   recordId?: number;
 }
 
-export class ComponentDialog<T> implements BaseDialog {
+export class ComponentDialog<D, T, S extends BaseService> implements BaseDialog {
   actionsAlignment = 'end';
   progress = false;
   dialogHeader: string;  //编辑页面标题
 
   action: ActionType;
-  service: any;
+  service: S;
 
-  dialogRef: MdDialogRef<T>;
-  record: any;        //临时变量
+  dialogRef: MdDialogRef<D>;
+  record: T;        //临时变量
 
-  //refresh:(event:Event)=>void;
+  //refreshAction:(event:Event)=>void;
 
-  constructor(_dialogRef: MdDialogRef<T>) {
+  constructor(_dialogRef: MdDialogRef<D>) {
     this.dialogRef = _dialogRef;
   }
 
-  doAdd(): Observable<Response> {
+  doAdd(): Observable<ResponseResult> {
     return this.service.create(this.record);
   }
 
@@ -498,9 +495,9 @@ export class ComponentDialog<T> implements BaseDialog {
     console.log(this.action);
 
 
-    if (this.action == ActionType.new) {//新增
+    if (this.action == ActionType.newAction) {//新增
       observable = this.doAdd();
-    } else if (this.action == ActionType.edit) {//编辑
+    } else if (this.action == ActionType.editAction) {//编辑
       observable = this.doEdit();
     } else {
       const dialogResult: DialogResult = {'success': false, 'cancel': false};
@@ -510,8 +507,8 @@ export class ComponentDialog<T> implements BaseDialog {
 
     if (observable != null) {
       observable.subscribe(
-        data => {
-          const dialogResult: DialogResult = {'success': true, 'recordId': data.id};
+        responseResult => {
+          const dialogResult: DialogResult = {'success': true, 'recordId': responseResult.data.id};
           this.dialogRef.close(dialogResult);
           this.progress = false;
         },
