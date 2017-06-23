@@ -1,46 +1,57 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot} from '@angular/router';
 import {LoginService} from './services/login.service';
 import {Observable} from 'rxjs/Observable';
 import {Location} from '@angular/common';
 import {LoginUser} from './services/login-user.model';
+import {AuthInfo} from '../auth/auth-info/auth-info';
+import {Subscription} from 'rxjs/Subscription';
+import {AuthInfoService} from '../auth/auth-info/auth-info.service';
 
 @Component({
-  selector: 'app-login',
+  selector: 'fz-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   public user: LoginUser = new LoginUser();
   public error: Error;
 
+  currentAuthInfo: AuthInfo;
+
+  subscription: Subscription;
+
   constructor(public router: Router,
               public location: Location,
-              private userLoginService: LoginService) {
+              private userLoginService: LoginService,
+              private authInfoService: AuthInfoService) {
   }
 
   ngOnInit() {
-    console.log('refreshAction Complete1');
+
+    //todo:测试AuthService能否正常使用
+    //this.currentAuthInfo = JSON.parse(localStorage.getItem('currentAuthInfo'));
+    this.subscription = this.authInfoService.authInfoSubject
+    //.merge(this.userRegisterService.currentUser)
+      .subscribe(
+        data => {
+          this.currentAuthInfo = data;
+          console.log('LoginComponent currentAuthInfo subscribe');
+        },
+        error => console.error(error)
+      );
+  }
+
+  ngOnDestroy() {
+    console.log('LoginComponent on ngOnDestroy');
+
+    if (this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
+
   }
 
   public doLogin(): void {
-
-    /*this.userLoginService.login(this.user).subscribe(
-      data => {
-        if (data.status == 1) {
-          this.location.back();
-        } else {
-          this.error = data.message;
-        }
-      },
-      err => {
-        console.log(err);
-      });*/
-
-    console.log('login....');
-
-
-
     try {
       this.userLoginService.login(this.user).subscribe(
         data => {
@@ -63,7 +74,6 @@ export class LoginComponent implements OnInit {
     }
 
 
-
   }
 
   public doLogout(): void {
@@ -76,7 +86,6 @@ export class LoginComponent implements OnInit {
   }
 
   public doBack(): void {
-    console.log("ceshi");
     this.location.back();
   }
 }

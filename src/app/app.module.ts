@@ -9,6 +9,8 @@ import {MdToolbarModule, MdButtonModule, MdIconModule, MdMenuModule, MdSidenavMo
 
 import {ConfirmDialogComponent, ConfirmDialogModule, FooterModule} from './shared';
 
+import {AuthInfoModule} from './auth/auth-info/auth-info.module';
+
 import {AppComponent} from './app.component';
 import {HomePageComponent} from './homepage.component';
 import {AppRoutingModule} from './app-routing.module';
@@ -24,7 +26,8 @@ import {AppRoutingModule} from './app-routing.module';
     HttpModule,
     RouterModule, BrowserAnimationsModule,
     MdToolbarModule, MdButtonModule, MdIconModule, MdMenuModule, MdSidenavModule,
-    AppRoutingModule, FooterModule, ConfirmDialogModule
+    AppRoutingModule, FooterModule, ConfirmDialogModule,
+    AuthInfoModule
   ],
   providers: [],
   entryComponents: [ConfirmDialogComponent],

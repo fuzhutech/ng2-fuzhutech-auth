@@ -1,24 +1,59 @@
-import {Component} from '@angular/core';
+import {Component, OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 
 import {SubPageComponentWithTemplateDialog} from '../../shared';
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
 
 import {Role} from './services/role';
 import {RoleService} from './services/role.service';
-import {RoleGrantResourceDialogComponent} from "./role-grant-resource-dialog/role-grant-resource-dialog.component";
-import {DialogResult} from "../../shared/common/sub-page-component";
-import {RoleGrantUserDialogComponent} from "./role-grant-user-dialog/role-grant-user-dialog.component";
+import {RoleGrantResourceDialogComponent} from './role-grant-resource-dialog/role-grant-resource-dialog.component';
+import {DialogResult} from '../../shared/common/sub-page-component';
+import {RoleGrantUserDialogComponent} from './role-grant-user-dialog/role-grant-user-dialog.component';
+import {AuthInfoService, AuthInfo} from '../auth-info/auth-info.module';
+import {Subscription} from 'rxjs/Subscription';
 
 @Component({
   templateUrl: './role.component.html'
 })
-export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, RoleService> {
+export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, RoleService> implements OnInit, AfterViewInit, OnDestroy {
 
   //用户状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(private service: RoleService, dialog: MdDialog) {
+  private currentAuthInfo: AuthInfo;
+  private subscription: Subscription;
+
+  constructor(private service: RoleService, dialog: MdDialog, private authInfoService: AuthInfoService) {
     super('角色', dialog);
+    console.log('RoleComponent constructor');
+  }
+
+  ngOnInit(): void {
+    console.log('RoleComponent on init');
+    //获取权限
+    this.currentAuthInfo = JSON.parse(localStorage.getItem('currentAuthInfo'));
+
+    this.subscription = this.authInfoService.authInfoSubject
+    //.merge(this.userRegisterService.currentUser)
+      .subscribe(
+        data => {
+          this.currentAuthInfo = data;
+          console.log('RoleComponent currentAuthInfo subscribe');
+        },
+        error => console.error(error)
+      );
+  }
+
+  ngAfterViewInit(): void {
+    console.log('RoleComponent on AfterViewInit');
+  }
+
+  ngOnDestroy() {
+    console.log('RoleComponent on ngOnDestroy');
+
+    if (this.subscription !== undefined) {
+      this.subscription.unsubscribe();
+    }
+
   }
 
   //abstract

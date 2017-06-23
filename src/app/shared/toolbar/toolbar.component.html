@@ -1,27 +1,9 @@
-<!--div [ngClass]="'ui-toolbar ui-widget ui-widget-header ui-corner-all ui-helper-clearfix'" [ngStyle]="style"
-     [class]="styleClass">
-    <div class="ui-toolbar-group-left">
-        <button pButton type="button" label="查看" icon="fa-reorder" iconPos="right" (click)="viewClick($event)" [disabled]="disabledView"></button>
-        <button pButton type="button" label="新增" icon="fa-plus" (click)="addClick($event)" [disabled]="disabledAdd"></button>
-        <button pButton type="button" label="編輯" icon="fa-edit" (click)="editClick($event)" [disabled]="disabledEdit"></button>
-        <button pButton type="button" label="刪除" icon="fa-remove" (click)="deleteClick($event)" [disabled]="disabledDelete"></button>
-        <i class="fa fa-bars"></i>
-        <button pButton type="button" label="刷新" icon="fa-refresh" (click)="refreshClick($event)" [disabled]="disabledRefresh"></button>
-
-    </div>
-
-    <div class="ui-toolbar-group-right">
-        <i class="fa fa-bars"></i>
-        <button pButton type="button" label="退出" icon="fa-sign-out" (click)="addClick($event)" [disabled]="disabledClose"></button>
-    </div>
-</div-->
-
 <md-toolbar>
-    <button md-button  (click)="viewClick($event)" [disabled]="disabledView"><md-icon>view_agenda</md-icon>查看</button>
-    <button md-button  (click)="addClick($event)" [disabled]="disabledAdd"><md-icon>note_add</md-icon>新增</button>
-    <button md-button  (click)="editClick($event)" [disabled]="disabledEdit"><md-icon>mode_edit</md-icon>編輯</button>
-    <button md-button  (click)="deleteClick($event)" [disabled]="disabledDelete"><md-icon>delete</md-icon>刪除</button>
-    <button md-button (click)="refreshClick($event)" [disabled]="disabledRefresh"><md-icon>loop</md-icon>刷新</button>
+    <button *ngIf="visibleView" md-button  (click)="viewClick($event)" [disabled]="disabledView"><md-icon>view_agenda</md-icon>查看</button>
+    <button *ngIf="visibleAdd" md-button  (click)="addClick($event)" [disabled]="disabledAdd"><md-icon>note_add</md-icon>新增</button>
+    <button *ngIf="visibleEdit" md-button  (click)="editClick($event)" [disabled]="disabledEdit"><md-icon>mode_edit</md-icon>編輯</button>
+    <button *ngIf="visibleDelete" md-button  (click)="deleteClick($event)" [disabled]="disabledDelete"><md-icon>delete</md-icon>刪除</button>
+    <button *ngIf="visibleRefresh" md-button (click)="refreshClick($event)" [disabled]="disabledRefresh"><md-icon>loop</md-icon>刷新</button>
 
     <ng-content></ng-content>
 </md-toolbar>

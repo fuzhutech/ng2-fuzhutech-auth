@@ -11,6 +11,8 @@ import {ResourceService} from './service/resource.service';
 import {ResourceGrantDialogComponent} from './grant-dialog/resource-grant-dialog.component';
 import {DialogResult} from '../../shared/common/sub-page-component';
 
+import {AuthInfoService, AuthInfo} from '../auth-info/auth-info.module';
+
 /*树形表格展示,调整位置?调整上下级关系？*/
 /*资源-权限对应关系维护:pickList*/
 
@@ -26,7 +28,10 @@ export class ResourceComponent
   //状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(private service: ResourceService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+  private currentAuthInfo: AuthInfo;
+
+  constructor(private service: ResourceService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any,
+              private authInfoService: AuthInfoService) {
     super('用户', _dialog, ResourceDialogComponent);
 
     this.useTreeTable = true;
@@ -41,7 +46,19 @@ export class ResourceComponent
   };
 
   ngOnInit() {
-    //this.doRefresh(null);
+    console.log('ResourceComponent ngOnInit');
+    //获取权限
+    this.currentAuthInfo = JSON.parse(localStorage.getItem('currentAuthInfo'));
+
+    this.authInfoService.authInfoSubject
+      //.merge(this.userRegisterService.currentUser)
+      .subscribe(
+        data => {
+          this.currentAuthInfo = data;
+          console.log('ResourceComponent currentAuthInfo subscribe');
+        },
+        error => console.error(error)
+      );
   }
 
   getFilterType(data) {
