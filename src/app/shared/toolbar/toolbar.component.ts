@@ -46,21 +46,21 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
    * @param authInfo
    */
   @Input() set authInfo(authInfo: AuthInfo) {
-    console.log('检测到authInfo输入变化', authInfo);
+    console.log('检测到authInfo输入变化', this.menuId, authInfo);
 
     if (!this.menuId) {
       return;
     }
 
     if (authInfo && authInfo.resources) {
-      const arrayFilter = authInfo.resources.filter(function (item) {
+      const arrayFilter = authInfo.resources.filter(item => {
         return item.parentId == this.menuId;
       });
 
       arrayFilter.forEach(function (item, index, array) {
         if (item.name == '查看') {
           this.hasViewRight = true;
-        }else if (item.name == '添加') {
+        } else if (item.name == '添加') {
           this.hasAddRight = true;
         } else if (item.name == '删除') {
           this.hasDeleteRight = true;
@@ -77,7 +77,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
    * @param menuInfo
    */
   @Input() set menuInfo(menuInfo: MenuInfo) {
-    console.log('检测到menuInfo输入变化', menuInfo);
+    console.log('检测到menuInfo输入变化', this.menuId, menuInfo);
 
     if (!this.menuId) {
       return;
@@ -144,8 +144,8 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
 
   viewClick(event: Event) {
     /*if (this.option && this.option.viewButtonOption && this.option.viewButtonOption.disabled) {
-      this.onViewClick.next({originalEvent: event});
-    }*/
+     this.onViewClick.next({originalEvent: event});
+     }*/
     this.onViewClick.next({originalEvent: event});
   }
 

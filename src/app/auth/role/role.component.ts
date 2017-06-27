@@ -15,46 +15,27 @@ import {MenuInfo} from '../auth-info/auth-info';
 @Component({
   templateUrl: './role.component.html'
 })
-export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, RoleService> implements OnInit, AfterViewInit, OnDestroy {
+export class RoleComponent
+  extends SubPageComponentWithTemplateDialog<Role, RoleService> implements OnInit, AfterViewInit, OnDestroy {
 
   //用户状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  private currentMenuId = 1100030000;
-  private currentMenuInfo: MenuInfo;
-  private menuInfoSubscription: Subscription;
-  private currentAuthInfo: AuthInfo;
-  private subscription: Subscription;
+  private disabledGrant = false;
+  private enableGrantRight = true;
+  private hasGrantRight = false;
 
-  constructor(private service: RoleService, dialog: MdDialog, private authInfoService: AuthInfoService) {
-    super('角色', dialog);
+  private disabledGrantUser = false;
+  private enableGrantUserRight = true;
+  private hasGrantUserRight = false;
+
+  constructor(private service: RoleService, dialog: MdDialog, public authInfoService: AuthInfoService) {
+    super(authInfoService, '角色', dialog);
   }
 
   ngOnInit(): void {
-    console.log('RoleComponent on init');
-
-    //获取菜单信息
-    this.menuInfoSubscription = this.authInfoService.menuInfoSubject
-      .subscribe(
-        data => {
-          console.log('RoleComponent menuInfoSubject subscribe');
-          console.log(data);
-          this.currentMenuInfo = data;
-        },
-        error => console.error(error)
-      );
-
-    //获取权限--考虑开始未登录-->登录动作-->已登录
-    this.subscription = this.authInfoService.authInfoSubject
-    //.merge(this.userRegisterService.currentUser)
-      .subscribe(
-        data => {
-          console.log('RoleComponent currentAuthInfo subscribe');
-          console.log(data);
-          this.currentAuthInfo = data;
-        },
-        error => console.error(error)
-      );
+    console.log('RoleComponent ngOnInit');
+    super.ngOnInit();
   }
 
   ngAfterViewInit(): void {
@@ -62,16 +43,8 @@ export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, Role
   }
 
   ngOnDestroy() {
-    //console.log('RoleComponent on ngOnDestroy');
-
-    if (this.subscription !== undefined) {
-      this.subscription.unsubscribe();
-    }
-
-    if (this.menuInfoSubscription !== undefined) {
-      this.menuInfoSubscription.unsubscribe();
-    }
-
+    console.log('RoleComponent ngOnDestroy');
+    super.ngOnDestroy();
   }
 
   /* @override */
@@ -163,6 +136,60 @@ export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, Role
 
   private canDoGrantUser(): boolean {
     return (this.selectedRecord && this.selectedRecord.id);
+  }
+
+  protected setAuthInfo(authInfo: AuthInfo) {
+
+    super.setAuthInfo(authInfo);
+
+    if (!this.currentMenuId) {
+      return;
+    }
+
+    if (authInfo && authInfo.resources) {
+      const arrayFilter = authInfo.resources.filter(item => {
+        return item.parentId == this.currentMenuId;
+      });
+
+      arrayFilter.forEach(function (item, index, array) {
+        if (item.name == '分配资源') {
+          this.hasGrantRight = true;
+        } else if (item.name == '分配用户') {
+          this.hasGrantUserRight = true;
+        }
+      });
+
+    }
+  }
+
+  protected setMenuInfo(menuInfo: MenuInfo) {
+
+    super.setMenuInfo(menuInfo);
+
+    if (!this.currentMenuId) {
+      return;
+    }
+
+    if (menuInfo && menuInfo.menus) {
+      const arrayFilter = menuInfo.menus.filter(item => {
+        return item.parentId == this.currentMenuId;
+      });
+
+      arrayFilter.forEach(item => {
+        switch (item.name) {
+          case '分配资源':
+            this.enableGrantRight = true;
+            break;
+          case '分配用户':
+            this.enableGrantUserRight = true;
+            break;
+          default:
+            break;
+        }
+      });
+
+    }
+
   }
 
 }

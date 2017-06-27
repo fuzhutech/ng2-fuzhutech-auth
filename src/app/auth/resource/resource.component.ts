@@ -28,11 +28,9 @@ export class ResourceComponent
   //状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  private currentAuthInfo: AuthInfo;
-
   constructor(private service: ResourceService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any,
-              private authInfoService: AuthInfoService) {
-    super('用户', _dialog, ResourceDialogComponent);
+              public authInfoService: AuthInfoService) {
+    super(authInfoService, '用户', _dialog, ResourceDialogComponent);
 
     this.useTreeTable = true;
   }
@@ -51,7 +49,7 @@ export class ResourceComponent
     this.currentAuthInfo = JSON.parse(localStorage.getItem('currentAuthInfo'));
 
     this.authInfoService.authInfoSubject
-      //.merge(this.userRegisterService.currentUser)
+    //.merge(this.userRegisterService.currentUser)
       .subscribe(
         data => {
           this.currentAuthInfo = data;

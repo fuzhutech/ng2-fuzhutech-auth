@@ -10,6 +10,7 @@ import {ChainPath} from './model/chain-path-model';
 import {ChainPathService} from './service/chain-path.service';
 import {ChainPathGrantDialogComponent} from './grant-dialog/chain-path-grant-dialog.component';
 import {DialogResult} from '../../shared/common/sub-page-component';
+import {AuthInfoService} from '../auth-info/auth-info.service';
 
 @Component({
   selector: 'fz-permission',
@@ -23,8 +24,9 @@ export class ChainPathComponent
   //状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(private service: ChainPathService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super('用户', _dialog, ChainPathDialogComponent);
+  constructor(public authInfoService: AuthInfoService, private service: ChainPathService,
+              public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+    super(authInfoService, '用户', _dialog, ChainPathDialogComponent);
 
     this.useTreeTable = true;
   }

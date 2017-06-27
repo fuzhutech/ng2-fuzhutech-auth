@@ -1,4 +1,4 @@
-import {Component, Inject, TemplateRef, ViewChild, Input} from '@angular/core';
+import {Component, Inject, TemplateRef, ViewChild, Input, OnInit, OnDestroy} from '@angular/core';
 import {DOCUMENT} from '@angular/platform-browser';
 import {TreeNode} from 'primeng/primeng';
 import {Http, Headers, URLSearchParams, Request, Response} from '@angular/http';
@@ -10,6 +10,8 @@ import {isUndefined} from 'util';
 
 import {BaseService, DialogResult, ConfirmProcess} from '../index';
 import {ResponseResult} from '../model';
+import {AuthInfo, MenuInfo} from '../../auth/auth-info/auth-info';
+import {AuthInfoService} from '../../auth/auth-info/auth-info.service';
 
 export const enum ActionType {
   viewAction = 0,
@@ -24,20 +26,66 @@ export interface  BaseObject {
   id?: any;
 }
 
-export abstract class SubPageComponent<T extends BaseObject, S extends BaseService> {
-  //操作类型
-  action: ActionType;
+export abstract class SubPageComponent<T extends BaseObject, S extends BaseService> implements OnInit, OnDestroy {
 
-  record: T;        //临时变量
-  selectedRecord: T;   //选中记录
-  records: T[];      //数据列表
-
-  mainHeader: string;
-  dialogHeader: string;  //编辑页面标题
+  /*普通表格展示相关变量*/
+  record: T;             //临时变量
+  selectedRecord: T;    //选中记录
+  records: T[];          //数据列表
 
   //树形表格所需属性
   useTreeTable = false;
   treeTableService: TreeTableService = new TreeTableService();
+
+  /*编辑框相关变量*/
+  action: ActionType;    //操作类型
+  mainHeader: string;
+  dialogHeader: string;  //编辑页面标题
+
+  /*权限控制相关变量*/
+  currentMenuId: number;
+  currentMenuInfo: MenuInfo;
+  menuInfoSubscription: Subscription;
+  currentAuthInfo: AuthInfo;
+  authInfoSubscription: Subscription;
+  authInfoService: AuthInfoService;
+
+  constructor(authInfoService: AuthInfoService) {
+    this.authInfoService = authInfoService;
+  }
+
+  ngOnInit(): void {
+    //获取菜单信息
+    this.menuInfoSubscription = this.authInfoService.menuInfoSubject
+      .subscribe(
+        data => {
+          console.log('RoleComponent menuInfoSubject subscribe', data);
+          this.setMenuInfo(data);
+        },
+        error => console.error(error)
+      );
+
+    //获取权限--考虑开始未登录-->登录动作-->已登录
+    this.authInfoSubscription = this.authInfoService.authInfoSubject
+    //.merge(this.userRegisterService.currentUser)
+      .subscribe(
+        data => {
+          console.log('RoleComponent currentAuthInfo subscribe', data);
+          this.setAuthInfo(data);
+        },
+        error => console.error(error)
+      );
+  }
+
+  ngOnDestroy(): void {
+    if (this.authInfoSubscription !== undefined) {
+      this.authInfoSubscription.unsubscribe();
+    }
+
+    if (this.menuInfoSubscription !== undefined) {
+      this.menuInfoSubscription.unsubscribe();
+    }
+  }
 
   //获取服务
   abstract  getService(): S;
@@ -157,6 +205,14 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
     }
 
     return this.getService().delete(data);
+  }
+
+  protected setAuthInfo(authInfo: AuthInfo) {
+    this.currentAuthInfo = authInfo;
+  }
+
+  protected setMenuInfo(menuInfo: MenuInfo) {
+    this.currentMenuInfo = menuInfo;
   }
 
 }
@@ -374,8 +430,8 @@ export abstract class SubPageComponentWithTemplateDialog<T extends BaseObject, S
   progress = false;
   actionsAlignment = 'end';
 
-  constructor(mainHeader: string, dialog: MdDialog) {
-    super();
+  constructor(authInfoService: AuthInfoService, mainHeader: string, dialog: MdDialog) {
+    super(authInfoService);
 
     this.dialog = dialog;
     this.mainHeader = mainHeader;
@@ -428,8 +484,9 @@ export abstract class SubPageComponentWithComponentDialog<D extends BaseDialog, 
   //编辑对话框类型
   componentOrTemplateRef: ComponentType<D> | TemplateRef<D>;
 
-  constructor(mainHeader: string, _dialog: MdDialog, _componentOrTemplateRef: ComponentType<D> | TemplateRef<D>) {
-    super();
+  constructor(authInfoService: AuthInfoService, mainHeader: string, _dialog: MdDialog,
+              _componentOrTemplateRef: ComponentType<D> | TemplateRef<D>) {
+    super(authInfoService);
     this.mainHeader = mainHeader;
     this.dialog = _dialog;
     this.componentOrTemplateRef = _componentOrTemplateRef;

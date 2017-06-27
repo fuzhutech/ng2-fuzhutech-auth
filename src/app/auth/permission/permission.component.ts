@@ -8,6 +8,7 @@ import {ActionType, SubPageComponentWithComponentDialog} from '../../shared';
 import {PermissionDialogComponent} from './dialog/permission-dialog.component';
 import {Permission} from './model/permission-model';
 import {PermissionService} from './service/permission.service';
+import {AuthInfoService} from '../auth-info/auth-info.service';
 
 /*采用树形表格展示，不调整位置、不调整上下级关系;只有增删改动作*/
 
@@ -23,8 +24,9 @@ export class PermissionComponent
   //状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(private service: PermissionService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super('用户', _dialog, PermissionDialogComponent);
+  constructor(public authInfoService: AuthInfoService, private service: PermissionService,
+              public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+    super(authInfoService, '用户', _dialog, PermissionDialogComponent);
 
     this.useTreeTable = true;
   }

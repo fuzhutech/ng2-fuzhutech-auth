@@ -10,6 +10,7 @@ import {User} from './model/user';
 import {UserService} from './services/user.service';
 import {DialogResult} from '../../shared/common/sub-page-component';
 import {UserRoleDialogComponent} from './user-role-dialog/user-role-dialog.component';
+import {AuthInfoService} from '../auth-info/auth-info.service';
 
 @Component({
   templateUrl: './user.component.html'
@@ -19,8 +20,8 @@ export class UserComponent extends SubPageComponentWithComponentDialog<UserDialo
   //用户状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(private service: UserService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super('用户', _dialog, UserDialog);
+  constructor(public authInfoService: AuthInfoService, private service: UserService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+    super(authInfoService, '用户', _dialog, UserDialog);
   }
 
 

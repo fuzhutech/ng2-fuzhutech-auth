@@ -7,6 +7,7 @@ import {Log} from './services/log';
 import {LogService} from './services/log.service';
 
 import {LazyLoadEvent} from 'primeng/primeng';
+import {AuthInfoService} from '../auth-info/auth-info.service';
 
 @Component({
   templateUrl: './log.component.html'
@@ -86,8 +87,8 @@ export class LogComponent extends SubPageComponentWithTemplateDialog<Log, LogSer
      }, 250);*/
   }
 
-  constructor(private service: LogService, dialog: MdDialog) {
-    super('日志', dialog);
+  constructor(public authInfoService: AuthInfoService, private service: LogService, dialog: MdDialog) {
+    super(authInfoService, '日志', dialog);
   }
 
   //abstract

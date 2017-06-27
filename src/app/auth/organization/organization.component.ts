@@ -11,21 +11,24 @@ import {OrganizationService} from './services/organization.service';
 import {OrganizationDialogComponent} from './dialog/organization-dialog.component';
 import {OrganizationGrantDialogComponent} from './grant-dialog/grant-dialog.component';
 import {DialogResult} from '../../shared/common/sub-page-component';
-import {isUndefined} from "util";
+import {isUndefined} from 'util';
+import {AuthInfoService} from '../auth-info/auth-info.service';
 
 @Component({
   templateUrl: './organization.component.html'
 })
-export class OrganizationComponent extends SubPageComponentWithComponentDialog<OrganizationDialogComponent, Organization, OrganizationService> {
+export class OrganizationComponent
+  extends SubPageComponentWithComponentDialog<OrganizationDialogComponent, Organization, OrganizationService> {
 
   msgs: Message[];
 
   //用户状态
   statuses: SelectItem[];
 
-  constructor(private service: OrganizationService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+  constructor(public authInfoService: AuthInfoService, private service: OrganizationService,
+              dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
 
-    super('组织', dialog, OrganizationDialogComponent);
+    super(authInfoService, '组织', dialog, OrganizationDialogComponent);
 
     this.useTreeTable = true;
 

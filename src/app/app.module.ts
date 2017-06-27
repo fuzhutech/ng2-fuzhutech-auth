@@ -34,4 +34,7 @@ import {AppRoutingModule} from './app-routing.module';
   bootstrap: [AppComponent]
 })
 export class AppModule {
+  //angular2全局依赖注入
+  //有些服务在整个应用中都要保持唯一实例（singleton），比如用户登录信息。一种最好的方式是在bootstrap时就实例化这个服务
+  //bootstrap(myApp,[MyService]).catch(err=>console.error(err));
 }
