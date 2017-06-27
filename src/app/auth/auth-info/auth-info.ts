@@ -2,6 +2,7 @@ export class AuthInfo {
   id: number;
   user?: AuthUser;
   token?: string;
+  resources?: any;
 }
 
 export class AuthUser {
@@ -11,4 +12,9 @@ export class AuthUser {
   realName;
   email;
   lastLoginTime;
+}
+
+export class MenuInfo {
+  id?: number;
+  menus?: any;
 }

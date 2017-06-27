@@ -24,23 +24,20 @@ export class LoginService {
     }
   }*/
 
-  public login(data: LoginUser) {
-    const user: LoginUser = Object.assign({}, data);
-    console.log(user);
+  public login(loginUser: LoginUser) {
+    let user: LoginUser = Object.assign({}, loginUser);
+    user.password = Md5.hashStr(user.password).toString();
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
 
-    user.password = Md5.hashStr(user.password).toString();
-    console.log(user.password);
-
     return this.http.put(this.host_api + '/login', JSON.stringify(user), {headers: headers})
       .map((response: Response) => {
-      console.log('login ed');
         const obj = response.json();
         if (obj.status == 1) {
-          data = obj.data;
-          localStorage.setItem('currentUser', JSON.stringify(user));
+          const data = obj.data;
+          user = data.user;
+          //localStorage.setItem('currentUser', JSON.stringify(user));
 
           //刷新权限
           this.authInfoService.refreshAuthInfo(user.id);

@@ -1,5 +1,7 @@
 import {Component, OnInit, AfterViewInit, Input, Output, EventEmitter} from '@angular/core';
 import {ToolbarOption} from './toolbar.option';
+import {AuthInfo, MenuInfo} from '../../auth/auth-info/auth-info';
+import {AuthInfoService} from '../../auth/auth-info/auth-info.service';
 
 @Component({
   selector: 'fz-toolbar',
@@ -7,25 +9,113 @@ import {ToolbarOption} from './toolbar.option';
 })
 export class ToolbarComponent implements OnInit, AfterViewInit {
 
-  @Input() option: ToolbarOption = new ToolbarOption();    //查看按钮是否可用
+  private enableViewRight = false;  //按钮是否启用权限控制
+  private enableAddRight = false;
+  private enableDeleteRight = false;
+  private enableEditRight = false;
+  private enableRefreshRight = false;
+  private enableCloseRight = false;
 
-  @Input() set permissions(value: string) {
-    console.log('permissions');
-  }
+  private hasViewRight = false;   //是否拥有操作按钮的权限
+  private hasAddRight = false;
+  private hasDeleteRight = false;
+  private hasEditRight = false;
+  private hasRefreshRight = false;
+  private hasCloseRight = false;
 
-  @Input() disabledView = false;    //查看按钮是否可用
-  @Input() disabledAdd = false;     //新增按钮是否可用
-  @Input() disabledDelete = false;  //删除按钮是否可用
-  @Input() disabledEdit = false;    //编辑按钮是否可用
-  @Input() disabledRefresh = false; //刷新按钮是否可用
-  @Input() disabledClose = false;   //关闭按钮是否可用
-
-  @Input() visibleView = true;
+  @Input() visibleView = true;    //界面是否显示按钮
   @Input() visibleAdd = true;
   @Input() visibleDelete = true;
   @Input() visibleEdit = true;
   @Input() visibleRefresh = true;
   @Input() visibleClose = true;
+
+  @Input() disabledView = false;    //控制按钮不可用状态
+  @Input() disabledAdd = false;
+  @Input() disabledDelete = false;
+  @Input() disabledEdit = false;
+  @Input() disabledRefresh = false;
+  @Input() disabledClose = false;
+
+  //@Input() option: ToolbarOption = new ToolbarOption();    //查看按钮是否可用
+
+  @Input() menuId: number;
+
+  /**
+   * 权限信息，变化时，会更新界面是否拥有按钮权限
+   * @param authInfo
+   */
+  @Input() set authInfo(authInfo: AuthInfo) {
+    console.log('检测到authInfo输入变化', authInfo);
+
+    if (!this.menuId) {
+      return;
+    }
+
+    if (authInfo && authInfo.resources) {
+      const arrayFilter = authInfo.resources.filter(function (item) {
+        return item.parentId == this.menuId;
+      });
+
+      arrayFilter.forEach(function (item, index, array) {
+        if (item.name == '查看') {
+          this.hasViewRight = true;
+        }else if (item.name == '添加') {
+          this.hasAddRight = true;
+        } else if (item.name == '删除') {
+          this.hasDeleteRight = true;
+        } else if (item.name == '编辑') {
+          this.hasEditRight = true;
+        }
+      });
+
+    }
+  }
+
+  /**
+   * 菜单信息，展示界面按钮是否需要权限控制
+   * @param menuInfo
+   */
+  @Input() set menuInfo(menuInfo: MenuInfo) {
+    console.log('检测到menuInfo输入变化', menuInfo);
+
+    if (!this.menuId) {
+      return;
+    }
+
+    if (menuInfo && menuInfo.menus) {
+      const arrayFilter = menuInfo.menus.filter(item => {
+        return item.parentId == this.menuId;
+      });
+
+      arrayFilter.forEach(item => {
+        switch (item.name) {
+          case '查看':
+            this.enableViewRight = true;
+            break;
+          case '新增':
+            this.enableAddRight = true;
+            break;
+          case '删除':
+            this.enableDeleteRight = true;
+            break;
+          case '编辑':
+            this.enableEditRight = true;
+            break;
+          case '刷新':
+            this.enableRefreshRight = true;
+            break;
+          case '关闭':
+            this.enableCloseRight = true;
+            break;
+          default:
+            break;
+        }
+      });
+
+    }
+
+  }
 
   @Output() onViewClick: EventEmitter<any> = new EventEmitter();    //查看
   @Output() onAddClick: EventEmitter<any> = new EventEmitter();     //新增
@@ -38,6 +128,10 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
   @Output() onPrintClick: EventEmitter<any> = new EventEmitter();   //打印
   @Output() onCloseClick: EventEmitter<any> = new EventEmitter();   //关闭
 
+  constructor(private authInfoService: AuthInfoService) {
+    //
+  }
+
   ngAfterViewInit(): void {
     //throw new Error('Method not implemented.');
     console.log('ToolbarComponent on afterViewInit');
@@ -49,9 +143,10 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
   }
 
   viewClick(event: Event) {
-    if (this.option && this.option.viewButtonOption && this.option.viewButtonOption.disabled) {
+    /*if (this.option && this.option.viewButtonOption && this.option.viewButtonOption.disabled) {
       this.onViewClick.next({originalEvent: event});
-    }
+    }*/
+    this.onViewClick.next({originalEvent: event});
   }
 
   addClick(event: Event) {

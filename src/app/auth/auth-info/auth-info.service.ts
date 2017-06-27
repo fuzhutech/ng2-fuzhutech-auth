@@ -4,7 +4,7 @@ import {Subject} from 'rxjs/Subject';
 import {Http, Headers, Response} from '@angular/http';
 import {HOST_API_PATH} from '../../shared/index';
 import {Md5} from 'ts-md5/dist/md5';
-import {AuthInfo, AuthUser} from './auth-info';
+import {AuthInfo, AuthUser, MenuInfo} from './auth-info';
 
 @Injectable()
 export class AuthInfoService {
@@ -14,6 +14,8 @@ export class AuthInfoService {
   private _authInfoSubject: Subject<AuthInfo> = new Subject<AuthInfo>();
   private _authUser: AuthUser;
   private _authUserSubject: Subject<AuthUser> = new Subject<AuthUser>();
+  private _menuInfo: MenuInfo;
+  private _menuInfoSubject: Subject<MenuInfo> = new Subject<MenuInfo>();
 
   constructor(public http: Http) {
     console.log('AuthInfoService constructor');
@@ -23,7 +25,8 @@ export class AuthInfoService {
    * 设置当前AuthInfo，同时更新Subject
    * @param authInfo
    */
-  private set currentAuthInfo(authInfo: AuthInfo) {
+  public set currentAuthInfo(authInfo: AuthInfo) {
+    console.log('set currentAuthInfo');
     this._authInfo = authInfo;
 
     if (authInfo) {
@@ -40,7 +43,7 @@ export class AuthInfoService {
    * 获取当前AuthInfo
    * @returns {AuthInfo}
    */
-  private get currentAuthInfo(): AuthInfo {
+  public get currentAuthInfo(): AuthInfo {
     return this._authInfo;
   }
 
@@ -77,13 +80,23 @@ export class AuthInfoService {
     //this.subject.next(Object.assign({}, {id: 1}));
 
     return this.http
-      .get(this.host_api + '/login')
+      .get(this.host_api + '/users/' + userId + '/resources')
       .map((response: Response) => {
-        const authInfo = response.json();
-
-        if (authInfo && authInfo.token) {
-          this.currentAuthInfo = authInfo;
+        const res = response.json();
+        if (res.status == 1) {
+          if (this.currentAuthInfo) {
+            console.log('存在currentAuthInfo');
+            this.currentAuthInfo.resources = res.data.list;
+          } else {
+            console.log('不存在currentAuthInfo');
+            const authInfo = new AuthInfo();
+            authInfo.resources = res.data.list;
+            this.currentAuthInfo = authInfo;
+          }
         }
+
+        console.log(this.currentAuthInfo);
+
         return response;
       })
       .subscribe(
@@ -99,6 +112,55 @@ export class AuthInfoService {
   public clearAuthInfo(): void {
     //localStorage.removeItem('currentAuthInfo');
     this.currentAuthInfo = null;
+  }
+
+  public set currentMenuInfo(menuInfo: MenuInfo) {
+    this._menuInfo = menuInfo;
+
+    if (menuInfo) {
+      this._menuInfoSubject.next(this._menuInfo);
+    } else {
+      this._menuInfoSubject.next();
+    }
+  }
+
+  public get currentMenuInfo(): MenuInfo {
+    return this._menuInfo;
+  }
+
+  public get menuInfoSubject(): Observable<MenuInfo> {
+    return this._menuInfoSubject.asObservable();
+  }
+
+  public refreshMenuInfo(sysId: number) {
+
+    console.log('refreshMenuInfo');
+
+    return this.http
+      .get(this.host_api + '/systems/' + sysId + '/resources')
+      .map((response: Response) => {
+        const res = response.json();
+
+        if (res.status == 1) {
+          if (this.currentMenuInfo) {
+            this.currentMenuInfo.menus = res.data.list;
+          } else {
+            const menuInfo = new MenuInfo();
+            menuInfo.menus = res.data.list;
+            this.currentMenuInfo = menuInfo;
+          }
+        }
+
+        return response;
+      })
+      .subscribe(
+        data => {
+          console.log('login success>' + data);
+        },
+        error => {
+          console.error(error);
+        }
+      );
   }
 
 }

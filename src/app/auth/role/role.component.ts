@@ -10,6 +10,7 @@ import {DialogResult} from '../../shared/common/sub-page-component';
 import {RoleGrantUserDialogComponent} from './role-grant-user-dialog/role-grant-user-dialog.component';
 import {AuthInfoService, AuthInfo} from '../auth-info/auth-info.module';
 import {Subscription} from 'rxjs/Subscription';
+import {MenuInfo} from '../auth-info/auth-info';
 
 @Component({
   templateUrl: './role.component.html'
@@ -19,54 +20,71 @@ export class RoleComponent extends SubPageComponentWithTemplateDialog<Role, Role
   //用户状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
+  private currentMenuId = 1100030000;
+  private currentMenuInfo: MenuInfo;
+  private menuInfoSubscription: Subscription;
   private currentAuthInfo: AuthInfo;
   private subscription: Subscription;
 
   constructor(private service: RoleService, dialog: MdDialog, private authInfoService: AuthInfoService) {
     super('角色', dialog);
-    console.log('RoleComponent constructor');
   }
 
   ngOnInit(): void {
     console.log('RoleComponent on init');
-    //获取权限
-    this.currentAuthInfo = JSON.parse(localStorage.getItem('currentAuthInfo'));
 
+    //获取菜单信息
+    this.menuInfoSubscription = this.authInfoService.menuInfoSubject
+      .subscribe(
+        data => {
+          console.log('RoleComponent menuInfoSubject subscribe');
+          console.log(data);
+          this.currentMenuInfo = data;
+        },
+        error => console.error(error)
+      );
+
+    //获取权限--考虑开始未登录-->登录动作-->已登录
     this.subscription = this.authInfoService.authInfoSubject
     //.merge(this.userRegisterService.currentUser)
       .subscribe(
         data => {
-          this.currentAuthInfo = data;
           console.log('RoleComponent currentAuthInfo subscribe');
+          console.log(data);
+          this.currentAuthInfo = data;
         },
         error => console.error(error)
       );
   }
 
   ngAfterViewInit(): void {
-    console.log('RoleComponent on AfterViewInit');
+    //console.log('RoleComponent on AfterViewInit');
   }
 
   ngOnDestroy() {
-    console.log('RoleComponent on ngOnDestroy');
+    //console.log('RoleComponent on ngOnDestroy');
 
     if (this.subscription !== undefined) {
       this.subscription.unsubscribe();
     }
 
+    if (this.menuInfoSubscription !== undefined) {
+      this.menuInfoSubscription.unsubscribe();
+    }
+
   }
 
-  //abstract
+  /* @override */
   getService(): RoleService {
     return this.service;
   }
 
-  //abstract
+  /* @override */
   newInstance(): Role {
     return new Role();
   };
 
-  //override
+  /* @override */
   getDeleteMessage(): string[] {
     const message = super.getDeleteMessage();
     message.push('名称:[' + this.selectedRecord.name + ']');
