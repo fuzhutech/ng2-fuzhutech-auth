@@ -1,6 +1,8 @@
-<fz-toolbar (onViewClick)="view()" (onAddClick)="add()"
-            (onEditClick)="edit()"
-            (onDeleteClick)="delete()" (onRefreshClick)="refresh()">
+<fz-toolbar [disabledView]="!selectedRecord" (onViewClick)="view()" (onAddClick)="add()"
+            [disabledEdit]="!selectedRecord" (onEditClick)="edit()"
+            [disabledDelete]="!selectedRecord" (onDeleteClick)="delete()"
+            (onRefreshClick)="refresh()"
+            [menuId]="currentMenuId" [authInfo]="currentAuthInfo" [menuInfo]="currentMenuInfo">
 </fz-toolbar>
 
 <div class="ui-widget-header ui-helper-clearfix" style="padding:4px 10px;border-bottom: 0 none">

@@ -1,6 +1,8 @@
-<fz-toolbar #toolbar (onViewClick)="view()" (onAddClick)="add()"
-            (onEditClick)="edit()"
-            (onDeleteClick)="delete()" (onRefreshClick)="refresh()">
+<fz-toolbar [disabledView]="!selectedRecord" (onViewClick)="view()" (onAddClick)="add()"
+            [disabledEdit]="!selectedRecord" (onEditClick)="edit()"
+            [disabledDelete]="!selectedRecord" (onDeleteClick)="delete()"
+            (onRefreshClick)="refresh()"
+            [menuId]="currentMenuId" [authInfo]="currentAuthInfo" [menuInfo]="currentMenuInfo">
 </fz-toolbar>
 
 <p-treeTable [value]="treeTableService.nodes" selectionMode="single" [(selection)]="treeTableService.selectedNode">

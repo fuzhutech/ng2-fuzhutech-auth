@@ -1,8 +1,13 @@
-<fz-toolbar #toolbar (onViewClick)="view()" (onAddClick)="add()"
-            (onEditClick)="edit()"
-            (onDeleteClick)="delete()" (onRefreshClick)="refresh()">
+<fz-toolbar #toolbar [disabledView]="!selectedRecord" (onViewClick)="view()" (onAddClick)="add()"
+            [disabledEdit]="!selectedRecord" (onEditClick)="edit()"
+            [disabledDelete]="!selectedRecord" (onDeleteClick)="delete()"
+            (onRefreshClick)="refresh()"
+            [menuId]="currentMenuId" [authInfo]="currentAuthInfo" [menuInfo]="currentMenuInfo">
 
-  <button md-button (click)="grant()"><md-icon>view_module</md-icon>分配权限</button>
+  <button md-button (click)="grant()">
+    <md-icon>view_module</md-icon>
+    分配权限
+  </button>
 
 </fz-toolbar>
 

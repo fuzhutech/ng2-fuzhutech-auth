@@ -87,8 +87,8 @@ export class LogComponent extends SubPageComponentWithTemplateDialog<Log, LogSer
      }, 250);*/
   }
 
-  constructor(public authInfoService: AuthInfoService, private service: LogService, dialog: MdDialog) {
-    super(authInfoService, '日志', dialog);
+  constructor(private service: LogService, dialog: MdDialog) {
+    super('日志', dialog);
   }
 
   //abstract

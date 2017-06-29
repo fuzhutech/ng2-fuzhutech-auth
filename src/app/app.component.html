@@ -10,10 +10,11 @@
   <a md-button routerLink="auth">
     权限管理
   </a>
-  <a md-button routerLink="login">
-    登录
-  </a>
   <span class="app-toolbar-filler"></span>
+  <span>
+    <a *ngIf="!authInfoService.currentAuthUser" md-button routerLink="login">登录</a>
+    <button *ngIf="authInfoService.currentAuthUser" md-button (click)="doLogout()">注销</button>
+  </span>
   <span>
       <md-icon class="icon-20">pets</md-icon>
       FuzhuTech
@@ -44,8 +45,11 @@
 <md-toolbar style="position: fixed;z-index: 10;bottom: 0;height: 50px;text-align:center;clear: both;
     display: block;
     text-align: center; ">
+  <span class="floatLeft fontSize14 gray" style="margin: 0 10px">{{currentTime}}</span>
+  <span class="floatLeft fontSize14 gray">当前用户[:{{authInfoService.currentAuthUser || '空'}}]</span>
   <span class="app-toolbar-filler"></span>
   <fz-footer></fz-footer>
+  <span class="floatLeft fontSize14 gray" style="margin: 0 10px">[v1.0.0]</span>
   <span class="app-toolbar-filler"></span>
 </md-toolbar>
 <!--end of 底部状态栏-->

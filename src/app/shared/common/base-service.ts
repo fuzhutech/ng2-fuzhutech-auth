@@ -79,4 +79,47 @@ export abstract class BaseService {
       .map(res => <ResponseResult> res.json());
   }
 
+  /**
+   * 处理请求成功
+   * @param res
+   * @returns {{data:(string|null|((node:any)=>any)}}
+   */
+  private handleSuccess(res: Response) {
+    const body = res['_body'];
+    if (body) {
+      return {
+        data: res.json() || {},
+        page: res.json() || {},
+        statusText: res.statusText,
+        status: res.status,
+        success: true
+      };
+    } else {
+      return {
+        statusText: res.statusText,
+        status: res.status,
+        success: false
+      };
+    }
+  }
+
+  /**
+   * 处理请求错误
+   * @param error
+   * @returns {void|Promise<string>|Promise<T>|any}
+   */
+  private handleError(error) {
+    console.log(error);
+    const msg = '请求失败';
+    if (error.status == 400) {
+      console.log('请求参数正确');
+    } else if (error.status == 404) {
+      console.log('请检查路径是否正确');
+    } else if (error.status == 500) {
+      console.log('请求的服务器错误');
+    }
+
+    return {success: false, msg: msg};
+  }
+
 }

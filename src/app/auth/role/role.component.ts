@@ -11,6 +11,7 @@ import {RoleGrantUserDialogComponent} from './role-grant-user-dialog/role-grant-
 import {AuthInfoService, AuthInfo} from '../auth-info/auth-info.module';
 import {Subscription} from 'rxjs/Subscription';
 import {MenuInfo} from '../auth-info/auth-info';
+import {ServiceUtil} from '../../shared/utils/service-util';
 
 @Component({
   templateUrl: './role.component.html'
@@ -29,8 +30,10 @@ export class RoleComponent
   private enableGrantUserRight = true;
   private hasGrantUserRight = false;
 
-  constructor(private service: RoleService, dialog: MdDialog, public authInfoService: AuthInfoService) {
-    super(authInfoService, '角色', dialog);
+  constructor(private service: RoleService, dialog: MdDialog) {
+    super('角色', dialog);
+
+    this.currentMenuId = 1100030000;
   }
 
   ngOnInit(): void {

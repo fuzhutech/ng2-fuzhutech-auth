@@ -24,9 +24,9 @@ export class PermissionComponent
   //状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(public authInfoService: AuthInfoService, private service: PermissionService,
+  constructor(private service: PermissionService,
               public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super(authInfoService, '用户', _dialog, PermissionDialogComponent);
+    super('用户', _dialog, PermissionDialogComponent);
 
     this.useTreeTable = true;
   }

@@ -57,7 +57,7 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
         return item.parentId == this.menuId;
       });
 
-      arrayFilter.forEach(function (item, index, array) {
+      arrayFilter.forEach((item, index, array) => {
         if (item.name == '查看') {
           this.hasViewRight = true;
         } else if (item.name == '添加') {
@@ -127,10 +127,6 @@ export class ToolbarComponent implements OnInit, AfterViewInit {
   @Output() onExportClick: EventEmitter<any> = new EventEmitter();  //导出
   @Output() onPrintClick: EventEmitter<any> = new EventEmitter();   //打印
   @Output() onCloseClick: EventEmitter<any> = new EventEmitter();   //关闭
-
-  constructor(private authInfoService: AuthInfoService) {
-    //
-  }
 
   ngAfterViewInit(): void {
     //throw new Error('Method not implemented.');

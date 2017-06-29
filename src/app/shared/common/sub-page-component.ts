@@ -12,6 +12,7 @@ import {BaseService, DialogResult, ConfirmProcess} from '../index';
 import {ResponseResult} from '../model';
 import {AuthInfo, MenuInfo} from '../../auth/auth-info/auth-info';
 import {AuthInfoService} from '../../auth/auth-info/auth-info.service';
+import {ServiceUtil} from '../utils/service-util';
 
 export const enum ActionType {
   viewAction = 0,
@@ -50,8 +51,8 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
   authInfoSubscription: Subscription;
   authInfoService: AuthInfoService;
 
-  constructor(authInfoService: AuthInfoService) {
-    this.authInfoService = authInfoService;
+  constructor() {
+    this.authInfoService = ServiceUtil.getAuthInfoService();
   }
 
   ngOnInit(): void {
@@ -430,8 +431,8 @@ export abstract class SubPageComponentWithTemplateDialog<T extends BaseObject, S
   progress = false;
   actionsAlignment = 'end';
 
-  constructor(authInfoService: AuthInfoService, mainHeader: string, dialog: MdDialog) {
-    super(authInfoService);
+  constructor(mainHeader: string, dialog: MdDialog) {
+    super();
 
     this.dialog = dialog;
     this.mainHeader = mainHeader;
@@ -484,9 +485,9 @@ export abstract class SubPageComponentWithComponentDialog<D extends BaseDialog, 
   //编辑对话框类型
   componentOrTemplateRef: ComponentType<D> | TemplateRef<D>;
 
-  constructor(authInfoService: AuthInfoService, mainHeader: string, _dialog: MdDialog,
+  constructor(mainHeader: string, _dialog: MdDialog,
               _componentOrTemplateRef: ComponentType<D> | TemplateRef<D>) {
-    super(authInfoService);
+    super();
     this.mainHeader = mainHeader;
     this.dialog = _dialog;
     this.componentOrTemplateRef = _componentOrTemplateRef;
