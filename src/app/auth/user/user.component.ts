@@ -21,8 +21,10 @@ export class UserComponent extends SubPageComponentWithComponentDialog<UserDialo
   //用户状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(private service: UserService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+  constructor(service: UserService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
     super('用户', _dialog, UserDialog);
+
+    this.initParams(service);
   }
 
 

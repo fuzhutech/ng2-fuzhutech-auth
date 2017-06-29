@@ -30,8 +30,10 @@ export class RoleComponent
   private enableGrantUserRight = true;
   private hasGrantUserRight = false;
 
-  constructor(private service: RoleService, dialog: MdDialog) {
+  constructor(service: RoleService, dialog: MdDialog) {
     super('角色', dialog);
+
+    this.initParams(service);
 
     this.currentMenuId = 1100030000;
   }

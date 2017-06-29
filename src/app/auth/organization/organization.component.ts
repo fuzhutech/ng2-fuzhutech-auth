@@ -25,10 +25,12 @@ export class OrganizationComponent
   //用户状态
   statuses: SelectItem[];
 
-  constructor(private service: OrganizationService,
+  constructor(service: OrganizationService,
               dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
 
     super('组织', dialog, OrganizationDialogComponent);
+
+    this.initParams(service);
 
     this.useTreeTable = true;
 

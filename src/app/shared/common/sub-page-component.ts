@@ -34,6 +34,9 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
   selectedRecord: T;    //选中记录
   records: T[];          //数据列表
 
+  /*http服务*/
+  service: S;
+
   //树形表格所需属性
   useTreeTable = false;
   treeTableService: TreeTableService = new TreeTableService();
@@ -51,8 +54,13 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
   authInfoSubscription: Subscription;
   authInfoService: AuthInfoService;
 
-  constructor() {
+  constructor(mainHeader?: string) {
     this.authInfoService = ServiceUtil.getAuthInfoService();
+  }
+
+  initParams(service: S, mainHeader?: string) {
+    this.service = service;
+    this.mainHeader = mainHeader;
   }
 
   ngOnInit(): void {

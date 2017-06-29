@@ -87,8 +87,9 @@ export class LogComponent extends SubPageComponentWithTemplateDialog<Log, LogSer
      }, 250);*/
   }
 
-  constructor(private service: LogService, dialog: MdDialog) {
+  constructor(service: LogService, dialog: MdDialog) {
     super('日志', dialog);
+    this.initParams(service);
   }
 
   //abstract

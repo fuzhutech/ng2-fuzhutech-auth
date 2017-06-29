@@ -24,9 +24,11 @@ export class ChainPathComponent
   //状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(private service: ChainPathService,
+  constructor(service: ChainPathService,
               public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
     super('用户', _dialog, ChainPathDialogComponent);
+
+    this.initParams(service);
 
     this.useTreeTable = true;
   }
