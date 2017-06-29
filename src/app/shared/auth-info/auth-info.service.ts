@@ -2,9 +2,9 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs/Observable';
 import {Subject} from 'rxjs/Subject';
 import {Http, Headers, Response} from '@angular/http';
-import {HOST_API_PATH} from '../../shared/index';
+import {HOST_API_PATH} from '../index';
 import {Md5} from 'ts-md5/dist/md5';
-import {AuthInfo, AuthUser, MenuInfo} from './auth-info';
+import {AuthInfo, AuthUser, MenuInfo} from './auth-info.model';
 
 @Injectable()
 export class AuthInfoService {
@@ -17,7 +17,7 @@ export class AuthInfoService {
   private _menuInfo: MenuInfo;
   private _menuInfoSubject: Subject<MenuInfo> = new Subject<MenuInfo>();
 
-  constructor(public http: Http) {
+  constructor(private http: Http) {
     console.log('AuthInfoService constructor');
   }
 

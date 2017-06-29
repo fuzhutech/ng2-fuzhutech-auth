@@ -10,5 +10,7 @@ import {ConfirmDialogComponent} from './confirm-dialog.component';
   exports: [ConfirmDialogComponent],
   entryComponents: [ConfirmDialogComponent]
 })
-export class ConfirmDialogModule {
+export class FzConfirmDialogModule {
 }
+
+export * from './confirm-dialog.component';

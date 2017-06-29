@@ -3,30 +3,26 @@ import {DOCUMENT} from '@angular/platform-browser';
 
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
 
-import {ActionType, SubPageComponentWithComponentDialog} from '../../shared';
+import {DialogResult, SubPageComponentWithComponentDialog} from '../../shared';
 
-import {UserDialog} from './dialog/user-dialog.component';
 import {User} from './model/user';
-import {UserService} from './services/user.service';
-import {DialogResult} from '../../shared/common/sub-page-component';
+import {UserService} from './service/user.service';
+import {UserDialogComponent} from './dialog/user-dialog.component';
 import {UserRoleDialogComponent} from './user-role-dialog/user-role-dialog.component';
-import {AuthInfoService} from '../auth-info/auth-info.service';
-import {ServiceUtil} from '../../shared/utils/service-util';
 
 @Component({
-  templateUrl: './user.component.html'
+  selector: 'fz-auth-user',
+  templateUrl: './user.component.html',
+  styleUrls: ['./user.component.css']
 })
-export class UserComponent extends SubPageComponentWithComponentDialog<UserDialog, User, UserService> {
+export class UserComponent extends SubPageComponentWithComponentDialog<User, UserService, UserDialogComponent> {
 
   //用户状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(service: UserService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super('用户', _dialog, UserDialog);
-
-    this.initParams(service);
+  constructor(service: UserService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+    super(service, '用户', dialog, UserDialogComponent);
   }
-
 
   grant() {
     if (!this.canDoGrant()) {
@@ -38,7 +34,7 @@ export class UserComponent extends SubPageComponentWithComponentDialog<UserDialo
     dialogRef.componentInstance.record = this.getCloneRecord();
     dialogRef.componentInstance.dialogHeader = '分配角色';
     dialogRef.componentInstance.action = this.action;
-    dialogRef.componentInstance.service = this.getService();
+    dialogRef.componentInstance.service = this.service;
 
 
     //关闭对话框后进行,刷新
@@ -52,10 +48,6 @@ export class UserComponent extends SubPageComponentWithComponentDialog<UserDialo
 
   canDoGrant(): boolean {
     return true;
-  }
-
-  getService(): UserService {
-    return this.service;
   }
 
   newInstance(): User {

@@ -1,14 +1,10 @@
 import {Component, OnInit, OnDestroy} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
-
-import {TabRouterOutletService, MainTabPageComponent} from '../shared';
-
-import {ConfigMenuData} from './auth-routing.module';
-import {TabData} from '../shared/tab-router-outlet/tab-router-outlet.service';
-import {ContextMenu, MenuItem} from 'primeng/primeng';
-import {AuthInfoService} from './auth-info/auth-info.service';
 import {Subscription} from 'rxjs/Subscription';
-import {MenuInfo} from './auth-info/auth-info';
+import {ContextMenu} from 'primeng/primeng';
+import {TabRouterOutletService, MainTabPageComponent, TabData} from '../shared';
+import {AuthInfoService, MenuInfo} from '../shared/auth-info';
+import {ConfigMenuData} from './auth-routing.module';
 
 @Component({
   moduleId: module.id,
@@ -17,7 +13,10 @@ import {MenuInfo} from './auth-info/auth-info';
 })
 export class AuthComponent extends MainTabPageComponent implements OnInit, OnDestroy {
 
-  items: MenuItem[];
+  items = [
+    {label: '关闭标签页', icon: 'fa-search', command: (event) => this.Close(event)},
+    {label: '关闭全部', icon: 'fa-close', command: (event) => this.CloseAll(event)}
+  ];
 
   private subscription: Subscription;
   private menuInfo: MenuInfo;
@@ -35,11 +34,6 @@ export class AuthComponent extends MainTabPageComponent implements OnInit, OnDes
   ngOnInit() {
 
     console.log('AuthComponent ngOnInit');
-
-    this.items = [
-      {label: '关闭标签页', icon: 'fa-search', command: (event) => this.Close(event)},
-      {label: '关闭全部', icon: 'fa-close', command: (event) => this.CloseAll(event)}
-    ];
 
     this.authInfoService.refreshMenuInfo(this.systemId);
 

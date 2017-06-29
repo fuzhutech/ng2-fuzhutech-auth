@@ -1,11 +1,11 @@
 import {Component, OnInit} from '@angular/core';
 import {MdDialogRef} from '@angular/material';
 import {ComponentDialog} from '../../../shared';
-import {UserService} from '../../user/services/user.service';
+import {UserService} from '../../user/service/user.service';
 import {DialogResult} from '../../../shared/common/sub-page-component';
 import {User} from '../../user/model/user';
-import {Organization} from '../services/organization';
-import {OrganizationService} from '../services/organization.service';
+import {Organization} from '../service/organization';
+import {OrganizationService} from '../service/organization.service';
 
 @Component({
   selector: 'fz-organization-grant-dialog',

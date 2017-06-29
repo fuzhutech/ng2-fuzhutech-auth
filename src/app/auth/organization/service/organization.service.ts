@@ -1,32 +1,31 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, URLSearchParams} from '@angular/http';
-import {Observable, Subscription} from 'rxjs/Rx';
 import {BaseService} from '../../../shared';
 
 @Injectable()
-export class UserService extends BaseService {
+export class OrganizationService extends BaseService {
 
-  constructor(protected http: Http) {
-    super(http, 'users');
+  constructor(http: Http) {
+    super(http, 'organizations');
   }
 
-  getRoleWithUser(userId: number) {
+  getUserWithOrganization(organizationId: number) {
 
     const headers = new Headers();
     headers.append('Content-Type', 'application/json;charset=UTF-8');
 
     const searchParams = new URLSearchParams();
 
-    return this.http.get(this.url + '/' + userId + '/roles', {search: searchParams, headers: headers})
+    return this.http.get(this.url + '/' + organizationId + '/users', {search: searchParams, headers: headers})
       .map(response => response.json());
   }
 
-  editRoleWithUser(userId: number, data) {
+  editUserWithOrganization(organizationId: number, data) {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     console.log(data);
 
-    return this.http.put(this.url + '/' + userId + '/roles', JSON.stringify(data), {headers: headers})
+    return this.http.put(this.url + '/' + organizationId + '/users', JSON.stringify(data), {headers: headers})
       .map(res => res.json());
   }
 

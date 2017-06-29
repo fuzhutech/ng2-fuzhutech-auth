@@ -22,7 +22,7 @@ import {TabViewModule} from 'primeng/primeng';
   ]
 
 })
-export class MenuSideModule {
+export class FzMenuSideModule {
 }
 
 export * from './menuside.component';

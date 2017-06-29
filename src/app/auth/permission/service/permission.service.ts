@@ -6,7 +6,7 @@ import {BaseService} from '../../../shared';
 @Injectable()
 export class PermissionService extends BaseService {
 
-  constructor(protected http: Http) {
+  constructor(http: Http) {
     super(http, 'permissions');
   }
 

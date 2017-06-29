@@ -16,11 +16,10 @@ import {
 
 import {MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule} from '@angular/material';
 
-import {ToolbarModule} from '../../shared';
+import {FzToolbarModule} from '../../shared';
 
 import {ChainPathRoutingModule} from './chain-path-routing.module';
 import {ChainPathService} from './service/chain-path.service';
-import {NodeService} from './service/nodeservice';
 import {ChainPathComponent} from './chain-path.component';
 import {ChainPathDialogComponent} from './dialog/chain-path-dialog.component';
 import {ChainPathGrantDialogComponent} from './grant-dialog/chain-path-grant-dialog.component';
@@ -38,12 +37,12 @@ import {ChainPathGrantDialogComponent} from './grant-dialog/chain-path-grant-dia
     CodeHighlighterModule,
 
     MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
-    ToolbarModule,
+    FzToolbarModule,
     ChainPathRoutingModule
   ],
   declarations: [ChainPathComponent, ChainPathDialogComponent, ChainPathGrantDialogComponent],
-  providers: [ChainPathService, NodeService],
+  providers: [ChainPathService],
   entryComponents: [ChainPathDialogComponent, ChainPathGrantDialogComponent],
 })
-export class ChainPathModule {
+export class FzChainPathModule {
 }

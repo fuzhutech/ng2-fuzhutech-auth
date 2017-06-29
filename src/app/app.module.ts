@@ -7,9 +7,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 import {MdToolbarModule, MdButtonModule, MdIconModule, MdMenuModule, MdSidenavModule} from '@angular/material';
 
-import {ConfirmDialogComponent, ConfirmDialogModule, FooterModule} from './shared';
-
-import {AuthInfoModule} from './auth/auth-info/auth-info.module';
+import {ConfirmDialogComponent, FzConfirmDialogModule, FzFooterModule} from './shared';
+import {AuthInfoModule} from './shared/auth-info/auth-info.module';
 
 import {AppComponent} from './app.component';
 import {HomePageComponent} from './homepage.component';
@@ -18,7 +17,8 @@ import {AppRoutingModule} from './app-routing.module';
 
 @NgModule({
   declarations: [
-    AppComponent, HomePageComponent
+    AppComponent,
+    HomePageComponent
   ],
   imports: [
     BrowserModule,
@@ -26,7 +26,7 @@ import {AppRoutingModule} from './app-routing.module';
     HttpModule,
     RouterModule, BrowserAnimationsModule,
     MdToolbarModule, MdButtonModule, MdIconModule, MdMenuModule, MdSidenavModule,
-    AppRoutingModule, FooterModule, ConfirmDialogModule,
+    AppRoutingModule, FzFooterModule, FzConfirmDialogModule,
     AuthInfoModule
   ],
   providers: [],

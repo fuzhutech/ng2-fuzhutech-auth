@@ -10,31 +10,24 @@ import {ChainPath} from './model/chain-path-model';
 import {ChainPathService} from './service/chain-path.service';
 import {ChainPathGrantDialogComponent} from './grant-dialog/chain-path-grant-dialog.component';
 import {DialogResult} from '../../shared/common/sub-page-component';
-import {AuthInfoService} from '../auth-info/auth-info.service';
+import {AuthInfoService} from '../../shared/auth-info/auth-info.service';
 
 @Component({
-  selector: 'fz-permission',
+  selector: 'fz-auth-chain-path',
   templateUrl: './chain-path.component.html',
   styleUrls: ['./chain-path.component.css']
 })
 export class ChainPathComponent
-  extends SubPageComponentWithComponentDialog<ChainPathDialogComponent, ChainPath, ChainPathService>
+  extends SubPageComponentWithComponentDialog<ChainPath, ChainPathService, ChainPathDialogComponent>
   implements OnInit {
 
   //状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(service: ChainPathService,
-              public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super('用户', _dialog, ChainPathDialogComponent);
-
-    this.initParams(service);
+  constructor(service: ChainPathService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+    super(service, '用户', dialog, ChainPathDialogComponent);
 
     this.useTreeTable = true;
-  }
-
-  getService(): ChainPathService {
-    return this.service;
   }
 
   newInstance(): ChainPath {
@@ -76,7 +69,7 @@ export class ChainPathComponent
     dialogRef.componentInstance.record = this.getCloneRecord();
     dialogRef.componentInstance.dialogHeader = '分配权限';
     dialogRef.componentInstance.action = this.action;
-    dialogRef.componentInstance.service = this.getService();
+    dialogRef.componentInstance.service = this.service;
 
 
     //关闭对话框后进行,刷新

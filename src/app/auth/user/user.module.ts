@@ -6,12 +6,12 @@ import {HttpModule} from '@angular/http';
 import {DataTableModule, PickListModule} from 'primeng/primeng';
 import {MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule} from '@angular/material';
 
-import {ToolbarModule} from '../../shared';
+import {FzToolbarModule} from '../../shared';
 
 import {UserRoutingModule} from './user-routing.module';
-import {UserService} from './services/user.service';
+import {UserService} from './service/user.service';
 import {UserComponent} from './user.component';
-import {UserDialog} from './dialog/user-dialog.component';
+import {UserDialogComponent} from './dialog/user-dialog.component';
 import {UserRoleDialogComponent} from './user-role-dialog/user-role-dialog.component';
 
 
@@ -20,17 +20,17 @@ import {UserRoleDialogComponent} from './user-role-dialog/user-role-dialog.compo
     CommonModule, FormsModule, HttpModule,
     DataTableModule, PickListModule,
     MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
-    ToolbarModule,
+    FzToolbarModule,
     UserRoutingModule
   ],
   exports: [
     UserComponent
   ],
   declarations: [
-    UserComponent, UserDialog, UserRoleDialogComponent
+    UserComponent, UserDialogComponent, UserRoleDialogComponent
   ],
   providers: [UserService],
-  entryComponents: [UserDialog, UserRoleDialogComponent],
+  entryComponents: [UserDialogComponent, UserRoleDialogComponent],
 })
-export class UserModule {
+export class FzUserModule {
 }

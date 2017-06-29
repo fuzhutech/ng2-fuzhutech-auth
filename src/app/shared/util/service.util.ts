@@ -1,4 +1,4 @@
-import {AuthInfoService} from '../../auth/auth-info/auth-info.service';
+import {AuthInfoService} from '../auth-info/auth-info.service';
 
 //全局变量工具类，单例模式
 export class ServiceUtil {

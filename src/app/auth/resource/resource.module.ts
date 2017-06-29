@@ -16,13 +16,12 @@ import {
 
 import {MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule} from '@angular/material';
 
-import {ToolbarModule} from '../../shared';
+import {FzToolbarModule} from '../../shared';
 
 import {ResourceRoutingModule} from './resource-routing.module';
 import {ResourceService} from './service/resource.service';
 import {ResourceComponent} from './resource.component';
 import {ResourceDialogComponent} from './dialog/resource-dialog.component';
-import {NodeService} from './service/nodeservice';
 import {ResourceGrantDialogComponent} from './grant-dialog/resource-grant-dialog.component';
 
 @NgModule({
@@ -38,12 +37,12 @@ import {ResourceGrantDialogComponent} from './grant-dialog/resource-grant-dialog
     CodeHighlighterModule,
 
     MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
-    ToolbarModule,
+    FzToolbarModule,
     ResourceRoutingModule
   ],
   declarations: [ResourceComponent, ResourceDialogComponent, ResourceGrantDialogComponent],
-  providers: [ResourceService, NodeService],
+  providers: [ResourceService],
   entryComponents: [ResourceDialogComponent, ResourceGrantDialogComponent],
 })
-export class ResourceModule {
+export class FzResourceModule {
 }

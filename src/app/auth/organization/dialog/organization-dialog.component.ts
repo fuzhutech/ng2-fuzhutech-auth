@@ -1,8 +1,8 @@
 import {Component} from '@angular/core';
 import {MdDialogRef} from '@angular/material';
 import {ComponentDialog} from '../../../shared';
-import {Organization} from '../services/organization';
-import {OrganizationService} from '../services/organization.service';
+import {Organization} from '../service/organization';
+import {OrganizationService} from '../service/organization.service';
 
 @Component({
   selector: 'fz-organization-dialog',

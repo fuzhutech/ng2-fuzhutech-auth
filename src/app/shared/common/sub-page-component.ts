@@ -10,9 +10,8 @@ import {isUndefined} from 'util';
 
 import {BaseService, DialogResult, ConfirmProcess} from '../index';
 import {ResponseResult} from '../model';
-import {AuthInfo, MenuInfo} from '../../auth/auth-info/auth-info';
-import {AuthInfoService} from '../../auth/auth-info/auth-info.service';
-import {ServiceUtil} from '../utils/service-util';
+import {AuthInfo, AuthInfoService, MenuInfo} from '../auth-info';
+import {ServiceUtil} from '../util';
 
 export const enum ActionType {
   viewAction = 0,
@@ -54,23 +53,17 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
   authInfoSubscription: Subscription;
   authInfoService: AuthInfoService;
 
-  constructor(mainHeader?: string) {
-    this.authInfoService = ServiceUtil.getAuthInfoService();
-  }
-
-  initParams(service: S, mainHeader?: string) {
+  constructor(service: S, mainHeader: string) {
     this.service = service;
     this.mainHeader = mainHeader;
+    this.authInfoService = ServiceUtil.getAuthInfoService();
   }
 
   ngOnInit(): void {
     //获取菜单信息
     this.menuInfoSubscription = this.authInfoService.menuInfoSubject
       .subscribe(
-        data => {
-          console.log('RoleComponent menuInfoSubject subscribe', data);
-          this.setMenuInfo(data);
-        },
+        data => this.setMenuInfo(data),
         error => console.error(error)
       );
 
@@ -78,10 +71,7 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
     this.authInfoSubscription = this.authInfoService.authInfoSubject
     //.merge(this.userRegisterService.currentUser)
       .subscribe(
-        data => {
-          console.log('RoleComponent currentAuthInfo subscribe', data);
-          this.setAuthInfo(data);
-        },
+        data => this.setAuthInfo(data),
         error => console.error(error)
       );
   }
@@ -96,11 +86,12 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
     }
   }
 
-  //获取服务
-  abstract  getService(): S;
-
   //获取操作实例
   abstract  newInstance(): T;
+
+  initParams(value?: any) {
+    //
+  }
 
   //是否具有操作前提条件
   canDoView(): boolean {
@@ -114,7 +105,7 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
   //复制当前选中数据记录
   protected getCloneRecord(): T {
     let data;
-    if (this.useTreeTable) {
+    if (this.useTreeTable && this.treeTableService.selectedNode) {
       data = this.treeTableService.selectedNode.data;
     } else {
       data = this.selectedRecord;
@@ -144,7 +135,7 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
   }
 
   doRefresh(id: number) {
-    this.getService().getList().subscribe(
+    this.service.getList().subscribe(
       data => {
         //this.records = data.rows;
         this.records = data;
@@ -180,7 +171,7 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
   }
 
   doAdd(): Observable<any> {
-    return this.getService().create(this.record);
+    return this.service.create(this.record);
   }
 
 //编辑
@@ -193,7 +184,7 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
   }
 
   doEdit(): Observable<any> {
-    return this.getService().edit(this.record);
+    return this.service.edit(this.record);
   }
 
 //删除
@@ -213,7 +204,7 @@ export abstract class SubPageComponent<T extends BaseObject, S extends BaseServi
       data = this.selectedRecord;
     }
 
-    return this.getService().delete(data);
+    return this.service.delete(data);
   }
 
   protected setAuthInfo(authInfo: AuthInfo) {
@@ -316,10 +307,9 @@ export class TreeTableService {
 
 //SubPageComponentWithDialog
 export abstract class SubPageComponentWithDialog<T extends BaseObject, S extends BaseService>
-  extends SubPageComponent<T, S>
-  implements ConfirmProcess {
+  extends SubPageComponent<T, S> implements ConfirmProcess {
 
-  public dialog: MdDialog;
+  dialog: MdDialog;
 
   //编辑对话框设置信息
   dialogConfig: MdDialogConfig = {
@@ -338,6 +328,12 @@ export abstract class SubPageComponentWithDialog<T extends BaseObject, S extends
   };
 
   dialogRef;
+
+  constructor(service: S, mainHeader: string, dialog: MdDialog) {
+    super(service, mainHeader);
+
+    this.dialog = dialog;
+  }
 
   abstract oPenDialog(actionName: string);
 
@@ -439,13 +435,6 @@ export abstract class SubPageComponentWithTemplateDialog<T extends BaseObject, S
   progress = false;
   actionsAlignment = 'end';
 
-  constructor(mainHeader: string, dialog: MdDialog) {
-    super();
-
-    this.dialog = dialog;
-    this.mainHeader = mainHeader;
-  }
-
   //abstract
   oPenDialog(actionName: string) {
     this.dialogHeader = this.mainHeader + actionName;
@@ -487,17 +476,15 @@ export abstract class SubPageComponentWithTemplateDialog<T extends BaseObject, S
 
 }
 
-export abstract class SubPageComponentWithComponentDialog<D extends BaseDialog, T extends BaseObject, S extends BaseService>
+export abstract class SubPageComponentWithComponentDialog<T extends BaseObject, S extends BaseService, D extends BaseDialog>
   extends SubPageComponentWithDialog<T, S> {
 
   //编辑对话框类型
   componentOrTemplateRef: ComponentType<D> | TemplateRef<D>;
 
-  constructor(mainHeader: string, _dialog: MdDialog,
+  constructor(service: S, mainHeader: string, dialog: MdDialog,
               _componentOrTemplateRef: ComponentType<D> | TemplateRef<D>) {
-    super();
-    this.mainHeader = mainHeader;
-    this.dialog = _dialog;
+    super(service, mainHeader, dialog);
     this.componentOrTemplateRef = _componentOrTemplateRef;
   }
 
@@ -507,11 +494,9 @@ export abstract class SubPageComponentWithComponentDialog<D extends BaseDialog, 
     dialogRef.componentInstance.record = this.record;
     dialogRef.componentInstance.dialogHeader = actionName;
     dialogRef.componentInstance.action = this.action;
-    dialogRef.componentInstance.service = this.getService();
+    dialogRef.componentInstance.service = this.service;
 
     this.dialogRef = dialogRef;
-
-    console.log(this.action);
   }
 }
 

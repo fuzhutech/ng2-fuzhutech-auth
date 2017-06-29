@@ -4,8 +4,8 @@ import {ComponentDialog} from '../../../shared';
 import {DialogResult} from '../../../shared/common/sub-page-component';
 import {User} from '../../user/model/user';
 import {isUndefined} from 'util';
-import {RoleService} from '../services/role.service';
-import {Role} from '../services/role';
+import {RoleService} from '../service/role.service';
+import {Role} from '../service/role';
 
 @Component({
   selector: 'fz-role-grant-dialog',

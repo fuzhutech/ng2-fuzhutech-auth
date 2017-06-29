@@ -6,19 +6,19 @@ import {HttpModule} from '@angular/http';
 import {DataTableModule, InputTextModule} from 'primeng/primeng';
 import {MdButtonModule, MdDialogModule, MdInputModule, MdSelectModule} from '@angular/material';
 
-import {ToolbarModule} from '../../shared';
+import {FzToolbarModule} from '../../shared';
 
 
 import {LogComponent} from './log.component';
 import {LogRoutingModule} from './log-routing.module';
-import {LogService} from './services/log.service';
+import {LogService} from './service/log.service';
 
 @NgModule({
   imports: [
     CommonModule, FormsModule, HttpModule,
     DataTableModule, InputTextModule,
     MdButtonModule, MdDialogModule, MdInputModule, MdSelectModule,
-    ToolbarModule,
+    FzToolbarModule,
     LogRoutingModule,
   ],
   declarations: [
@@ -26,5 +26,5 @@ import {LogService} from './services/log.service';
   ],
   providers: [LogService]
 })
-export class LogModule {
+export class FzLogModule {
 }

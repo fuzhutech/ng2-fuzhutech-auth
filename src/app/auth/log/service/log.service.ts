@@ -1,12 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Http, Headers, URLSearchParams} from '@angular/http';
-import {Observable, Subscription} from "rxjs/Rx";
+import {Observable, Subscription} from 'rxjs/Rx';
 import {BaseService} from '../../../shared';
 
 @Injectable()
 export class LogService extends BaseService {
 
-  constructor(protected http: Http) {
+  constructor(http: Http) {
     super(http, 'logs');
   }
 

@@ -10,11 +10,11 @@ import {TreeTableModule, GrowlModule, PickListModule} from 'primeng/primeng';
 import {MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule} from '@angular/material';
 
 
-import {ToolbarModule} from '../../shared';
+import {FzToolbarModule} from '../../shared';
 
 import {OrganizationComponent} from './organization.component';
 import {OrganizationRoutingModule} from './organization-routing.module';
-import {OrganizationService} from './services/organization.service';
+import {OrganizationService} from './service/organization.service';
 
 import {OrganizationDialogComponent} from './dialog/organization-dialog.component';
 import {OrganizationGrantDialogComponent} from './grant-dialog/grant-dialog.component';
@@ -26,7 +26,7 @@ import {OrganizationGrantDialogComponent} from './grant-dialog/grant-dialog.comp
     OrganizationRoutingModule,
     ButtonModule,
     FormsModule, HttpModule, InputTextModule, DataTableModule, ButtonModule, DialogModule,
-    ToolbarModule, InputTextareaModule, SpinnerModule, DropdownModule, TreeTableModule, GrowlModule, PickListModule,
+    FzToolbarModule, InputTextareaModule, SpinnerModule, DropdownModule, TreeTableModule, GrowlModule, PickListModule,
     MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule
   ],
   declarations: [
@@ -35,5 +35,5 @@ import {OrganizationGrantDialogComponent} from './grant-dialog/grant-dialog.comp
   providers: [OrganizationService],
   entryComponents: [OrganizationDialogComponent, OrganizationGrantDialogComponent],
 })
-export class OrganizationModule {
+export class FzOrganizationModule {
 }

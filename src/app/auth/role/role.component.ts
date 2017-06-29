@@ -3,18 +3,17 @@ import {Component, OnInit, AfterViewInit, OnDestroy} from '@angular/core';
 import {SubPageComponentWithTemplateDialog} from '../../shared';
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
 
-import {Role} from './services/role';
-import {RoleService} from './services/role.service';
+import {Role} from './service/role';
+import {RoleService} from './service/role.service';
 import {RoleGrantResourceDialogComponent} from './role-grant-resource-dialog/role-grant-resource-dialog.component';
 import {DialogResult} from '../../shared/common/sub-page-component';
 import {RoleGrantUserDialogComponent} from './role-grant-user-dialog/role-grant-user-dialog.component';
-import {AuthInfoService, AuthInfo} from '../auth-info/auth-info.module';
-import {Subscription} from 'rxjs/Subscription';
-import {MenuInfo} from '../auth-info/auth-info';
-import {ServiceUtil} from '../../shared/utils/service-util';
+import {AuthInfo, MenuInfo} from '../../shared/auth-info';
 
 @Component({
-  templateUrl: './role.component.html'
+  selector: 'fz-auth-role',
+  templateUrl: './role.component.html',
+  styleUrls: ['./role.component.css']
 })
 export class RoleComponent
   extends SubPageComponentWithTemplateDialog<Role, RoleService> implements OnInit, AfterViewInit, OnDestroy {
@@ -31,13 +30,12 @@ export class RoleComponent
   private hasGrantUserRight = false;
 
   constructor(service: RoleService, dialog: MdDialog) {
-    super('角色', dialog);
-
-    this.initParams(service);
+    super(service, '角色', dialog);
 
     this.currentMenuId = 1100030000;
   }
 
+  /* @override */
   ngOnInit(): void {
     console.log('RoleComponent ngOnInit');
     super.ngOnInit();
@@ -50,11 +48,6 @@ export class RoleComponent
   ngOnDestroy() {
     console.log('RoleComponent ngOnDestroy');
     super.ngOnDestroy();
-  }
-
-  /* @override */
-  getService(): RoleService {
-    return this.service;
   }
 
   /* @override */
@@ -100,7 +93,7 @@ export class RoleComponent
 
     dialogRef.componentInstance.dialogHeader = '分配资源';
     dialogRef.componentInstance.action = this.action;
-    dialogRef.componentInstance.service = this.getService();
+    dialogRef.componentInstance.service = this.service;
 
 
     //关闭对话框后进行,刷新
@@ -127,7 +120,7 @@ export class RoleComponent
     dialogRef.componentInstance.record = this.getCloneRecord();
     dialogRef.componentInstance.dialogHeader = '分配用户';
     dialogRef.componentInstance.action = this.action;
-    dialogRef.componentInstance.service = this.getService();
+    dialogRef.componentInstance.service = this.service;
 
 
     //关闭对话框后进行,刷新

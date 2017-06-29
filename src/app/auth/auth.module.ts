@@ -1,26 +1,23 @@
-//import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {MdDialogModule, MdSidenavModule, MdTabsModule} from '@angular/material';
-
 import {ContextMenuModule} from 'primeng/primeng';
-
-import {MenuSideModule, FooterModule, TabRouterOutletModule} from '../shared';
+import {FzSharedModule} from '../shared';
 
 import {AuthRoutingModule} from './auth-routing.module';
 import {AuthComponent} from './auth.component';
 
 @NgModule({
   imports: [
-    CommonModule, FormsModule, /*BrowserAnimationsModule,*/
+    CommonModule, FormsModule,
     MdDialogModule, MdSidenavModule, MdTabsModule,
     ContextMenuModule,
-    MenuSideModule, FooterModule, TabRouterOutletModule,
+    FzSharedModule,
     AuthRoutingModule
   ],
   declarations: [AuthComponent],
   providers: []
 })
-export class AuthModule {
+export class FzAuthModule {
 }

@@ -2,15 +2,12 @@ import {Component, OnInit} from '@angular/core';
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
 import {ComponentDialog} from '../../../shared';
 
-import {NodeService} from '../service/nodeservice';
-
 import {Message, MenuItem, TreeNode, Tree, TreeDragDropService} from 'primeng/primeng';
-import {BaseTreeNode, DialogResult} from '../../../shared/common/sub-page-component';
+import {BaseTreeNode, DialogResult, TreeUtil} from '../../../shared';
 import {ResourceService} from '../service/resource.service';
 import {Resource} from '../model/resource-model';
 import {Permission} from '../../permission/model/permission-model';
 import {isUndefined} from 'util';
-import {findIndexInSelection} from '../../../shared/utils/tree-util';
 import {Observable} from 'rxjs/Observable';
 import {ResponseResult} from '../../../shared/model/response-result-model';
 
@@ -148,7 +145,7 @@ export class ResourceGrantDialogComponent extends ComponentDialog<ResourceGrantD
 
   //原始树,恢复原有状态
   nodeSelect(event) {
-    const index = findIndexInSelection(this.sourceSelection, event.node);
+    const index = TreeUtil.findIndexInSelection(this.sourceSelection, event.node);
     if (index >= 0) {
       this.sourceSelection = this.sourceSelection.filter((val, i) => i != index);
     }
@@ -258,7 +255,7 @@ export class ResourceGrantDialogComponent extends ComponentDialog<ResourceGrantD
       for (const node of this.targetSelection) {
         let node1 = node.parent;
         while (node1) {
-          if (findIndexInSelection(realSelection, node1) == -1) {
+          if (TreeUtil.findIndexInSelection(realSelection, node1) == -1) {
             realSelection.push(node1);
           }
           node1 = node1.parent;
@@ -345,7 +342,7 @@ export class ResourceGrantDialogComponent extends ComponentDialog<ResourceGrantD
       let childPartialSelected = false;
 
       for (const child of node.children) {
-        if (findIndexInSelection(selection, child) > -1) {
+        if (TreeUtil.findIndexInSelection(selection, child) > -1) {
           selectedCount++;
         } else if (child.partialSelected) {
           childPartialSelected = true;
@@ -359,7 +356,7 @@ export class ResourceGrantDialogComponent extends ComponentDialog<ResourceGrantD
       }
 
       if (node.partialSelected) {
-        const index = findIndexInSelection(selection, node);
+        const index = TreeUtil.findIndexInSelection(selection, node);
         if (index >= 0) {
           selection.splice(index, 1);
         }

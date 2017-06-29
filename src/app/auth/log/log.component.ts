@@ -3,14 +3,14 @@ import {Component} from '@angular/core';
 import {SubPageComponentWithTemplateDialog} from '../../shared';
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
 
-import {Log} from './services/log';
-import {LogService} from './services/log.service';
-
+import {Log} from './service/log';
+import {LogService} from './service/log.service';
 import {LazyLoadEvent} from 'primeng/primeng';
-import {AuthInfoService} from '../auth-info/auth-info.service';
 
 @Component({
-  templateUrl: './log.component.html'
+  selector: 'fz-auth-log',
+  templateUrl: './log.component.html',
+  styleUrls: ['./log.component.css']
 })
 export class LogComponent extends SubPageComponentWithTemplateDialog<Log, LogService> {
 
@@ -19,9 +19,12 @@ export class LogComponent extends SubPageComponentWithTemplateDialog<Log, LogSer
   //用户状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
+  constructor(service: LogService, dialog: MdDialog) {
+    super(service, '日志', dialog);
+  }
 
   doRefresh(id: number) {
-    this.getService().getList().subscribe(
+    this.service.getList().subscribe(
       data => {
         this.records = data.rows;
         this.totalRecords = data.total;
@@ -65,7 +68,7 @@ export class LogComponent extends SubPageComponentWithTemplateDialog<Log, LogSer
     console.log(event.first);
     console.log(event.rows);
 
-    this.getService().getListByPage(event.first, event.rows).subscribe(
+    this.service.getListByPage(event.first, event.rows).subscribe(
       data => {
         this.records = data.rows;
         this.totalRecords = data.total;
@@ -85,16 +88,6 @@ export class LogComponent extends SubPageComponentWithTemplateDialog<Log, LogSer
      this.cars = this.datasource.slice(event.first, (event.first + event.rows));
      }
      }, 250);*/
-  }
-
-  constructor(service: LogService, dialog: MdDialog) {
-    super('日志', dialog);
-    this.initParams(service);
-  }
-
-  //abstract
-  getService(): LogService {
-    return this.service;
   }
 
   //abstract

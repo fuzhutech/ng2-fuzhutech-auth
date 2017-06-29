@@ -9,8 +9,7 @@ import {ChainPathService} from '../service/chain-path.service';
 import {Permission} from '../../permission/model/permission-model';
 import {isUndefined} from 'util';
 import {Observable} from 'rxjs/Observable';
-import {ResponseResult} from '../../../shared/model/response-result-model';
-import {findIndexInSelection} from '../../../shared/utils/tree-util';
+import {ResponseResult, TreeUtil} from '../../../shared';
 
 @Component({
   selector: 'fz-chain-path-grant-dialog',
@@ -146,7 +145,7 @@ export class ChainPathGrantDialogComponent extends ComponentDialog<ChainPathGran
 
   //原始树,恢复原有状态
   nodeSelect(event) {
-    const index = findIndexInSelection(this.sourceSelection, event.node);
+    const index = TreeUtil.findIndexInSelection(this.sourceSelection, event.node);
     if (index >= 0) {
       this.sourceSelection = this.sourceSelection.filter((val, i) => i != index);
     }
@@ -256,7 +255,7 @@ export class ChainPathGrantDialogComponent extends ComponentDialog<ChainPathGran
       for (const node of this.targetSelection) {
         let node1 = node.parent;
         while (node1) {
-          if (findIndexInSelection(realSelection, node1) == -1) {
+          if (TreeUtil.findIndexInSelection(realSelection, node1) == -1) {
             realSelection.push(node1);
           }
           node1 = node1.parent;
@@ -343,7 +342,7 @@ export class ChainPathGrantDialogComponent extends ComponentDialog<ChainPathGran
       let childPartialSelected = false;
 
       for (const child of node.children) {
-        if (findIndexInSelection(selection, child) > -1) {
+        if (TreeUtil.findIndexInSelection(selection, child) > -1) {
           selectedCount++;
         } else if (child.partialSelected) {
           childPartialSelected = true;
@@ -357,7 +356,7 @@ export class ChainPathGrantDialogComponent extends ComponentDialog<ChainPathGran
       }
 
       if (node.partialSelected) {
-        const index = findIndexInSelection(selection, node);
+        const index = TreeUtil.findIndexInSelection(selection, node);
         if (index >= 0) {
           selection.splice(index, 1);
         }

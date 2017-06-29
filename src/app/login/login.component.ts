@@ -1,12 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {ActivatedRoute, Router, ActivatedRouteSnapshot, RouterState, RouterStateSnapshot} from '@angular/router';
-import {LoginService} from './services/login.service';
+import {LoginService} from './service/login.service';
 import {Observable} from 'rxjs/Observable';
 import {Location} from '@angular/common';
-import {LoginUser} from './services/login-user.model';
-import {AuthInfo} from '../auth/auth-info/auth-info';
+import {LoginUser} from './service/login-user.model';
+import {AuthInfo} from '../shared/auth-info/auth-info.model';
 import {Subscription} from 'rxjs/Subscription';
-import {AuthInfoService} from '../auth/auth-info/auth-info.service';
+import {AuthInfoService} from '../shared/auth-info/auth-info.service';
 
 @Component({
   selector: 'fz-login',

@@ -12,7 +12,7 @@ import {FormsModule} from '@angular/forms';
   declarations: [TabGroupRouterOutLetDirective, TabRouterOutletDirective],
   providers: [TabRouterOutletService]
 })
-export class TabRouterOutletModule {
+export class FzTabRouterOutletModule {
 }
 
 export * from './tab-router-outlet.service';

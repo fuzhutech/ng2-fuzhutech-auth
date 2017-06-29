@@ -5,7 +5,7 @@ import {Http, Headers, Response} from '@angular/http';
 import {HOST_API_PATH} from '../../shared/index';
 import {Md5} from 'ts-md5/dist/md5';
 import {LoginUser} from './login-user.model';
-import {AuthInfoService} from '../../auth/auth-info/auth-info.module';
+import {AuthInfoService} from '../../shared/auth-info/auth-info.module';
 
 @Injectable()
 export class LoginService {

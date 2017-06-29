@@ -14,5 +14,5 @@ import {FooterComponent} from './footer.component';
   ]
 
 })
-export class FooterModule {
+export class FzFooterModule {
 }

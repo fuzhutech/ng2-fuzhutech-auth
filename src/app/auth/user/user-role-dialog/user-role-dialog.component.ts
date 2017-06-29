@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {MdDialogRef} from '@angular/material';
 import {ComponentDialog} from '../../../shared';
-import {UserService} from '../services/user.service';
+import {UserService} from '../service/user.service';
 import {DialogResult} from '../../../shared/common/sub-page-component';
-import {Role} from '../../role/services/role';
+import {Role} from '../../role/service/role';
 import {isUndefined} from 'util';
 import {User} from '../model/user';
 

@@ -14,14 +14,14 @@ import {MainLinkData} from '../shared/menuside/menuside.component';
           {path: '', redirectTo: 'role'},
           {
             path: 'role',
-            loadChildren: './role/role.module#RoleModule'
+            loadChildren: './role/role.module#FzRoleModule'
           },
-          {path: 'organization', loadChildren: './organization/organization.module#OrganizationModule'},
-          {path: 'user', loadChildren: './user/user.module#UserModule'},
-          {path: 'log', loadChildren: './log/log.module#LogModule'},
-          {path: 'permission', loadChildren: './permission/permission.module#PermissionModule'},
-          {path: 'resource', loadChildren: './resource/resource.module#ResourceModule'},
-          {path: 'chain-path', loadChildren: './chain-path/chain-path.module#ChainPathModule'}
+          {path: 'organization', loadChildren: './organization/organization.module#FzOrganizationModule'},
+          {path: 'user', loadChildren: './user/user.module#FzUserModule'},
+          {path: 'log', loadChildren: './log/log.module#FzLogModule'},
+          {path: 'permission', loadChildren: './permission/permission.module#FzPermissionModule'},
+          {path: 'resource', loadChildren: './resource/resource.module#FzResourceModule'},
+          {path: 'chain-path', loadChildren: './chain-path/chain-path.module#FzChainPathModule'}
         ]
       }
     ])

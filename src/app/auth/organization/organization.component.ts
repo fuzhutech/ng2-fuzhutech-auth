@@ -6,43 +6,30 @@ import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/ma
 
 import {SubPageComponentWithComponentDialog} from '../../shared';
 
-import {Organization} from './services/organization';
-import {OrganizationService} from './services/organization.service';
+import {Organization} from './service/organization';
+import {OrganizationService} from './service/organization.service';
 import {OrganizationDialogComponent} from './dialog/organization-dialog.component';
 import {OrganizationGrantDialogComponent} from './grant-dialog/grant-dialog.component';
 import {DialogResult} from '../../shared/common/sub-page-component';
 import {isUndefined} from 'util';
-import {AuthInfoService} from '../auth-info/auth-info.service';
+import {AuthInfoService} from '../../shared/auth-info/auth-info.service';
 
 @Component({
-  templateUrl: './organization.component.html'
+  selector: 'fz-auth-organization',
+  templateUrl: './organization.component.html',
+  styleUrls: ['./organization.component.css']
 })
 export class OrganizationComponent
-  extends SubPageComponentWithComponentDialog<OrganizationDialogComponent, Organization, OrganizationService> {
+  extends SubPageComponentWithComponentDialog<Organization, OrganizationService, OrganizationDialogComponent> {
 
   msgs: Message[];
 
   //用户状态
-  statuses: SelectItem[];
+  statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(service: OrganizationService,
-              dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-
-    super('组织', dialog, OrganizationDialogComponent);
-
-    this.initParams(service);
-
+  constructor(service: OrganizationService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+    super(service, '组织', dialog, OrganizationDialogComponent);
     this.useTreeTable = true;
-
-    this.statuses = [];
-    this.statuses.push({label: '正常', value: '0'});
-    this.statuses.push({label: '非正常', value: '1'});
-
-  }
-
-  //abstract
-  getService(): OrganizationService {
-    return this.service;
   }
 
   //abstract
@@ -76,7 +63,7 @@ export class OrganizationComponent
     const dialogRef: MdDialogRef<OrganizationGrantDialogComponent> = this.dialog.open(OrganizationGrantDialogComponent, this.dialogConfig);
     dialogRef.componentInstance.record = this.getCloneRecord();
     dialogRef.componentInstance.dialogHeader = '分配用户';
-    dialogRef.componentInstance.service = this.getService();
+    dialogRef.componentInstance.service = this.service;
 
 
     //关闭对话框后进行,刷新

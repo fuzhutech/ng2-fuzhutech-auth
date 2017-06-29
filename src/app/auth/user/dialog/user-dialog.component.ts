@@ -1,19 +1,19 @@
 import {Component} from '@angular/core';
 import {MdDialog, MdDialogRef, MdDialogConfig, MD_DIALOG_DATA} from '@angular/material';
 import {ComponentDialog} from '../../../shared';
-import {UserService} from '../services/user.service';
+import {UserService} from '../service/user.service';
 import {User} from '../model/user';
 
 @Component({
-  selector: 'user-dialog',
+  selector: 'fz-user-dialog',
   templateUrl: './user-dialog.component.html'
 })
-export class UserDialog extends ComponentDialog<UserDialog, User, UserService> {
+export class UserDialogComponent extends ComponentDialog<UserDialogComponent, User, UserService> {
 
   color = 'primary';
 
 
-  constructor(dialogRef: MdDialogRef<UserDialog>) {
+  constructor(dialogRef: MdDialogRef<UserDialogComponent>) {
     super(dialogRef);
   }
 

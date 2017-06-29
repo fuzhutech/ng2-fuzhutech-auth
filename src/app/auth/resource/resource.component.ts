@@ -11,33 +11,21 @@ import {ResourceService} from './service/resource.service';
 import {ResourceGrantDialogComponent} from './grant-dialog/resource-grant-dialog.component';
 import {DialogResult} from '../../shared/common/sub-page-component';
 
-import {AuthInfoService, AuthInfo} from '../auth-info/auth-info.module';
-
-/*树形表格展示,调整位置?调整上下级关系？*/
-/*资源-权限对应关系维护:pickList*/
-
 @Component({
-  selector: 'fz-permission',
+  selector: 'fz-auth-resource',
   templateUrl: './resource.component.html',
   styleUrls: ['./resource.component.css']
 })
 export class ResourceComponent
-  extends SubPageComponentWithComponentDialog<ResourceDialogComponent, Resource, ResourceService>
+  extends SubPageComponentWithComponentDialog<Resource, ResourceService, ResourceDialogComponent>
   implements OnInit {
 
   //状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(service: ResourceService, public _dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super('用户', _dialog, ResourceDialogComponent);
-
-    this.initParams(service);
-
+  constructor(service: ResourceService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+    super(service, '用户', dialog, ResourceDialogComponent);
     this.useTreeTable = true;
-  }
-
-  getService(): ResourceService {
-    return this.service;
   }
 
   newInstance(): Resource {
@@ -91,7 +79,7 @@ export class ResourceComponent
     dialogRef.componentInstance.record = this.getCloneRecord();
     dialogRef.componentInstance.dialogHeader = '分配权限';
     dialogRef.componentInstance.action = this.action;
-    dialogRef.componentInstance.service = this.getService();
+    dialogRef.componentInstance.service = this.service;
 
 
     //关闭对话框后进行,刷新

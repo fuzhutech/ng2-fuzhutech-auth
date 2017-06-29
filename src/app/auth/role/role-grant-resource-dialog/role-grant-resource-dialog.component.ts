@@ -5,12 +5,12 @@ import {TreeNode} from 'primeng/primeng';
 import {isUndefined} from 'util';
 
 import {ComponentDialog, BaseTreeNode} from '../../../shared';
-import {RoleService} from '../services/role.service';
+import {RoleService} from '../service/role.service';
 import {DialogResult} from '../../../shared/common/sub-page-component';
 import {Resource} from '../../resource/model/resource-model';
 import {Observable} from 'rxjs/Observable';
 import {ResponseResult} from '../../../shared';
-import {Role} from '../services/role';
+import {Role} from '../service/role';
 
 @Component({
   selector: 'fz-role-grant-resource-dialog',

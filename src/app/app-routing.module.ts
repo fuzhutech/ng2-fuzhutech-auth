@@ -8,8 +8,8 @@ import {HomePageComponent} from './homepage.component';
     RouterModule.forRoot([
       {path: '', redirectTo: 'home', pathMatch: 'full'},
       {path: 'home', component: HomePageComponent},
-      {path: 'auth', loadChildren: './auth/auth.module#AuthModule'},
-      {path: 'login', loadChildren: './login/login.module#LoginModule'}
+      {path: 'auth', loadChildren: './auth/auth.module#FzAuthModule'},
+      {path: 'login', loadChildren: './login/login.module#FzLoginModule'}
     ])
   ],
   exports: [RouterModule]

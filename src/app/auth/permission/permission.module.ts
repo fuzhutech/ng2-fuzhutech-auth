@@ -6,7 +6,7 @@ import {HttpModule} from '@angular/http';
 import {DataTableModule, TreeTableModule} from 'primeng/primeng';
 import {MdButtonModule, MdDialogModule, MdInputModule, MdSelectModule} from '@angular/material';
 
-import {ToolbarModule} from '../../shared';
+import {FzToolbarModule} from '../../shared';
 
 import {PermissionRoutingModule} from './permission-routing.module';
 import {PermissionService} from './service/permission.service';
@@ -18,12 +18,12 @@ import {PermissionDialogComponent} from './dialog/permission-dialog.component';
     CommonModule, FormsModule, HttpModule,
     DataTableModule, TreeTableModule,
     MdButtonModule, MdDialogModule, MdInputModule, MdSelectModule,
-    ToolbarModule,
+    FzToolbarModule,
     PermissionRoutingModule
   ],
   declarations: [PermissionComponent, PermissionDialogComponent],
   providers: [PermissionService],
   entryComponents: [PermissionDialogComponent],
 })
-export class PermissionModule {
+export class FzPermissionModule {
 }

@@ -17,5 +17,5 @@ import {MdToolbarModule, MdButtonModule, MdIconModule} from '@angular/material';
   ]
 
 })
-export class ToolbarModule {
+export class FzToolbarModule {
 }

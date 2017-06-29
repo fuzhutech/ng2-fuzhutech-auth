@@ -7,7 +7,7 @@ import {ResponseResult} from '../../../shared/model/response-result-model';
 @Injectable()
 export class ResourceService extends BaseService {
 
-  constructor(protected http: Http) {
+  constructor(http: Http) {
     super(http, 'resources');
   }
 

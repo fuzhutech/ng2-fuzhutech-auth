@@ -2,12 +2,12 @@ import {Injectable} from '@angular/core';
 import {Http, Headers, URLSearchParams} from '@angular/http';
 import {Observable, Subscription} from 'rxjs/Rx';
 import {BaseService} from '../../../shared';
-import {ResponseResult} from "../../../shared/model/response-result-model";
+import {ResponseResult} from '../../../shared/model/response-result-model';
 
 @Injectable()
 export class ChainPathService extends BaseService {
 
-  constructor(protected http: Http) {
+  constructor(http: Http) {
     super(http, 'chain-paths');
   }
 

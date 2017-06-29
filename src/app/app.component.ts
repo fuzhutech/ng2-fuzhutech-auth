@@ -1,7 +1,6 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthInfoService} from './auth/auth-info/auth-info.service';
-import {ServiceUtil} from './shared/utils/service-util';
+import {AuthInfoService, ServiceUtil} from './shared';
 
 @Component({
   selector: 'fz-app-root',
