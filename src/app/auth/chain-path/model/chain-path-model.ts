@@ -5,9 +5,7 @@ export class ChainPath implements BaseTreeObject {
   parentId;
   systemId;
   name;
-  filterType;
-  filterChain;
-  status;
+  pathPattern;
   createTime;
   lastModifyTime;
 }

@@ -31,4 +31,12 @@ export class ChainPathService extends BaseService {
       .map(res => res.json());
   }
 
+  generateId(data) {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+
+    return this.http.put(this.url + '/id', JSON.stringify(data), {headers: headers})
+      .map(res => <ResponseResult> res.json());
+  }
+
 }

@@ -3,27 +3,28 @@
 <md-dialog-content *ngIf="record">
   <p>
     <md-input-container>
-      <input mdInput [(ngModel)]="record.id" placeholder="id">
+      <input mdInput [(ngModel)]="record.systemId" placeholder="systemId">
     </md-input-container>
     <md-input-container>
-      <input mdInput [(ngModel)]="record.parentId" placeholder="parent_id">
+      <input mdInput [(ngModel)]="record.parentId" placeholder="parentId">
     </md-input-container>
-    <md-input-container>
-      <input mdInput [(ngModel)]="record.name" placeholder="name">
-    </md-input-container>
-    <md-select placeholder="性别" [(ngModel)]="record.filterType">
-      <md-option *ngFor="let state of statuses" [value]="state.value">{{ state.label }}</md-option>
-    </md-select>
+    <button md-button (click)="generateId()">
+      <md-icon>label_outline</md-icon>
+      Generate ID
+      <md-icon>label</md-icon>
+    </button>
   </p>
   <p>
     <md-input-container>
-      <input mdInput [(ngModel)]="record.filter_chain" placeholder="filter_chain">
+      <input mdInput [(ngModel)]="record.id" placeholder="ID">
     </md-input-container>
+
     <md-input-container>
-      <input mdInput [(ngModel)]="record.createTime" placeholder="createTime">
+      <input mdInput [(ngModel)]="record.name" placeholder="name">
     </md-input-container>
+
     <md-input-container>
-      <input mdInput [(ngModel)]="record.lastModifiedDate" placeholder="createTime">
+      <input mdInput [(ngModel)]="record.pathPattern" placeholder="pathPattern">
     </md-input-container>
   </p>
 

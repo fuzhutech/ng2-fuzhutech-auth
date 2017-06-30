@@ -21,11 +21,8 @@ export class ChainPathComponent
   extends SubPageComponentWithComponentDialog<ChainPath, ChainPathService, ChainPathDialogComponent>
   implements OnInit {
 
-  //状态
-  statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
-
   constructor(service: ChainPathService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super(service, '用户', dialog, ChainPathDialogComponent);
+    super(service, '路径配置', dialog, ChainPathDialogComponent);
 
     this.useTreeTable = true;
   }
@@ -38,26 +35,6 @@ export class ChainPathComponent
     //this.doRefresh(null);
   }
 
-  getFilterType(data) {
-    if (data == '0') {
-      return '空';
-    } else {
-      return '权限';
-    }
-  }
-
-  getStatus(value) {
-    let label = null;
-    for (const status of this.statuses) {
-      if (status.value == value) {
-        label = status.label;
-        break;
-      }
-    }
-
-    return label;
-  }
-
   grant() {
 
     if (!this.canDoGrant()) {
@@ -67,7 +44,7 @@ export class ChainPathComponent
     //弹出对话框
     const dialogRef: MdDialogRef<ChainPathGrantDialogComponent> = this.dialog.open(ChainPathGrantDialogComponent, this.dialogConfig);
     dialogRef.componentInstance.record = this.getCloneRecord();
-    dialogRef.componentInstance.dialogHeader = '分配权限';
+    dialogRef.componentInstance.dialogHeader = this.mainHeader + '--分配权限';
     dialogRef.componentInstance.action = this.action;
     dialogRef.componentInstance.service = this.service;
 

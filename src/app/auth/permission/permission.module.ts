@@ -4,7 +4,7 @@ import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
 
 import {DataTableModule, TreeTableModule} from 'primeng/primeng';
-import {MdButtonModule, MdDialogModule, MdInputModule, MdSelectModule} from '@angular/material';
+import {MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule} from '@angular/material';
 
 import {FzToolbarModule} from '../../shared';
 
@@ -17,7 +17,7 @@ import {PermissionDialogComponent} from './dialog/permission-dialog.component';
   imports: [
     CommonModule, FormsModule, HttpModule,
     DataTableModule, TreeTableModule,
-    MdButtonModule, MdDialogModule, MdInputModule, MdSelectModule,
+    MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
     FzToolbarModule,
     PermissionRoutingModule
   ],

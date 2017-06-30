@@ -3,12 +3,11 @@ import {DOCUMENT} from '@angular/platform-browser';
 
 import {MdDialog} from '@angular/material';
 
-import {ActionType, SubPageComponentWithComponentDialog} from '../../shared';
+import {ActionType, DialogResult, SubPageComponentWithComponentDialog} from '../../shared';
 
 import {PermissionDialogComponent} from './dialog/permission-dialog.component';
 import {Permission} from './model/permission-model';
 import {PermissionService} from './service/permission.service';
-import {AuthInfoService} from '../../shared/auth-info/auth-info.service';
 
 /*采用树形表格展示，不调整位置、不调整上下级关系;只有增删改动作*/
 
@@ -18,14 +17,13 @@ import {AuthInfoService} from '../../shared/auth-info/auth-info.service';
   styleUrls: ['./permission.component.css']
 })
 export class PermissionComponent
-  extends SubPageComponentWithComponentDialog<Permission, PermissionService, PermissionDialogComponent>
-  implements OnInit {
+  extends SubPageComponentWithComponentDialog<Permission, PermissionService, PermissionDialogComponent> {
 
   //状态
   statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
   constructor(service: PermissionService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super(service, '用户', dialog, PermissionDialogComponent);
+    super(service, '权限管理', dialog, PermissionDialogComponent);
 
     this.useTreeTable = true;
   }
@@ -34,8 +32,28 @@ export class PermissionComponent
     return new Permission();
   };
 
-  ngOnInit() {
-    //this.doRefresh(null);
+  add() {
+    if (!this.canDoAdd()) {
+      return;
+    }
+
+    this.action = ActionType.newAction;
+    this.record = this.newInstance();
+
+    const data = this.getCloneRecord();
+    this.record.systemId = data.systemId;
+    this.record.parentId = data.parentId || data.id;
+
+    this.oPenDialog('--新增');
+
+    //关闭对话框后进行,刷新
+    this.dialogRef.afterClosed().subscribe((result: DialogResult) => {
+      this.dialogRef = null;
+
+      if (result.success) {
+        this.doRefresh(result.recordId);
+      }
+    });
   }
 
   getFilterType(data) {

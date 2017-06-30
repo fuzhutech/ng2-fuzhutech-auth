@@ -492,7 +492,7 @@ export abstract class SubPageComponentWithComponentDialog<T extends BaseObject, 
   oPenDialog(actionName: string) {
     const dialogRef: MdDialogRef<D> = this.dialog.open(this.componentOrTemplateRef, this.dialogConfig);
     dialogRef.componentInstance.record = this.record;
-    dialogRef.componentInstance.dialogHeader = actionName;
+    dialogRef.componentInstance.dialogHeader = this.mainHeader + actionName;;
     dialogRef.componentInstance.action = this.action;
     dialogRef.componentInstance.service = this.service;
 
@@ -559,6 +559,7 @@ export class ComponentDialog<D, T, S extends BaseService> implements BaseDialog 
     if (observable != null) {
       observable.subscribe(
         responseResult => {
+          if(responseResult.status == -1) return;
           const dialogResult: DialogResult = {'success': true, 'recordId': responseResult.data.id};
           this.dialogRef.close(dialogResult);
           this.progress = false;

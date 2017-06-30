@@ -13,9 +13,24 @@ export class PermissionDialogComponent extends ComponentDialog<PermissionDialogC
 
   color = 'primary';
 
-
   constructor(dialogRef: MdDialogRef<PermissionDialogComponent>) {
     super(dialogRef);
+  }
+
+  generateId() {
+    console.log(this.record);
+    if (!this.record.systemId) {
+      return;
+    }
+
+    this.service.generateId(this.record)
+      .subscribe(
+        responseResult => {
+          console.log(responseResult);
+          this.record.id = responseResult.data.id;
+        },
+        error => console.log(error)
+      );
   }
 
 }
