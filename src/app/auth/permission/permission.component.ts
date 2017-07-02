@@ -12,68 +12,68 @@ import {PermissionService} from './service/permission.service';
 /*采用树形表格展示，不调整位置、不调整上下级关系;只有增删改动作*/
 
 @Component({
-  selector: 'fz-auth-permission',
-  templateUrl: './permission.component.html',
-  styleUrls: ['./permission.component.css']
+    selector: 'fz-auth-permission',
+    templateUrl: './permission.component.html',
+    styleUrls: ['./permission.component.css']
 })
 export class PermissionComponent
-  extends SubPageComponentWithComponentDialog<Permission, PermissionService, PermissionDialogComponent> {
+    extends SubPageComponentWithComponentDialog<Permission, PermissionService, PermissionDialogComponent> {
 
-  //状态
-  statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
+    //状态
+    statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(service: PermissionService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super(service, '权限管理', dialog, PermissionDialogComponent);
+    constructor(service: PermissionService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+        super(service, '权限管理', dialog, PermissionDialogComponent);
 
-    this.useTreeTable = true;
-  }
-
-  newInstance(): Permission {
-    return new Permission();
-  };
-
-  add() {
-    if (!this.canDoAdd()) {
-      return;
+        this.useTreeTable = true;
     }
 
-    this.action = ActionType.newAction;
-    this.record = this.newInstance();
+    newInstance(): Permission {
+        return new Permission();
+    };
 
-    const data = this.getCloneRecord();
-    this.record.systemId = data.systemId;
-    this.record.parentId = data.parentId || data.id;
+    add() {
+        if (!this.canDoAdd()) {
+            return;
+        }
 
-    this.oPenDialog('--新增');
+        this.action = ActionType.newAction;
+        this.record = this.newInstance();
 
-    //关闭对话框后进行,刷新
-    this.dialogRef.afterClosed().subscribe((result: DialogResult) => {
-      this.dialogRef = null;
+        const data = this.getCloneRecord();
+        this.record.systemId = data.systemId;
+        this.record.parentId = data.parentId || data.id;
 
-      if (result.success) {
-        this.doRefresh(result.recordId);
-      }
-    });
-  }
+        let dialogRef = this.oPenDialog('--新增');
 
-  getFilterType(data) {
-    if (data == '0') {
-      return '空';
-    } else {
-      return '权限';
-    }
-  }
+        //关闭对话框后进行,刷新
+        dialogRef.afterClosed().subscribe((result: DialogResult) => {
+            dialogRef = null;
 
-  getStatus(value) {
-    let label = null;
-    for (const status of this.statuses) {
-      if (status.value == value) {
-        label = status.label;
-        break;
-      }
+            if (result.success) {
+                this.doRefresh(result.recordId);
+            }
+        });
     }
 
-    return label;
-  }
+    getFilterType(data) {
+        if (data == '0') {
+            return '空';
+        } else {
+            return '权限';
+        }
+    }
+
+    getStatus(value) {
+        let label = null;
+        for (const status of this.statuses) {
+            if (status.value == value) {
+                label = status.label;
+                break;
+            }
+        }
+
+        return label;
+    }
 
 }

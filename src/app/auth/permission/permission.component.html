@@ -1,27 +1,27 @@
-<fz-toolbar [disabledView]="!selectedRecord" (onViewClick)="view()" (onAddClick)="add()"
-            [disabledEdit]="!selectedRecord" (onEditClick)="edit()"
-            [disabledDelete]="!selectedRecord" (onDeleteClick)="delete()"
-            (onRefreshClick)="refresh()"
+<fz-toolbar [disabledView]="!selectedRecord" (onViewClick)="handleView()" (onAddClick)="handleAdd()"
+            [disabledEdit]="!selectedRecord" (onEditClick)="handleEdit()"
+            [disabledDelete]="!selectedRecord" (onDeleteClick)="handleDelete()"
+            (onRefreshClick)="handleRefresh()"
             [menuId]="currentMenuId" [authInfo]="currentAuthInfo" [menuInfo]="currentMenuInfo">
 </fz-toolbar>
 
 <p-treeTable [value]="treeTableService.nodes" selectionMode="single" [(selection)]="treeTableService.selectedNode">
-  <header>权限配置</header>
-  <p-column field="id" header="id"></p-column>
-  <p-column field="parentId" header="parentId"></p-column>
-  <p-column field="systemId" header="systemId" [style]="{'text-align':'center'}"></p-column>
-  <p-column field="name" header="name"></p-column>
-  <p-column field="filterType" header="filterType" [style]="{'text-align':'center'}">
-    <ng-template let-col let-car="rowData" pTemplate="body">
-      <span>{{getFilterType(car[col.field])}}</span>
-    </ng-template>
-  </p-column>
-  <p-column field="filterChain" header="filterChain"></p-column>
-  <p-column field="status" header="status">
-    <ng-template let-col let-car="rowData" pTemplate="body">
-      <span>{{getStatus(car[col.field])}}</span>
-    </ng-template>
-  </p-column>
-  <p-column field="createTime" header="createTime"></p-column>
+    <header>权限配置</header>
+    <p-column field="id" header="id"></p-column>
+    <p-column field="parentId" header="parentId"></p-column>
+    <p-column field="systemId" header="systemId" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="name" header="name"></p-column>
+    <p-column field="filterType" header="filterType" [style]="{'text-align':'center'}">
+        <ng-template let-col let-car="rowData" pTemplate="body">
+            <span>{{getFilterType(car[col.field])}}</span>
+        </ng-template>
+    </p-column>
+    <p-column field="filterChain" header="filterChain"></p-column>
+    <p-column field="status" header="status">
+        <ng-template let-col let-car="rowData" pTemplate="body">
+            <span>{{getStatus(car[col.field])}}</span>
+        </ng-template>
+    </p-column>
+    <p-column field="createTime" header="createTime"></p-column>
 </p-treeTable>
 Selected Node: {{treeTableService.selectedNode ? treeTableService.selectedNode.data.name : 'none'}}

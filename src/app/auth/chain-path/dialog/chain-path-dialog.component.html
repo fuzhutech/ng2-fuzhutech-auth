@@ -1,39 +1,39 @@
 <span md-dialog-title>{{dialogHeader}}</span>
 
 <md-dialog-content *ngIf="record">
-  <p>
-    <md-input-container>
-      <input mdInput [(ngModel)]="record.systemId" placeholder="systemId">
-    </md-input-container>
-    <md-input-container>
-      <input mdInput [(ngModel)]="record.parentId" placeholder="parentId">
-    </md-input-container>
-    <button md-button (click)="generateId()">
-      <md-icon>label_outline</md-icon>
-      Generate ID
-      <md-icon>label</md-icon>
-    </button>
-  </p>
-  <p>
-    <md-input-container>
-      <input mdInput [(ngModel)]="record.id" placeholder="ID">
-    </md-input-container>
+    <p>
+        <md-input-container>
+            <input mdInput [(ngModel)]="record.systemId" placeholder="systemId">
+        </md-input-container>
+        <md-input-container>
+            <input mdInput [(ngModel)]="record.parentId" placeholder="parentId">
+        </md-input-container>
+        <button md-button (click)="handleGenerateId()">
+            <md-icon>label_outline</md-icon>
+            Generate ID
+            <md-icon>label</md-icon>
+        </button>
+    </p>
+    <p>
+        <md-input-container>
+            <input mdInput [(ngModel)]="record.id" placeholder="ID">
+        </md-input-container>
 
-    <md-input-container>
-      <input mdInput [(ngModel)]="record.name" placeholder="name">
-    </md-input-container>
+        <md-input-container>
+            <input mdInput [(ngModel)]="record.name" placeholder="name">
+        </md-input-container>
 
-    <md-input-container>
-      <input mdInput [(ngModel)]="record.pathPattern" placeholder="pathPattern">
-    </md-input-container>
-  </p>
+        <md-input-container>
+            <input mdInput [(ngModel)]="record.pathPattern" placeholder="pathPattern">
+        </md-input-container>
+    </p>
 
 </md-dialog-content>
 
 <md-dialog-actions *ngIf="progress" [attr.align]="actionsAlignment">
-  <md-progress-bar mode="indeterminate" color="primary" style="width: 100%"></md-progress-bar>
+    <md-progress-bar mode="indeterminate" color="primary" style="width: 100%"></md-progress-bar>
 </md-dialog-actions>
 <md-dialog-actions [attr.align]="actionsAlignment">
-  <button md-button color="secondary" (click)="confirm()">确认</button>
-  <button md-button color="secondary" (click)="cancel()">取消</button>
+    <button md-button color="secondary" (click)="handleConfirm()">确认</button>
+    <button md-button color="secondary" (click)="handleCancel()">取消</button>
 </md-dialog-actions>

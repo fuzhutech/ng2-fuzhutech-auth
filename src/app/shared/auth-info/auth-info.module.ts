@@ -4,20 +4,20 @@ import {AuthInfoService} from './auth-info.service';
 import {AuthInfoConfig} from './auth-info.config';
 
 @NgModule({
-  imports: [CommonModule],
-  exports: [],
-  declarations: [],
-  providers: [AuthInfoService]
+    imports: [CommonModule],
+    exports: [],
+    declarations: [],
+    providers: [AuthInfoService]
 })
 export class AuthInfoModule {
-  static forRoot(config: AuthInfoConfig): ModuleWithProviders {
-    return {
-      ngModule: AuthInfoModule,
-      providers: [
-        { provide: AuthInfoConfig, useValue: config }
-      ]
-    };
-  }
+    static forRoot(config: AuthInfoConfig): ModuleWithProviders {
+        return {
+            ngModule: AuthInfoModule,
+            providers: [
+                {provide: AuthInfoConfig, useValue: config}
+            ]
+        };
+    }
 }
 
 export * from './auth-info.service';

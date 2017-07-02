@@ -1,4 +1,4 @@
-export class Log{
+export class Log {
     id?;
     loginName?;
     roleName?;

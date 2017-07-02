@@ -15,69 +15,66 @@ import {isUndefined} from 'util';
 import {AuthInfoService} from '../../shared/auth-info/auth-info.service';
 
 @Component({
-  selector: 'fz-auth-organization',
-  templateUrl: './organization.component.html',
-  styleUrls: ['./organization.component.css']
+    selector: 'fz-auth-organization',
+    templateUrl: './organization.component.html',
+    styleUrls: ['./organization.component.css']
 })
 export class OrganizationComponent
-  extends SubPageComponentWithComponentDialog<Organization, OrganizationService, OrganizationDialogComponent> {
+    extends SubPageComponentWithComponentDialog<Organization, OrganizationService, OrganizationDialogComponent> {
 
-  msgs: Message[];
+    msgs: Message[];
 
-  //用户状态
-  statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
+    //用户状态
+    statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(service: OrganizationService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super(service, '组织', dialog, OrganizationDialogComponent);
-    this.useTreeTable = true;
-  }
-
-  //abstract
-  newInstance(): Organization {
-    return new Organization();
-  };
-
-
-  getDeleteMessage(): string[] {
-    const message = super.getDeleteMessage();
-    message.push('名称:[' + this.treeTableService.selectedNode.data.name + ']');
-    return message;
-  };
-
-  nodeSelect(event) {
-    this.msgs = [];
-    this.msgs.push({severity: 'info', summary: 'Node Selected', detail: event.node.data.name});
-  }
-
-  nodeUnselect(event) {
-    this.msgs = [];
-    this.msgs.push({severity: 'info', summary: 'Node Unselected', detail: event.node.data.name});
-  }
-
-  grant() {
-    if (!this.canDoGrant()) {
-      return;
+    constructor(service: OrganizationService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+        super(service, '组织', dialog, OrganizationDialogComponent);
+        this.useTreeTable = true;
     }
 
-    //弹出对话框
-    const dialogRef: MdDialogRef<OrganizationGrantDialogComponent> = this.dialog.open(OrganizationGrantDialogComponent, this.dialogConfig);
-    dialogRef.componentInstance.record = this.getCloneRecord();
-    dialogRef.componentInstance.dialogHeader = '分配用户';
-    dialogRef.componentInstance.service = this.service;
+    //abstract
+    newInstance(): Organization {
+        return new Organization();
+    };
 
 
-    //关闭对话框后进行,刷新
-    dialogRef.afterClosed().subscribe((result: DialogResult) => {
-      this.dialogRef = null;
-      if (result.success) {
-        this.doRefresh(result.recordId);
-      }
-    });
-  }
+    getDeleteMessage(): string[] {
+        const message = super.getDeleteMessage();
+        message.push('名称:[' + this.treeTableService.selectedNode.data.name + ']');
+        return message;
+    };
 
-  canDoGrant(): boolean {
-    return (this.treeTableService.selectedNode && this.treeTableService.selectedNode.data);
-  }
+    nodeSelect(event) {
+        this.msgs = [];
+        this.msgs.push({severity: 'info', summary: 'Node Selected', detail: event.node.data.name});
+    }
+
+    nodeUnselect(event) {
+        this.msgs = [];
+        this.msgs.push({severity: 'info', summary: 'Node Unselected', detail: event.node.data.name});
+    }
+
+    grant() {
+        if (!this.canDoGrant()) {
+            return;
+        }
+
+        //弹出对话框
+        let dialogRef: MdDialogRef<OrganizationGrantDialogComponent>
+            = this.oPenBaseDialog(OrganizationGrantDialogComponent, this.getCloneRecord(), '分配用户');
+
+        //关闭对话框后进行,刷新
+        dialogRef.afterClosed().subscribe((result: DialogResult) => {
+            dialogRef = null;
+            if (result.success) {
+                this.doRefresh(result.recordId);
+            }
+        });
+    }
+
+    canDoGrant(): boolean {
+        return (this.treeTableService.selectedNode && this.treeTableService.selectedNode.data);
+    }
 
 
 }

@@ -2,36 +2,36 @@
 
 <md-dialog-content>
 
-  <div style="float: left;max-height: 600px;min-height: 400px">
-    <div style="float: left">
-      <p-tree [value]="sourceTree" selectionMode="checkbox" [(selection)]="sourceSelection"
-              (onNodeSelect)="nodeSelect($event)"  (onNodeUnselect)="nodeUnselect($event)"
-              (onNodeExpand)="sourceToggle($event)" (onNodeCollapse)="sourceToggle($event)"
-              [propagateSelectionUp]="false" [propagateSelectionDown]="false"></p-tree>
-    </div>
-    <div style="float: left">
-      <md-icon>swap_horiz</md-icon>
+    <div style="float: left;max-height: 600px;min-height: 400px">
+        <div style="float: left">
+            <p-tree [value]="sourceTree" selectionMode="checkbox" [(selection)]="sourceSelection"
+                    (onNodeSelect)="handleNodeSelect($event)" (onNodeUnselect)="handleNodeUnselect($event)"
+                    (onNodeExpand)="handleSourceToggle($event)" (onNodeCollapse)="handleSourceToggle($event)"
+                    [propagateSelectionUp]="false" [propagateSelectionDown]="false"></p-tree>
+        </div>
+        <div style="float: left">
+            <md-icon>swap_horiz</md-icon>
+        </div>
+
+        <div style="float: left">
+            <p-tree [value]="targetTree" selectionMode="checkbox" [(selection)]="targetSelection"
+                    (onNodeExpand)="targetToggle($event)" (onNodeCollapse)="targetToggle($event)"></p-tree>
+        </div>
     </div>
 
-    <div style="float: left">
-      <p-tree [value]="targetTree" selectionMode="checkbox" [(selection)]="targetSelection"
-              (onNodeExpand)="targetToggle($event)" (onNodeCollapse)="targetToggle($event)"></p-tree>
-    </div>
-  </div>
+    <!--p-tree [value]="filesTree4" selectionMode="checkbox" [(selection)]="selectedFiles2"></p-tree>
 
-  <!--p-tree [value]="filesTree4" selectionMode="checkbox" [(selection)]="selectedFiles2"></p-tree>
-
-  <div>Selected Nodes: <span *ngFor="let file of selectedFiles2">{{file.data&#125;&#125; </span></div-->
+    <div>Selected Nodes: <span *ngFor="let file of selectedFiles2">{{file.data&#125;&#125; </span></div-->
 </md-dialog-content>
 
 <md-dialog-actions *ngIf="progress" [attr.align]="actionsAlignment">
-  <md-progress-bar mode="indeterminate" color="primary" style="width: 100%"></md-progress-bar>
+    <md-progress-bar mode="indeterminate" color="primary" style="width: 100%"></md-progress-bar>
 </md-dialog-actions>
 <md-dialog-actions [attr.align]="actionsAlignment">
-  <button md-button color="secondary" (click)="reset()">重置</button>
-  <button md-button color="secondary" (click)="clear()">清空</button>
-  <button md-button color="secondary" (click)="expandAll()">展开全部</button>
-  <button md-button color="secondary" (click)="collapseAll()">收缩全部</button>
-  <button md-button color="secondary" (click)="confirm()">确认</button>
-  <button md-button color="secondary" (click)="cancel()">取消</button>
+    <button md-button color="secondary" (click)="handleReset()">重置</button>
+    <button md-button color="secondary" (click)="handleClear()">清空</button>
+    <button md-button color="secondary" (click)="handleExpandAll()">展开全部</button>
+    <button md-button color="secondary" (click)="handleCollapseAll()">收缩全部</button>
+    <button md-button color="secondary" (click)="handleConfirm()">确认</button>
+    <button md-button color="secondary" (click)="handleCancel()">取消</button>
 </md-dialog-actions>

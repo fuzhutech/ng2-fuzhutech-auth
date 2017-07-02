@@ -12,8 +12,9 @@
             <span class="MainLinkText1">{{mainLink.text}}</span></span>
             <div class="SubMenuLinkContainer1"
                  [ngClass]="{'submenushow': (mainLink.id == activeMenuId), 'submenuhide': (mainLink.id != activeMenuId)}">
-              <div style="background-color: #673ab7;height: 2px;transition: .5s cubic-bezier(.35,0,.25,1);"></div>
-              <a *ngFor="let subLink of mainLink.subMenuLinkCol" class="SubMenuLink1" [routerLink]="[subLink.path]" (click)="routerLinkClick1($event,subLink)">
+                <div style="background-color: #673ab7;height: 2px;transition: .5s cubic-bezier(.35,0,.25,1);"></div>
+                <a *ngFor="let subLink of mainLink.subMenuLinkCol" class="SubMenuLink1" [routerLink]="[subLink.path]"
+                   (click)="routerLinkClick1($event,subLink)">
                     &#9679; {{subLink.title}}</a>
             </div>
         </ng-template>

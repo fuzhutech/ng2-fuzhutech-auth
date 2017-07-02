@@ -12,87 +12,109 @@ import {ResourceGrantDialogComponent} from './grant-dialog/resource-grant-dialog
 import {DialogResult} from '../../shared/common/sub-page-component';
 
 @Component({
-  selector: 'fz-auth-resource',
-  templateUrl: './resource.component.html',
-  styleUrls: ['./resource.component.css']
+    selector: 'fz-auth-resource',
+    templateUrl: './resource.component.html',
+    styleUrls: ['./resource.component.css']
 })
 export class ResourceComponent
-  extends SubPageComponentWithComponentDialog<Resource, ResourceService, ResourceDialogComponent>
-  implements OnInit {
+    extends SubPageComponentWithComponentDialog<Resource, ResourceService, ResourceDialogComponent>
+    implements OnInit {
 
-  //状态
-  statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
+    //状态
+    statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
 
-  constructor(service: ResourceService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
-    super(service, '用户', dialog, ResourceDialogComponent);
-    this.useTreeTable = true;
-  }
-
-  newInstance(): Resource {
-    return new Resource();
-  };
-
-  ngOnInit() {
-    console.log('ResourceComponent ngOnInit');
-    //获取权限
-    this.currentAuthInfo = JSON.parse(localStorage.getItem('currentAuthInfo'));
-
-    this.authInfoService.authInfoSubject
-    //.merge(this.userRegisterService.currentUser)
-      .subscribe(
-        data => {
-          this.currentAuthInfo = data;
-          console.log('ResourceComponent currentAuthInfo subscribe');
-        },
-        error => console.error(error)
-      );
-  }
-
-  getFilterType(data) {
-    if (data == '0') {
-      return '空';
-    } else {
-      return '权限';
-    }
-  }
-
-  getStatus(value) {
-    let label = null;
-    for (const status of this.statuses) {
-      if (status.value == value) {
-        label = status.label;
-        break;
-      }
+    constructor(service: ResourceService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
+        super(service, '用户', dialog, ResourceDialogComponent);
+        this.useTreeTable = true;
     }
 
-    return label;
-  }
+    newInstance(): Resource {
+        return new Resource();
+    };
 
-  grant() {
+    ngOnInit() {
+        console.log('ResourceComponent ngOnInit');
+        //获取权限
+        this.currentAuthInfo = JSON.parse(localStorage.getItem('currentAuthInfo'));
 
-    if (!this.canDoGrant()) {
-      return;
+        this.authInfoService.authInfoSubject
+        //.merge(this.userRegisterService.currentUser)
+            .subscribe(
+                data => {
+                    this.currentAuthInfo = data;
+                    console.log('ResourceComponent currentAuthInfo subscribe');
+                },
+                error => console.error(error)
+            );
     }
 
-    //弹出对话框
-    const dialogRef: MdDialogRef<ResourceGrantDialogComponent> = this.dialog.open(ResourceGrantDialogComponent, this.dialogConfig);
-    dialogRef.componentInstance.record = this.getCloneRecord();
-    dialogRef.componentInstance.dialogHeader = '分配权限';
-    dialogRef.componentInstance.action = this.action;
-    dialogRef.componentInstance.service = this.service;
+    add(event) {
+        if (!this.canDoAdd()) {
+            return;
+        }
 
+        this.action = ActionType.newAction;
+        this.record = this.newInstance();
 
-    //关闭对话框后进行,刷新
-    dialogRef.afterClosed().subscribe((result: DialogResult) => {
-      this.dialogRef = null;
-      if (result.success) {
-        this.doRefresh(result.recordId);
-      }
-    });
-  }
+        const data = this.getCloneRecord();
+        this.record.systemId = data.systemId;
+        this.record.parentId = data.parentId || data.id;
 
-  canDoGrant(): boolean {
-    return true;
-  }
+        console.log(this.record);
+
+        let dialogRef = this.oPenDialog('--新增');
+
+        //关闭对话框后进行,刷新
+        dialogRef.afterClosed().subscribe((result: DialogResult) => {
+            dialogRef = null;
+
+            if (result.success) {
+                this.doRefresh(result.recordId);
+            }
+        });
+    }
+
+    getFilterType(data) {
+        if (data == '0') {
+            return '空';
+        } else {
+            return '权限';
+        }
+    }
+
+    getStatus(value) {
+        let label = null;
+        for (const status of this.statuses) {
+            if (status.value == value) {
+                label = status.label;
+                break;
+            }
+        }
+
+        return label;
+    }
+
+    grant() {
+
+        if (!this.canDoGrant()) {
+            return;
+        }
+
+        //弹出对话框
+        let dialogRef: MdDialogRef<ResourceGrantDialogComponent>
+            = this.oPenBaseDialog(ResourceGrantDialogComponent, this.getCloneRecord(), '分配权限');
+
+        //关闭对话框后进行,刷新
+        dialogRef.afterClosed().subscribe((result: DialogResult) => {
+            dialogRef = null;
+            if (result.success) {
+                this.doRefresh(result.recordId);
+            }
+        });
+    }
+
+    canDoGrant(): boolean {
+        return true;
+    }
 
 }

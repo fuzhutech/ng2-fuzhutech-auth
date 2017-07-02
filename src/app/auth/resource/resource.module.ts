@@ -6,12 +6,12 @@ import {HttpModule} from '@angular/http';
 import {DataTableModule, TreeTableModule} from 'primeng/primeng';
 
 import {
-  TreeModule,
-  GrowlModule,
-  ButtonModule,
-  ContextMenuModule,
-  TabViewModule,
-  CodeHighlighterModule
+    TreeModule,
+    GrowlModule,
+    ButtonModule,
+    ContextMenuModule,
+    TabViewModule,
+    CodeHighlighterModule
 } from 'primeng/primeng';
 
 import {MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule} from '@angular/material';
@@ -25,24 +25,24 @@ import {ResourceDialogComponent} from './dialog/resource-dialog.component';
 import {ResourceGrantDialogComponent} from './grant-dialog/resource-grant-dialog.component';
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, HttpModule,
-    DataTableModule, TreeTableModule,
+    imports: [
+        CommonModule, FormsModule, HttpModule,
+        DataTableModule, TreeTableModule,
 
-    TreeModule,
-    GrowlModule,
-    ButtonModule,
-    ContextMenuModule,
-    TabViewModule,
-    CodeHighlighterModule,
+        TreeModule,
+        GrowlModule,
+        ButtonModule,
+        ContextMenuModule,
+        TabViewModule,
+        CodeHighlighterModule,
 
-    MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
-    FzToolbarModule,
-    ResourceRoutingModule
-  ],
-  declarations: [ResourceComponent, ResourceDialogComponent, ResourceGrantDialogComponent],
-  providers: [ResourceService],
-  entryComponents: [ResourceDialogComponent, ResourceGrantDialogComponent],
+        MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
+        FzToolbarModule,
+        ResourceRoutingModule
+    ],
+    declarations: [ResourceComponent, ResourceDialogComponent, ResourceGrantDialogComponent],
+    providers: [ResourceService],
+    entryComponents: [ResourceDialogComponent, ResourceGrantDialogComponent],
 })
 export class FzResourceModule {
 }

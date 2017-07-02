@@ -4,11 +4,11 @@ import {MdButtonModule, MdDialogModule, MdCardModule} from '@angular/material';
 import {ConfirmDialogComponent} from './confirm-dialog.component';
 
 @NgModule({
-  imports: [CommonModule,
-    MdButtonModule, MdDialogModule, MdCardModule],
-  declarations: [ConfirmDialogComponent],
-  exports: [ConfirmDialogComponent],
-  entryComponents: [ConfirmDialogComponent]
+    imports: [CommonModule,
+        MdButtonModule, MdDialogModule, MdCardModule],
+    declarations: [ConfirmDialogComponent],
+    exports: [ConfirmDialogComponent],
+    entryComponents: [ConfirmDialogComponent]
 })
 export class FzConfirmDialogModule {
 }

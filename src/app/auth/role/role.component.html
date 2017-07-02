@@ -1,67 +1,68 @@
-<fz-toolbar [disabledView]="!selectedRecord" (onViewClick)="view()" (onAddClick)="add()"
-            [disabledEdit]="!selectedRecord" (onEditClick)="edit()"
-            [disabledDelete]="!selectedRecord" (onDeleteClick)="delete()"
-            (onRefreshClick)="refresh()"
+<fz-toolbar [disabledView]="!selectedRecord" (onViewClick)="handleView()" (onAddClick)="handleAdd()"
+            [disabledEdit]="!selectedRecord" (onEditClick)="handleEdit()"
+            [disabledDelete]="!selectedRecord" (onDeleteClick)="handleDelete()"
+            (onRefreshClick)="handleRefresh()"
             [menuId]="currentMenuId" [authInfo]="currentAuthInfo" [menuInfo]="currentMenuInfo">
-  <button md-button (click)="grant()" [disabled]="disabledGrant || enableGrantRight && !hasGrantRight">
-    <md-icon>view_module</md-icon>
-    分配资源
-  </button>
-  <button md-button (click)="grantUser()" [disabled]="disabledGrantUser || enableGrantUserRight && !hasGrantUserRight">
-    <md-icon>view_module</md-icon>
-    分配用户
-  </button>
+    <button md-button (click)="grant()" [disabled]="disabledGrant || enableGrantRight && !hasGrantRight">
+        <md-icon>view_module</md-icon>
+        分配资源
+    </button>
+    <button md-button (click)="grantUser()"
+            [disabled]="disabledGrantUser || enableGrantUserRight && !hasGrantUserRight">
+        <md-icon>view_module</md-icon>
+        分配用户
+    </button>
 </fz-toolbar>
 
 <div class="ui-widget-header ui-helper-clearfix" style="padding:4px 10px;border-bottom: 0 none">
-  <md-icon>search</md-icon>
-  <input #gb type="text" mdInput size="50" placeholder="Global Filter">
+    <md-icon>search</md-icon>
+    <input #gb type="text" mdInput size="50" placeholder="Global Filter">
 </div>
 <p-dataTable [value]="records" selectionMode="single" [(selection)]="selectedRecord"
              [paginator]="true" [rows]="15" [responsive]="true" resizableColumns="true"
              [globalFilter]="gb" #dt>
-  <header>角色管理</header>
-  <p-column field="id" header="id"></p-column>
-  <p-column field="name" header="名称"></p-column>
-  <p-column field="seq" header="排序号" [style]="{'text-align':'center'}"></p-column>
-  <p-column field="description" header="描述" [style]="{'width':'250px'}"></p-column>
+    <header>角色管理</header>
+    <p-column field="id" header="id"></p-column>
+    <p-column field="name" header="名称"></p-column>
+    <p-column field="seq" header="排序号" [style]="{'text-align':'center'}"></p-column>
+    <p-column field="description" header="描述" [style]="{'width':'250px'}"></p-column>
 
-  <p-column field="status" header="状态">
-    <ng-template let-col let-car="rowData" pTemplate="body">
-      <span>{{getStatus(car[col.field])}}</span>
-    </ng-template>
-  </p-column>
+    <p-column field="status" header="状态">
+        <ng-template let-col let-car="rowData" pTemplate="body">
+            <span>{{getStatus(car[col.field])}}</span>
+        </ng-template>
+    </p-column>
 
 </p-dataTable>
 
 <!--编辑对话框-->
 <ng-template #TemplateRef>
-  <h2 md-dialog-title>{{dialogHeader}}</h2>
+    <h2 md-dialog-title>{{dialogHeader}}</h2>
 
-  <md-dialog-content *ngIf="record">
-    <p>
-      <md-input-container style="width:100%;">
-        <input mdInput [(ngModel)]="record.name" placeholder="名称">
-      </md-input-container>
-    </p>
-    <p>
-      <md-input-container>
-        <input mdInput [(ngModel)]="record.seq" placeholder="排序号">
-      </md-input-container>
+    <md-dialog-content *ngIf="record">
+        <p>
+            <md-input-container style="width:100%;">
+                <input mdInput [(ngModel)]="record.name" placeholder="名称">
+            </md-input-container>
+        </p>
+        <p>
+            <md-input-container>
+                <input mdInput [(ngModel)]="record.seq" placeholder="排序号">
+            </md-input-container>
 
-      <md-select placeholder="状态" [(ngModel)]="record.status">
-        <md-option *ngFor="let state of statuses" [value]="state.value">{{ state.label }}</md-option>
-      </md-select>
+            <md-select placeholder="状态" [(ngModel)]="record.status">
+                <md-option *ngFor="let state of statuses" [value]="state.value">{{ state.label }}</md-option>
+            </md-select>
 
-    </p>
+        </p>
 
-    <md-input-container style="width:100%;">
-      <textarea mdInput [(ngModel)]="record.description" placeholder="描述"></textarea>
-    </md-input-container>
-  </md-dialog-content>
+        <md-input-container style="width:100%;">
+            <textarea mdInput [(ngModel)]="record.description" placeholder="描述"></textarea>
+        </md-input-container>
+    </md-dialog-content>
 
-  <md-dialog-actions [attr.align]="actionsAlignment">
-    <button md-raised-button color="primary" (click)="confirm()">确认</button>
-    <button md-raised-button color="primary" (click)="cancel()">取消</button>
-  </md-dialog-actions>
+    <md-dialog-actions [attr.align]="actionsAlignment">
+        <button md-raised-button color="primary" (click)="confirm()">确认</button>
+        <button md-raised-button color="primary" (click)="cancel()">取消</button>
+    </md-dialog-actions>
 </ng-template>

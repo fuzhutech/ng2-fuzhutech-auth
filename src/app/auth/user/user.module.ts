@@ -16,21 +16,21 @@ import {UserRoleDialogComponent} from './user-role-dialog/user-role-dialog.compo
 
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, HttpModule,
-    DataTableModule, PickListModule,
-    MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
-    FzToolbarModule,
-    UserRoutingModule
-  ],
-  exports: [
-    UserComponent
-  ],
-  declarations: [
-    UserComponent, UserDialogComponent, UserRoleDialogComponent
-  ],
-  providers: [UserService],
-  entryComponents: [UserDialogComponent, UserRoleDialogComponent],
+    imports: [
+        CommonModule, FormsModule, HttpModule,
+        DataTableModule, PickListModule,
+        MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
+        FzToolbarModule,
+        UserRoutingModule
+    ],
+    exports: [
+        UserComponent
+    ],
+    declarations: [
+        UserComponent, UserDialogComponent, UserRoleDialogComponent
+    ],
+    providers: [UserService],
+    entryComponents: [UserDialogComponent, UserRoleDialogComponent],
 })
 export class FzUserModule {
 }

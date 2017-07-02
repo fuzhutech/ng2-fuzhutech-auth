@@ -1,15 +1,15 @@
-import { TestBed, inject } from '@angular/core/testing';
+import {TestBed, inject} from '@angular/core/testing';
 
-import { ChainPathService } from './chain-path.service';
+import {ChainPathService} from './chain-path.service';
 
 describe('ChainPathDialogService', () => {
-  beforeEach(() => {
-    TestBed.configureTestingModule({
-      providers: [ChainPathService]
+    beforeEach(() => {
+        TestBed.configureTestingModule({
+            providers: [ChainPathService]
+        });
     });
-  });
 
-  it('should be created', inject([ChainPathService], (service: ChainPathService) => {
-    expect(service).toBeTruthy();
-  }));
+    it('should be created', inject([ChainPathService], (service: ChainPathService) => {
+        expect(service).toBeTruthy();
+    }));
 });

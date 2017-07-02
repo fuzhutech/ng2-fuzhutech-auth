@@ -7,16 +7,16 @@ import {ResponseResult} from '../../../shared/model/response-result-model';
 @Injectable()
 export class PermissionService extends BaseService {
 
-  constructor(http: Http) {
-    super(http, 'permissions');
-  }
+    constructor(http: Http) {
+        super(http, 'permissions');
+    }
 
-  generateId(data) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
+    generateId(data) {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
 
-    return this.http.put(this.url + '/id', JSON.stringify(data), {headers: headers})
-      .map(res => <ResponseResult> res.json());
-  }
+        return this.http.put(this.url + '/id', JSON.stringify(data), {headers: headers})
+            .map(res => <ResponseResult> res.json());
+    }
 
 }

@@ -7,19 +7,19 @@ import {BreadcrumbModule} from 'primeng/primeng';
 import {TabViewModule} from 'primeng/primeng';
 
 @NgModule({
-  imports: [
-    CommonModule,
-    ButtonModule,
-    SplitButtonModule,
-    TabViewModule,
-    BreadcrumbModule
-  ],
-  declarations: [
-    MenuSideComponent
-  ],
-  exports: [
-    MenuSideComponent
-  ]
+    imports: [
+        CommonModule,
+        ButtonModule,
+        SplitButtonModule,
+        TabViewModule,
+        BreadcrumbModule
+    ],
+    declarations: [
+        MenuSideComponent
+    ],
+    exports: [
+        MenuSideComponent
+    ]
 
 })
 export class FzMenuSideModule {

@@ -21,19 +21,19 @@ import {OrganizationGrantDialogComponent} from './grant-dialog/grant-dialog.comp
 
 
 @NgModule({
-  imports: [
-    CommonModule,
-    OrganizationRoutingModule,
-    ButtonModule,
-    FormsModule, HttpModule, InputTextModule, DataTableModule, ButtonModule, DialogModule,
-    FzToolbarModule, InputTextareaModule, SpinnerModule, DropdownModule, TreeTableModule, GrowlModule, PickListModule,
-    MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule
-  ],
-  declarations: [
-    OrganizationComponent, OrganizationDialogComponent, OrganizationGrantDialogComponent
-  ],
-  providers: [OrganizationService],
-  entryComponents: [OrganizationDialogComponent, OrganizationGrantDialogComponent],
+    imports: [
+        CommonModule,
+        OrganizationRoutingModule,
+        ButtonModule,
+        FormsModule, HttpModule, InputTextModule, DataTableModule, ButtonModule, DialogModule,
+        FzToolbarModule, InputTextareaModule, SpinnerModule, DropdownModule, TreeTableModule, GrowlModule, PickListModule,
+        MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule
+    ],
+    declarations: [
+        OrganizationComponent, OrganizationDialogComponent, OrganizationGrantDialogComponent
+    ],
+    providers: [OrganizationService],
+    entryComponents: [OrganizationDialogComponent, OrganizationGrantDialogComponent],
 })
 export class FzOrganizationModule {
 }

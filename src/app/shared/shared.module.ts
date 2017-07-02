@@ -7,17 +7,17 @@ import {FzTabRouterOutletModule} from './tab-router-outlet/index';
 import {FzToolbarModule} from './toolbar/index';
 
 const SHARED_MODULES = [
-  FzConfirmDialogModule,
-  FzFooterModule,
-  FzMenuSideModule,
-  FzTabRouterOutletModule,
-  FzToolbarModule
+    FzConfirmDialogModule,
+    FzFooterModule,
+    FzMenuSideModule,
+    FzTabRouterOutletModule,
+    FzToolbarModule
 ];
 
 @NgModule({
-  imports: SHARED_MODULES,
-  exports: SHARED_MODULES,
+    imports: SHARED_MODULES,
+    exports: SHARED_MODULES,
 })
 export class FzSharedModule {
-  //
+    //
 }

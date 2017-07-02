@@ -6,12 +6,12 @@ import {HttpModule} from '@angular/http';
 import {DataTableModule, TreeTableModule} from 'primeng/primeng';
 
 import {
-  TreeModule,
-  GrowlModule,
-  ButtonModule,
-  ContextMenuModule,
-  TabViewModule,
-  CodeHighlighterModule
+    TreeModule,
+    GrowlModule,
+    ButtonModule,
+    ContextMenuModule,
+    TabViewModule,
+    CodeHighlighterModule
 } from 'primeng/primeng';
 
 import {MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule} from '@angular/material';
@@ -25,24 +25,24 @@ import {ChainPathDialogComponent} from './dialog/chain-path-dialog.component';
 import {ChainPathGrantDialogComponent} from './grant-dialog/chain-path-grant-dialog.component';
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, HttpModule,
-    DataTableModule, TreeTableModule,
+    imports: [
+        CommonModule, FormsModule, HttpModule,
+        DataTableModule, TreeTableModule,
 
-    TreeModule,
-    GrowlModule,
-    ButtonModule,
-    ContextMenuModule,
-    TabViewModule,
-    CodeHighlighterModule,
+        TreeModule,
+        GrowlModule,
+        ButtonModule,
+        ContextMenuModule,
+        TabViewModule,
+        CodeHighlighterModule,
 
-    MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
-    FzToolbarModule,
-    ChainPathRoutingModule
-  ],
-  declarations: [ChainPathComponent, ChainPathDialogComponent, ChainPathGrantDialogComponent],
-  providers: [ChainPathService],
-  entryComponents: [ChainPathDialogComponent, ChainPathGrantDialogComponent],
+        MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
+        FzToolbarModule,
+        ChainPathRoutingModule
+    ],
+    declarations: [ChainPathComponent, ChainPathDialogComponent, ChainPathGrantDialogComponent],
+    providers: [ChainPathService],
+    entryComponents: [ChainPathDialogComponent, ChainPathGrantDialogComponent],
 })
 export class FzChainPathModule {
 }

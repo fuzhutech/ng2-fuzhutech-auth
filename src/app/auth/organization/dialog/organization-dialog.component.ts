@@ -5,16 +5,16 @@ import {Organization} from '../service/organization';
 import {OrganizationService} from '../service/organization.service';
 
 @Component({
-  selector: 'fz-organization-dialog',
-  templateUrl: './organization-dialog.component.html'
+    selector: 'fz-organization-dialog',
+    templateUrl: './organization-dialog.component.html'
 })
 export class OrganizationDialogComponent extends ComponentDialog<OrganizationDialogComponent, Organization, OrganizationService> {
 
-  color = 'primary';
+    color = 'primary';
 
 
-  constructor(dialogRef: MdDialogRef<OrganizationDialogComponent>) {
-    super(dialogRef);
-  }
+    constructor(dialogRef: MdDialogRef<OrganizationDialogComponent>) {
+        super(dialogRef);
+    }
 
 }

@@ -19,16 +19,20 @@
     .PFTopLinks {
         display: none
     }
+
     #PFTopLinksCover {
         padding: 15px 15px 15px 15px;
     }
+
     .selectmenu {
         display: block;
     }
+
     .mobileLogoCover {
         display: block;
         float: right;
     }
+
     /*#MENUSIDE {
         display: none;
         overflow-y: auto;
@@ -44,12 +48,15 @@
     #CONTENTSIDE {
         margin-left: 0
     }
+
     #LOGOTEXTSIDE {
         display: none
     }
+
     .ContentSideSections {
         padding: 14px 24px;
     }
+
     #openMenuBtn {
         display: inline-block;
         float: left;
@@ -59,40 +66,51 @@
         position: relative;
         z-index: 1000;
     }
+
     #openMenuBtn.active {
         display: none;
     }
+
     #openMobileMenuBtn.active {
         display: inline-block;
         background-color: #1976D2;
     }
+
     #openMenuBtn:hover,
     #openMenuBtn:focus,
     #openMobileMenuBtn:hover,
     #openMobileMenuBtn:focus {
         background-color: #2F88E0;
     }
+
     .Content33 {
         width: 100%;
     }
+
     .Content66 {
         width: 100%;
     }
+
     .ui-tabview.ui-tabview-top > .ui-tabview-nav li {
         width: 100%;
     }
+
     .BigButton {
         width: 100%;
     }
+
     .PFNextGen iframe {
         margin-left: 0;
     }
+
     .SubSubMenu ul li {
         width: 50%
     }
+
     .PropertyBox {
         width: 44%;
     }
+
     .PropertyBox img {
         width: 40%;
     }

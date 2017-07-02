@@ -14,16 +14,16 @@ import {PermissionComponent} from './permission.component';
 import {PermissionDialogComponent} from './dialog/permission-dialog.component';
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, HttpModule,
-    DataTableModule, TreeTableModule,
-    MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
-    FzToolbarModule,
-    PermissionRoutingModule
-  ],
-  declarations: [PermissionComponent, PermissionDialogComponent],
-  providers: [PermissionService],
-  entryComponents: [PermissionDialogComponent],
+    imports: [
+        CommonModule, FormsModule, HttpModule,
+        DataTableModule, TreeTableModule,
+        MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdSelectModule,
+        FzToolbarModule,
+        PermissionRoutingModule
+    ],
+    declarations: [PermissionComponent, PermissionDialogComponent],
+    providers: [PermissionService],
+    entryComponents: [PermissionDialogComponent],
 })
 export class FzPermissionModule {
 }

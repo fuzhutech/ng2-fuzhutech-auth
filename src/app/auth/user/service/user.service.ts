@@ -6,28 +6,28 @@ import {BaseService} from '../../../shared';
 @Injectable()
 export class UserService extends BaseService {
 
-  constructor(http: Http) {
-    super(http, 'users');
-  }
+    constructor(http: Http) {
+        super(http, 'users');
+    }
 
-  getRoleWithUser(userId: number) {
+    getRoleWithUser(userId: number) {
 
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json;charset=UTF-8');
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json;charset=UTF-8');
 
-    const searchParams = new URLSearchParams();
+        const searchParams = new URLSearchParams();
 
-    return this.http.get(this.url + '/' + userId + '/roles', {search: searchParams, headers: headers})
-      .map(response => response.json());
-  }
+        return this.http.get(this.url + '/' + userId + '/roles', {search: searchParams, headers: headers})
+            .map(response => response.json());
+    }
 
-  editRoleWithUser(userId: number, data) {
-    const headers = new Headers();
-    headers.append('Content-Type', 'application/json');
-    console.log(data);
+    editRoleWithUser(userId: number, data) {
+        const headers = new Headers();
+        headers.append('Content-Type', 'application/json');
+        console.log(data);
 
-    return this.http.put(this.url + '/' + userId + '/roles', JSON.stringify(data), {headers: headers})
-      .map(res => res.json());
-  }
+        return this.http.put(this.url + '/' + userId + '/roles', JSON.stringify(data), {headers: headers})
+            .map(res => res.json());
+    }
 
 }

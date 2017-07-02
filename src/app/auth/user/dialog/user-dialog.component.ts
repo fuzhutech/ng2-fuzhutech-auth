@@ -5,16 +5,16 @@ import {UserService} from '../service/user.service';
 import {User} from '../model/user';
 
 @Component({
-  selector: 'fz-user-dialog',
-  templateUrl: './user-dialog.component.html'
+    selector: 'fz-user-dialog',
+    templateUrl: './user-dialog.component.html'
 })
 export class UserDialogComponent extends ComponentDialog<UserDialogComponent, User, UserService> {
 
-  color = 'primary';
+    color = 'primary';
 
 
-  constructor(dialogRef: MdDialogRef<UserDialogComponent>) {
-    super(dialogRef);
-  }
+    constructor(dialogRef: MdDialogRef<UserDialogComponent>) {
+        super(dialogRef);
+    }
 
 }

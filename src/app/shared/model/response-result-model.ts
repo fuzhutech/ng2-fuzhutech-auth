@@ -1,5 +1,5 @@
 export class ResponseResult {
-  status: number;
-  message: string;
-  data: any;
+    status: number;
+    message: string;
+    data: any;
 }

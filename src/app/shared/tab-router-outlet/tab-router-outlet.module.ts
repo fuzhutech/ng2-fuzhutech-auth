@@ -7,10 +7,10 @@ import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
-  imports: [CommonModule, FormsModule],
-  exports: [TabGroupRouterOutLetDirective, TabRouterOutletDirective],
-  declarations: [TabGroupRouterOutLetDirective, TabRouterOutletDirective],
-  providers: [TabRouterOutletService]
+    imports: [CommonModule, FormsModule],
+    exports: [TabGroupRouterOutLetDirective, TabRouterOutletDirective],
+    declarations: [TabGroupRouterOutLetDirective, TabRouterOutletDirective],
+    providers: [TabRouterOutletService]
 })
 export class FzTabRouterOutletModule {
 }

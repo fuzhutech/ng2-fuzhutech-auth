@@ -6,21 +6,21 @@ import {HttpModule} from '@angular/http';
 import {DataTableModule, InputTextModule, PickListModule} from 'primeng/primeng';
 
 import {
-  TreeModule,
-  GrowlModule,
-  ButtonModule,
-  ContextMenuModule,
-  TabViewModule,
-  CodeHighlighterModule
+    TreeModule,
+    GrowlModule,
+    ButtonModule,
+    ContextMenuModule,
+    TabViewModule,
+    CodeHighlighterModule
 } from 'primeng/primeng';
 
 import {
-  MdButtonModule,
-  MdDialogModule,
-  MdIconModule,
-  MdInputModule,
-  MdToolbarModule,
-  MdSelectModule
+    MdButtonModule,
+    MdDialogModule,
+    MdIconModule,
+    MdInputModule,
+    MdToolbarModule,
+    MdSelectModule
 } from '@angular/material';
 
 import {FzToolbarModule} from '../../shared';
@@ -33,26 +33,26 @@ import {RoleGrantResourceDialogComponent} from './role-grant-resource-dialog/rol
 import {RoleGrantUserDialogComponent} from './role-grant-user-dialog/role-grant-user-dialog.component';
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, HttpModule,
-    DataTableModule, InputTextModule, PickListModule,
+    imports: [
+        CommonModule, FormsModule, HttpModule,
+        DataTableModule, InputTextModule, PickListModule,
 
-    TreeModule,
-    GrowlModule,
-    ButtonModule,
-    ContextMenuModule,
-    TabViewModule,
-    CodeHighlighterModule,
+        TreeModule,
+        GrowlModule,
+        ButtonModule,
+        ContextMenuModule,
+        TabViewModule,
+        CodeHighlighterModule,
 
-    MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdToolbarModule, MdSelectModule,
-    FzToolbarModule,
-    RoleRoutingModule,
-  ],
-  declarations: [
-    RoleComponent, RoleGrantResourceDialogComponent, RoleGrantUserDialogComponent
-  ],
-  providers: [RoleService],
-  entryComponents: [RoleGrantResourceDialogComponent, RoleGrantUserDialogComponent]
+        MdButtonModule, MdDialogModule, MdIconModule, MdInputModule, MdToolbarModule, MdSelectModule,
+        FzToolbarModule,
+        RoleRoutingModule,
+    ],
+    declarations: [
+        RoleComponent, RoleGrantResourceDialogComponent, RoleGrantUserDialogComponent
+    ],
+    providers: [RoleService],
+    entryComponents: [RoleGrantResourceDialogComponent, RoleGrantUserDialogComponent]
 })
 export class FzRoleModule {
 }

@@ -14,17 +14,17 @@ import {LogRoutingModule} from './log-routing.module';
 import {LogService} from './service/log.service';
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule, HttpModule,
-    DataTableModule, InputTextModule,
-    MdButtonModule, MdDialogModule, MdInputModule, MdSelectModule,
-    FzToolbarModule,
-    LogRoutingModule,
-  ],
-  declarations: [
-    LogComponent
-  ],
-  providers: [LogService]
+    imports: [
+        CommonModule, FormsModule, HttpModule,
+        DataTableModule, InputTextModule,
+        MdButtonModule, MdDialogModule, MdInputModule, MdSelectModule,
+        FzToolbarModule,
+        LogRoutingModule,
+    ],
+    declarations: [
+        LogComponent
+    ],
+    providers: [LogService]
 })
 export class FzLogModule {
 }

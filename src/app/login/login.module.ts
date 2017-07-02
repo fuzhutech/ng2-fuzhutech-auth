@@ -10,13 +10,13 @@ import {LoginService} from './service/login.service';
 
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule,
-    MdButtonModule, MdCardModule, MdCheckboxModule, MdInputModule, MdToolbarModule,
-    LoginRoutingModule
-  ],
-  declarations: [LoginComponent],
-  providers: [LoginService],
+    imports: [
+        CommonModule, FormsModule,
+        MdButtonModule, MdCardModule, MdCheckboxModule, MdInputModule, MdToolbarModule,
+        LoginRoutingModule
+    ],
+    declarations: [LoginComponent],
+    providers: [LoginService],
 })
 export class FzLoginModule {
 }

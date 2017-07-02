@@ -9,15 +9,15 @@ import {AuthRoutingModule} from './auth-routing.module';
 import {AuthComponent} from './auth.component';
 
 @NgModule({
-  imports: [
-    CommonModule, FormsModule,
-    MdDialogModule, MdSidenavModule, MdTabsModule,
-    ContextMenuModule,
-    FzSharedModule,
-    AuthRoutingModule
-  ],
-  declarations: [AuthComponent],
-  providers: []
+    imports: [
+        CommonModule, FormsModule,
+        MdDialogModule, MdSidenavModule, MdTabsModule,
+        ContextMenuModule,
+        FzSharedModule,
+        AuthRoutingModule
+    ],
+    declarations: [AuthComponent],
+    providers: []
 })
 export class FzAuthModule {
 }
