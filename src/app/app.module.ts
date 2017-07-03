@@ -5,9 +5,16 @@ import {HttpModule} from '@angular/http';
 import {RouterModule} from '@angular/router';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
-import {MdToolbarModule, MdButtonModule, MdIconModule, MdMenuModule, MdSidenavModule} from '@angular/material';
+import {
+    MdToolbarModule,
+    MdButtonModule,
+    MdDialogModule,
+    MdIconModule,
+    MdMenuModule,
+    MdSidenavModule
+} from '@angular/material';
 
-import {ConfirmDialogComponent, FzConfirmDialogModule, FzFooterModule} from './shared';
+import {ConfirmDialogComponent, FzConfirmDialogModule, FzErrorModule, FzFooterModule} from './shared';
 import {AuthInfoModule} from './shared/auth-info/auth-info.module';
 
 import {AppComponent} from './app.component';
@@ -25,8 +32,8 @@ import {AppRoutingModule} from './app-routing.module';
         FormsModule,
         HttpModule,
         RouterModule, BrowserAnimationsModule,
-        MdToolbarModule, MdButtonModule, MdIconModule, MdMenuModule, MdSidenavModule,
-        AppRoutingModule, FzFooterModule, FzConfirmDialogModule,
+        MdToolbarModule, MdButtonModule, MdDialogModule, MdIconModule, MdMenuModule, MdSidenavModule,
+        AppRoutingModule, FzErrorModule, FzFooterModule, FzConfirmDialogModule,
         AuthInfoModule
     ],
     providers: [],

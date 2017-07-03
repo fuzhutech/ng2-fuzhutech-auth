@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     }
 
-    public doLogin(): void {
+    public handleLogin(): void {
         try {
             this.userLoginService.login(this.user).subscribe(
                 data => {
@@ -85,7 +85,7 @@ export class LoginComponent implements OnInit, OnDestroy {
         this.router.navigateByUrl('forgetpwd');
     }
 
-    public doBack(): void {
+    public handleBack(): void {
         this.location.back();
     }
 }

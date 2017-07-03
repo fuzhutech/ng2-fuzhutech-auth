@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {Router} from '@angular/router';
-import {AuthInfoService, ServiceUtil} from './shared';
+import {AuthInfoService, ErrorService, ServiceUtil} from './shared';
+import {MdDialog} from '@angular/material';
 
 @Component({
     selector: 'fz-app-root',
@@ -12,7 +13,10 @@ export class AppComponent {
 
     currentTime = new Date().toLocaleString();
 
-    constructor(private router: Router, private authInfoService: AuthInfoService) {
+    constructor(private router: Router,
+                private authInfoService: AuthInfoService,
+                private errorService: ErrorService,
+                dialog: MdDialog) {
         window.setInterval(
             () => {
                 this.currentTime = new Date().toLocaleString();
@@ -20,10 +24,11 @@ export class AppComponent {
             , 1000);
 
         ServiceUtil.setAuthInfoService(authInfoService);
+        ServiceUtil.setErrorService(errorService);
     }
 
     doLogin() {
-        this.router.navigateByUrl('login1')
+        this.router.navigateByUrl('login')
             .catch(err => console.log('跳转到登录页面失败', err));
     }
 

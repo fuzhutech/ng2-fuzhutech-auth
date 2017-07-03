@@ -26,42 +26,12 @@ export class ChainPathComponent
         this.useTreeTable = true;
     }
 
+    /* @override */
     newInstance(): ChainPath {
         return new ChainPath();
     };
 
-    handleAdd() {
-        if (!this.canDoAdd()) {
-            return;
-        }
-
-        this.action = ActionType.newAction;
-        this.record = this.newInstance();
-
-        const data = this.getCloneRecord();
-        this.record.systemId = data.systemId;
-        this.record.parentId = data.parentId || data.id;
-
-        //console.log(this.record);
-
-        let dialogRef = this.oPenDialog('--新增');
-
-        //关闭对话框后进行,刷新
-        dialogRef.afterClosed().subscribe((result: DialogResult) => {
-            dialogRef = null;
-
-            if (result.success) {
-                this.doRefresh(result.recordId);
-            }
-        });
-    }
-
     handleGrant() {
-
-        if (!this.canDoGrant()) {
-            return;
-        }
-
         //弹出对话框
         let dialogRef: MdDialogRef<ChainPathGrantDialogComponent>
             = this.oPenBaseDialog(ChainPathGrantDialogComponent, this.getCloneRecord(), '分配权限');
@@ -75,8 +45,16 @@ export class ChainPathComponent
         });
     }
 
-    canDoGrant(): boolean {
-        return true;
+    /* @override */
+    protected initAddParams(): boolean {
+        if (super.initAddParams()) {
+            const data = this.getCloneRecord();
+            this.record.systemId = data.systemId;
+            this.record.parentId = data.parentId || data.id;
+            return true;
+        } else {
+            return false;
+        }
     }
 
 }

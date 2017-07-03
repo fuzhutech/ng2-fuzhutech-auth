@@ -8,3 +8,4 @@ export * from './tab-router-outlet';
 export * from './toolbar';
 export * from './util';
 export * from './shared.module';
+export * from './error/error.module';

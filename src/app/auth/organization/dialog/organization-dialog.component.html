@@ -31,6 +31,6 @@
     <md-progress-bar mode="indeterminate" color="primary" style="width: 100%"></md-progress-bar>
 </md-dialog-actions>
 <md-dialog-actions [attr.align]="actionsAlignment">
-    <button md-button color="secondary" (click)="confirm()">确认</button>
-    <button md-button color="secondary" (click)="cancel()">取消</button>
+    <button md-button color="secondary" (click)="handleConfirm()">确认</button>
+    <button md-button color="secondary" (click)="handleCancel()">取消</button>
 </md-dialog-actions>

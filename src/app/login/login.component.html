@@ -31,10 +31,10 @@
             <div *ngIf="error" class="col-sm-offset-2 col-sm-10 alert alert-danger">{{error}}</div>
 
             <div style="text-align:right;">
-                <button md-raised-button color="primary" (click)="!loginForm.invalid && doLogin()"
+                <button md-raised-button color="primary" (click)="!loginForm.invalid && handleLogin()"
                         [disabled]="loginForm.invalid">确认
                 </button>
-                <button md-raised-button color="primary" (click)="doBack()">返回</button>
+                <button md-raised-button color="primary" (click)="handleBack()">返回</button>
             </div>
 
         </div>

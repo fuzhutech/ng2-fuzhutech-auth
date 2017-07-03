@@ -331,53 +331,38 @@ export abstract class SubPageComponentWithDialog<R extends BaseObject, S extends
      * “查看”按钮处理响应
      */
     handleView() {
-        if (!this.canDoView()) {
-            return;
+        if (this.canDoView() && this.initViewParams()) {
+            this.oPenDialog('--查看');
         }
-
-        this.action = ActionType.viewAction;
-        this.record = this.getCloneRecord();
-
-        this.oPenDialog('--查看');
     }
 
     handleAdd() {
-        if (!this.canDoAdd()) {
-            return;
+        if (this.canDoAdd() && this.initAddParams()) {
+            let dialogRef = this.oPenDialog('--新增');
+
+            //关闭对话框后进行,刷新
+            dialogRef.afterClosed().subscribe((result: DialogResult) => {
+                dialogRef = null;
+
+                if (result.success) {
+                    this.doRefresh(result.recordId);
+                }
+            });
         }
-
-        this.action = ActionType.newAction;
-        this.record = this.newInstance();
-
-        let dialogRef = this.oPenDialog('--新增');
-
-        //关闭对话框后进行,刷新
-        dialogRef.afterClosed().subscribe((result: DialogResult) => {
-            dialogRef = null;
-
-            if (result.success) {
-                this.doRefresh(result.recordId);
-            }
-        });
     }
 
     handleEdit() {
-        if (!this.canDoEdit()) {
-            return;
+        if (this.canDoEdit() && this.initEditParams()) {
+            let dialogRef = this.oPenDialog('--编辑');
+
+            //关闭对话框后进行,刷新
+            dialogRef.afterClosed().subscribe((result: DialogResult) => {
+                dialogRef = null;
+                if (result.success) {
+                    this.doRefresh(result.recordId);
+                }
+            });
         }
-
-        this.action = ActionType.editAction;
-        this.record = this.getCloneRecord();
-
-        let dialogRef = this.oPenDialog('--编辑');
-
-        //关闭对话框后进行,刷新
-        dialogRef.afterClosed().subscribe((result: DialogResult) => {
-            dialogRef = null;
-            if (result.success) {
-                this.doRefresh(result.recordId);
-            }
-        });
     }
 
     /**
@@ -403,6 +388,28 @@ export abstract class SubPageComponentWithDialog<R extends BaseObject, S extends
                 this.doRefresh(null);
             }
         });
+    }
+
+    protected initViewParams(): boolean {
+
+        this.action = ActionType.viewAction;
+        this.record = this.getCloneRecord();
+
+        return true;
+    }
+
+    protected initAddParams(): boolean {
+        this.action = ActionType.newAction;
+        this.record = this.newInstance();
+
+        return true;
+    }
+
+    protected initEditParams(): boolean {
+        this.action = ActionType.editAction;
+        this.record = this.getCloneRecord();
+
+        return true;
     }
 
     /**

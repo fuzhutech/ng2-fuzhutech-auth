@@ -47,6 +47,11 @@
     text-align: center; ">
     <span class="floatLeft fontSize14 gray" style="margin: 0 10px">{{currentTime}}</span>
     <span class="floatLeft fontSize14 gray">当前用户[:{{authInfoService.currentAuthUser || '空'}}]</span>
+    <span class="floatLeft fontSize14 gray" style="margin: 0 10px">
+        提示[
+        <a *ngIf="errorService.currentError" routerLink="login">{{errorService.currentError.message || '空'}}</a>
+        ]
+    </span>
     <span class="app-toolbar-filler"></span>
     <fz-footer></fz-footer>
     <span class="floatLeft fontSize14 gray" style="margin: 0 10px">[v1.0.0]</span>
