@@ -29,14 +29,21 @@ export class ConfirmDialogComponent implements BaseDialog {
         //
     }
 
-    //按钮-确认
-    confirm() {
+    handleConfirm() {
         this.progress = true;
-        const observable: Observable<any> = this.confirmProcess.doProgress();
+        const observable: Observable<any> = this.confirmProcess.doConfirm(this.record);
+        if (observable == null) {
+            return;
+        }
 
         observable.subscribe(
-            data => {
-                const dialogResult: DialogResult = {'success': true, 'recordId': data.data};
+            responseResult => {
+
+                if (responseResult.status == -1) {
+                    return;
+                }
+
+                const dialogResult: DialogResult = {'success': true, 'recordId': null};
                 this.dialogRef.close(dialogResult);
                 this.progress = false;
             },
@@ -50,13 +57,12 @@ export class ConfirmDialogComponent implements BaseDialog {
         //this.record = null;
     }
 
-    cancel() {
+    handleCancel() {
         this.dialogRef.close(false);
     }
 
 }
 
 export interface ConfirmProcess {
-    doProgress(): Observable<ResponseResult>;
     doConfirm(record): Observable<ResponseResult>;
 }

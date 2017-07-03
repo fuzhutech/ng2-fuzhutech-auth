@@ -17,81 +17,35 @@ import {DialogResult} from '../../shared/common/sub-page-component';
     styleUrls: ['./resource.component.css']
 })
 export class ResourceComponent
-    extends SubPageComponentWithComponentDialog<Resource, ResourceService, ResourceDialogComponent>
-    implements OnInit {
-
-    //状态
-    statuses = [{label: '正常', value: '0'}, {label: '非正常', value: '1'}];
+    extends SubPageComponentWithComponentDialog<Resource, ResourceService, ResourceDialogComponent> {
 
     constructor(service: ResourceService, dialog: MdDialog, @Inject(DOCUMENT) doc: any) {
         super(service, '用户', dialog, ResourceDialogComponent);
         this.useTreeTable = true;
     }
 
+    /* @override */
     newInstance(): Resource {
         return new Resource();
     };
 
-    ngOnInit() {
-        console.log('ResourceComponent ngOnInit');
-        //获取权限
-        this.currentAuthInfo = JSON.parse(localStorage.getItem('currentAuthInfo'));
-
-        this.authInfoService.authInfoSubject
-        //.merge(this.userRegisterService.currentUser)
-            .subscribe(
-                data => {
-                    this.currentAuthInfo = data;
-                    console.log('ResourceComponent currentAuthInfo subscribe');
-                },
-                error => console.error(error)
-            );
-    }
-
-    add(event) {
-        if (!this.canDoAdd()) {
-            return;
-        }
-
-        this.action = ActionType.newAction;
-        this.record = this.newInstance();
-
-        const data = this.getCloneRecord();
-        this.record.systemId = data.systemId;
-        this.record.parentId = data.parentId || data.id;
-
-        console.log(this.record);
-
-        let dialogRef = this.oPenDialog('--新增');
-
-        //关闭对话框后进行,刷新
-        dialogRef.afterClosed().subscribe((result: DialogResult) => {
-            dialogRef = null;
-
-            if (result.success) {
-                this.doRefresh(result.recordId);
+    /* @override */
+    protected initAddParams(): boolean {
+        if (super.initAddParams()) {
+            const data = this.getCloneRecord();
+            this.record.systemId = data.systemId;
+            if (data.resourceType == 0) {
+                this.record.parentId = data.id;
+            } else {
+                //所选的为权限记录
+                this.record.parentId = data.parentId || data.id;
+                this.record.resourceType = 1;
             }
-        });
-    }
 
-    getFilterType(data) {
-        if (data == '0') {
-            return '空';
+            return true;
         } else {
-            return '权限';
+            return false;
         }
-    }
-
-    getStatus(value) {
-        let label = null;
-        for (const status of this.statuses) {
-            if (status.value == value) {
-                label = status.label;
-                break;
-            }
-        }
-
-        return label;
     }
 
     grant() {

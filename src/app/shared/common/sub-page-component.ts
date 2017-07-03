@@ -323,6 +323,7 @@ export abstract class SubPageComponentWithDialog<R extends BaseObject, S extends
         dialogRef.componentInstance.dialogHeader = this.mainHeader + '--' + actionName;
         dialogRef.componentInstance.action = this.action;
         dialogRef.componentInstance.service = this.service;
+        dialogRef.componentInstance.confirmProcess = this;
 
         return dialogRef;
     }
@@ -461,6 +462,8 @@ export abstract class SubPageComponentWithDialog<R extends BaseObject, S extends
     }
 
     doConfirm(record: any): Observable<ResponseResult> {
+
+        console.log('confirm', record);
         let observable: Observable<ResponseResult>;
 
         if (this.action == ActionType.newAction) {
@@ -468,30 +471,7 @@ export abstract class SubPageComponentWithDialog<R extends BaseObject, S extends
         } else if (this.action == ActionType.editAction) {
             observable = this.doEdit();
         } else if (this.action == ActionType.deleteAction) {
-            observable = this.doEdit();
-        } else {
-            /*const dialogResult: DialogResult = {'success': false, 'cancel': false};
-             this.dialogRef.close(dialogResult);*/
-            return;
-        }
-
-        return observable;
-    }
-
-    /**
-     * 执行“新增”动作
-     * @returns {Observable<R>}
-     */
-    doProgress(): Observable<ResponseResult> {
-
-        let observable: Observable<ResponseResult>;
-
-        if (this.action == ActionType.newAction) {
-            observable = this.doAdd();
-        } else if (this.action == ActionType.editAction) {
-            observable = this.doEdit();
-        } else if (this.action == ActionType.deleteAction) {
-            observable = this.doEdit();
+            observable = this.doDelete();
         } else {
             /*const dialogResult: DialogResult = {'success': false, 'cancel': false};
              this.dialogRef.close(dialogResult);*/
@@ -611,6 +591,7 @@ export interface BaseDialog {
     dialogHeader: string;
     action: any;
     service: any;
+    confirmProcess: ConfirmProcess;
 }
 
 export interface DialogResult {

@@ -28,32 +28,22 @@ export class PermissionComponent
         this.useTreeTable = true;
     }
 
+    /* @override */
     newInstance(): Permission {
         return new Permission();
     };
 
-    add() {
-        if (!this.canDoAdd()) {
-            return;
+    /* @override */
+    protected initAddParams(): boolean {
+        if (super.initAddParams()) {
+            const data = this.getCloneRecord();
+            this.record.systemId = data.systemId;
+            this.record.parentId = data.parentId || data.id;
+            console.log(this.record);
+            return true;
+        } else {
+            return false;
         }
-
-        this.action = ActionType.newAction;
-        this.record = this.newInstance();
-
-        const data = this.getCloneRecord();
-        this.record.systemId = data.systemId;
-        this.record.parentId = data.parentId || data.id;
-
-        let dialogRef = this.oPenDialog('--新增');
-
-        //关闭对话框后进行,刷新
-        dialogRef.afterClosed().subscribe((result: DialogResult) => {
-            dialogRef = null;
-
-            if (result.success) {
-                this.doRefresh(result.recordId);
-            }
-        });
     }
 
     getFilterType(data) {

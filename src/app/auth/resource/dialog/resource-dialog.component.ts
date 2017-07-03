@@ -18,4 +18,24 @@ export class ResourceDialogComponent extends ComponentDialog<ResourceDialogCompo
         super(dialogRef);
     }
 
+    handleGenerateId() {
+        console.log(this.record);
+        if (!this.record.systemId || (this.record.resourceType == null)) {
+            return;
+        }
+
+        if (this.record.resourceType == 1 && !this.record.parentId) {
+            return;
+        }
+
+        this.service.generateId(this.record)
+            .subscribe(
+                responseResult => {
+                    console.log(responseResult);
+                    this.record.id = responseResult.data.id;
+                },
+                error => console.log(error)
+            );
+    }
+
 }

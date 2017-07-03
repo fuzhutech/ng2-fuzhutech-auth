@@ -51,6 +51,7 @@ export class ChainPathComponent
             const data = this.getCloneRecord();
             this.record.systemId = data.systemId;
             this.record.parentId = data.parentId || data.id;
+            console.log(this.record);
             return true;
         } else {
             return false;
